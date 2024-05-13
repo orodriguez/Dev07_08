@@ -2,46 +2,31 @@ using Okane.Application.Expenses;
 
 namespace Okane.Tests.Expenses.Retrieve;
 
-
-public class HandlerTests
+public class HandlerTests : AbstractHandlerTest
 {
     [Fact]
-    public void NoExpenses()
-    {
-        var retrieveHandler = new Application.Expenses.Retrieve.Handler(new InMemoryRepository());
-        var response = retrieveHandler.Handle();
-        Assert.Empty(response);
-    }
-    
+    public void NoExpenses() => 
+        Assert.Empty(RetrieveExpenses());
+
     [Fact]
     public void OneExpenses()
     {
-        var expenses = new InMemoryRepository();
-        
-        var create = new Application.Expenses.Create.Handler(expenses);
-        create.Handle(new(10, "Food"));
-        
-        var retrieve = new Application.Expenses.Retrieve.Handler(expenses);
-        var response = retrieve.Handle();
-        
-        var expense = Assert.Single(response);
+        CreateExpense(new(10, "Food"));
+
+        var expense = Assert.Single(RetrieveExpenses());
         Assert.Equal(1, expense.Id);
         Assert.Equal(10, expense.Amount);
         Assert.Equal("Food", expense.Category);
     }
-    
+
     [Fact]
     public void ManyExpenses()
     {
-        var expenses = new InMemoryRepository();
+        CreateExpense(new(10, "Food"));
+        CreateExpense(new(20, "Games"));
         
-        var create = new Application.Expenses.Create.Handler(expenses);
-        create.Handle(new(10, "Food"));
-        create.Handle(new(20, "Games"));
+        var response = RetrieveExpenses();
         
-        var retrieve = new Application.Expenses.Retrieve.Handler(expenses);
-        var response = retrieve.Handle();
-
         Assert.Equal(2, response.Count());
     }
 }
