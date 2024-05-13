@@ -2,7 +2,7 @@ using Okane.Application.Expenses;
 
 namespace Okane.Tests.Expenses.Retrieve;
 
-public class HandlerTests : AbstractHandlerTest
+public class HandlerTestses : AbstractHandlerTests
 {
     [Fact]
     public void NoExpenses() => 

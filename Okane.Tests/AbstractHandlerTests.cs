@@ -5,11 +5,11 @@ using Okane.Application.Expenses.Create;
 
 namespace Okane.Tests;
 
-public class AbstractHandlerTest
+public abstract class AbstractHandlerTests
 {
     private readonly ServiceProvider _provider;
 
-    protected AbstractHandlerTest()
+    protected AbstractHandlerTests()
     {
         var services = new ServiceCollection();
         
