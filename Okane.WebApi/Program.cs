@@ -1,6 +1,5 @@
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Okane.WebApi;
-using Okane.WebApi.DTOs;
+using Okane.Application;
+using Okane.Application.Expenses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +30,8 @@ app.MapGet("/expenses", () =>
     {
         var expenses = new[]
         { 
-            new Expense(10, "Food"),
-            new Expense(20, "Education")
+            new ExpenseResponse(10, "Food"),
+            new ExpenseResponse(20, "Education")
         };
 
         return expenses;
