@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Okane.Tests;
 
 public class DependencyInjectionTests
@@ -6,38 +8,56 @@ public class DependencyInjectionTests
     [Fact]
     public void ManualInjection()
     {
-        var foo = new Foo(new NewBar());
+        var company = new Company(new Erick());
         
-        Assert.True(foo.CallBar());
+        Assert.Equal("print 'Hello world'", company.CreateSoftware());
     }
-}
 
-public class NewBar : IBar
-{
-    public bool DoIt()
+    [Fact]
+    public void ContainerInjection()
     {
-        return true;
+        var services = new ServiceCollection();
+        services.AddTransient<Company>();
+        services.AddTransient<Company2>();
+        services.AddTransient<IProgrammer, Juan>();
+
+        var provider = services.BuildServiceProvider();
+
+        var company = provider.GetRequiredService<Company>();
+        
+        Assert.Equal("print 'Hello world'", company.CreateSoftware());
+
+        var company2 = provider.GetRequiredService<Company2>();
     }
 }
 
-public class Foo
+public class Company2
 {
-    private readonly IBar _bar;
+    private readonly IProgrammer _programmer;
 
-    public Foo(IBar bar) => _bar = bar;
-
-    public bool CallBar() => _bar.DoIt();
+    public Company2(IProgrammer programmer) => _programmer = programmer;
 }
 
-public interface IBar
+public class Company
 {
-    bool DoIt();
+    private readonly IProgrammer _programmer;
+    
+    public Company(IProgrammer programmer) => _programmer = programmer;
+
+    public string CreateSoftware() => _programmer.Code();
 }
 
-public class Bar : IBar
+public interface IProgrammer
 {
-    public bool DoIt()
-    {
-        return true;
-    }
+    string Code();
+}
+
+public class Erick : IProgrammer
+{
+    public string Code() => "print 'Hello world'";
+}
+
+public class Juan : IProgrammer
+{
+    public string Code() => "print 'Hello world'";
 }
