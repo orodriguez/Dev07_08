@@ -29,4 +29,19 @@ public class HandlerTests
         Assert.Equal(10, expense.Amount);
         Assert.Equal("Food", expense.Category);
     }
+    
+    [Fact]
+    public void ManyExpenses()
+    {
+        var expenses = new InMemoryRepository();
+        
+        var create = new Application.Expenses.Create.Handler(expenses);
+        create.Handle(new(10, "Food"));
+        create.Handle(new(20, "Games"));
+        
+        var retrieve = new Application.Expenses.Retrieve.Handler(expenses);
+        var response = retrieve.Handle();
+
+        Assert.Equal(2, response.Count());
+    }
 }
