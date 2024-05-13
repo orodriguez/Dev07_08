@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Okane.Application;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 
@@ -12,9 +13,7 @@ public class AbstractHandlerTest
     {
         var services = new ServiceCollection();
         
-        services.AddTransient<Handler>();
-        services.AddTransient<Okane.Application.Expenses.Retrieve.Handler>();
-        services.AddSingleton<IExpensesRepository, InMemoryRepository>();
+        services.AddOkane();
 
         _provider = services.BuildServiceProvider();
     }
