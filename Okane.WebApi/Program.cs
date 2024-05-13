@@ -18,6 +18,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapPost("/expenses", (Expense request) => request)
+    .WithOpenApi();
+
 app.MapGet("/expenses", () =>
     {
         var expenses = new[]
@@ -28,7 +31,6 @@ app.MapGet("/expenses", () =>
 
         return expenses;
     })
-    .WithName("GetWeatherForecast")
     .WithOpenApi();
 
 app.Run();
