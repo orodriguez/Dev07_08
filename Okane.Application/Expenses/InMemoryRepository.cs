@@ -16,4 +16,7 @@ public class InMemoryRepository : IExpensesRepository
         _expenses.Add(expense);
         return expense;
     }
+
+    public IEnumerable<Expense> All() => 
+        _expenses;
 }

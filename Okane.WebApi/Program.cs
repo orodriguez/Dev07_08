@@ -10,7 +10,8 @@ builder.Services.AddSwaggerGen();
 
 // Okane dependencies
 builder.Services.AddTransient<Handler>();
-builder.Services.AddTransient<IExpensesRepository, InMemoryRepository>();
+builder.Services.AddTransient<Okane.Application.Expenses.Retrieve.Handler>();
+builder.Services.AddSingleton<IExpensesRepository, InMemoryRepository>();
 
 var app = builder.Build();
 
@@ -27,10 +28,8 @@ app.MapPost("/expenses", (Handler handler, Request request) =>
         handler.Handle(request))
     .WithOpenApi();
 
-app.MapGet("/expenses", () =>
-    {
-        throw new NotImplementedException();
-    })
+app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) => 
+        handler.Handle())
     .WithOpenApi();
 
 app.Run();
