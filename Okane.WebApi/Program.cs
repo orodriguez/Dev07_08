@@ -20,12 +20,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/expenses", (Handler handler, Request request) => 
-        handler.Handle(request))
-    .WithOpenApi();
-
 app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) => 
         handler.Handle())
+    .WithOpenApi();
+app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) => 
+        handler.Handle())
+        .WithOpenApi();
+app.MapGet("/expenses/{id}", (Okane.Application.Expenses.Retrieve.Handler handler, string id) => 
+        handler.HandleOne(id))
     .WithOpenApi();
 
 app.Run();
