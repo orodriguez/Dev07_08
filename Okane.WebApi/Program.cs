@@ -17,9 +17,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-//Modificar los endpoints GET /expenses y POST /expenses para que manejen la propiedad Description en los gastos.
-//Description es de tipo string y es opcional.
-//Agregar un endpoint nuevo GET /expenses/:id. Este endpoint retorna un solo expense según el id que se pase.
 
 app.UseHttpsRedirection();
 
@@ -33,7 +30,7 @@ app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) =>
         .WithOpenApi();
 
 app.MapGet("/expenses/{id}", (Okane.Application.Expenses.Retrieve.Handler handler, string id) => 
-        handler.HandleOne(id))
+    handler.HandleOne(id))
     .WithOpenApi();
 
 
