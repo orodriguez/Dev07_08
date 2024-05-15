@@ -14,11 +14,12 @@ public class Handler
         var expense = new Expense
         {
             Amount = request.Amount,
-            Category = request.Category
+            Category = request.Category,
+            Description = request.Description
         };
 
         _expensesRepository.Add(expense);
         
-        return new Response(expense.Id, request.Amount, request.Category);
+        return new Response(expense.Id, request.Amount, request.Category, request.Description);
     }
 }
