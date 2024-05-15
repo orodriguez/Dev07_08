@@ -1,5 +1,8 @@
+using System.Diagnostics;
 using Okane.Application;
 using Okane.Application.Expenses.Create;
+using Okane.WebApi;
+using ResponseExtensions = Okane.WebApi.ResponseExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/expenses", (Handler handler, Request request) => 
-        handler.Handle(request))
+app.MapPost("/expenses", (Handler handler, Request request) => handler.Handle(request).ToResult())
     .WithOpenApi();
 
 app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) => 

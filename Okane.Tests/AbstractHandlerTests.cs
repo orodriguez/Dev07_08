@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application;
+using Okane.Application.Common.Responses;
 using Okane.Application.Expenses;
 
 namespace Okane.Tests;
@@ -20,7 +21,7 @@ public abstract class AbstractHandlerTests
     protected IEnumerable<Response> RetrieveExpenses() => 
         Resolve<Application.Expenses.Retrieve.Handler>().Handle();
 
-    protected Response CreateExpense(Application.Expenses.Create.Request request) =>
+    protected IResponse CreateExpense(Application.Expenses.Create.Request request) =>
         Resolve<Application.Expenses.Create.Handler>().Handle(request);
 
     private T Resolve<T>() where T : notnull =>
