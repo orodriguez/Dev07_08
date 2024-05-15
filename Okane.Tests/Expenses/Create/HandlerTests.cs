@@ -57,8 +57,8 @@ public class HandlerTests : AbstractHandlerTests
 
         var error = Assert.Single(errors);
         
-        Assert.Equal("Description", error.Property);
-        Assert.Equal("Description is too big", error.Message);
+        Assert.Equal(nameof(Request.Description), error.Property);
+        Assert.Equal($"{nameof(Request.Description)} is too big", error.Message);
     }
 }
 

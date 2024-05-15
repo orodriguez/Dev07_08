@@ -12,6 +12,6 @@ public class Validator : AbstractValidator<Request>
 
         RuleFor(request => request.Description)
             .MaximumLength(140)
-            .WithMessage("Description is too big");
+            .WithMessage($"{nameof(Request.Description)} is too big");
     }
 }
