@@ -29,4 +29,17 @@ public class HandlerTestses : AbstractHandlerTests
         
         Assert.Equal(2, response.Count());
     }
+    
+    [Fact]
+    public void ReturnCorrect()
+    {
+        CreateExpense(new(10, "Food"));
+        CreateExpense(new(20, "Games"));
+        CreateExpense(new(50, "Other"));
+        var expense = RetrieveOneExpense("2");
+
+        Assert.Equal(2, expense.Id);
+        Assert.Equal(20, expense.Amount);
+        Assert.Equal("Games", expense.Category);
+    }
 }

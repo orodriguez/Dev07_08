@@ -28,4 +28,7 @@ app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) =>
         handler.Handle())
     .WithOpenApi();
 
+app.MapGet("/expenses/:id", (Okane.Application.Expenses.Retrieve.Handler handler, string id) =>
+        handler.HandleOne(id));
+
 app.Run();
