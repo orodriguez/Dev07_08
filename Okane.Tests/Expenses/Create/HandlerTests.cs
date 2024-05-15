@@ -11,7 +11,6 @@ public class HandlerTests : AbstractHandlerTests
         Assert.Equal(10, response.Amount);
         Assert.Equal("Food", response.Category);
     }
-    
     [Fact]
     public void WithDescription()
     {
@@ -21,5 +20,15 @@ public class HandlerTests : AbstractHandlerTests
         Assert.Equal(10, response.Amount);
         Assert.Equal("Food", response.Category);
         Assert.Equal("Papa", response.Description);
+    }
+    [Fact]
+    public void WithNoDescription()
+    {
+        var response = CreateExpense(new(10, "Foo"));
+        
+        Assert.Equal(1, response.Id);
+        Assert.Equal(10, response.Amount);
+        Assert.Equal("Foo", response.Category);
+        Assert.Null(response.Description);
     }
 }
