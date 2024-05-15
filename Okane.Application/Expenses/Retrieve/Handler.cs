@@ -11,7 +11,7 @@ public class Handler
     {
         var expenses = _expensesRepository.All();
         var response = expenses
-            .Select(expense => new Response(expense.Id, expense.Amount, expense.Category));
+            .Select(expense => new Response(expense.Id, expense.Amount, expense.Category, expense.Description));
         return response;
     }
 }
