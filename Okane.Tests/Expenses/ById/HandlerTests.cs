@@ -8,7 +8,7 @@ public class HandlerTests : AbstractHandlerTests
     [Fact]
     public void Exists()
     {
-        var expense = CreateExpense(new(20, "Games"));
+        var expense = Assert.IsType<SuccessResponse>(CreateExpense(new(20, "Games")));
 
         var retrievedExpense = Assert.IsType<SuccessResponse>(GetExpenseById(expense.Id));
         

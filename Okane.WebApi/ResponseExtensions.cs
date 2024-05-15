@@ -9,6 +9,7 @@ public static class ResponseExtensions
         response switch {
             SuccessResponse success => Results.Ok(success),
             NotFoundResponse => Results.NotFound(),
+            ValidationErrorsResponse errors => Results.BadRequest(errors),
             _ => throw new ArgumentOutOfRangeException(nameof(response))
         };
 }

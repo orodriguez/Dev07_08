@@ -1,4 +1,5 @@
 using Okane.Application;
+using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.WebApi;
 
@@ -22,14 +23,14 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapPost("/expenses", (Handler handler, Request request) =>
-        handler.Handle(request))
+        handler.Handle(request).ToResult())
     .WithOpenApi();
 
 app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) =>
         handler.Handle())
     .WithOpenApi();
 
-app.MapGet("/expenses/{id}", void (Okane.Application.Expenses.ById.Handler handler, int id) => 
+app.MapGet("/expenses/{id}", (Okane.Application.Expenses.ById.Handler handler, int id) => 
         handler.Handle(id).ToResult())
     .WithOpenApi();
 

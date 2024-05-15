@@ -20,7 +20,7 @@ namespace Okane.Tests
         protected IEnumerable<SuccessResponse> RetrieveExpenses() => 
             Resolve<Application.Expenses.Retrieve.Handler>().Handle();
 
-        protected SuccessResponse CreateExpense(Application.Expenses.Create.Request request) =>
+        protected IExpenseResponse CreateExpense(Application.Expenses.Create.Request request) =>
             Resolve<Application.Expenses.Create.Handler>().Handle(request);
 
         protected IExpenseResponse GetExpenseById(int id) => 
