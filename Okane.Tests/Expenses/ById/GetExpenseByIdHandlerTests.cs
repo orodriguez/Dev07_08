@@ -3,7 +3,7 @@ using Okane.Application.Expenses;
 
 namespace Okane.Tests.Expenses.ById;
 
-public class HandlerTests : AbstractHandlerTests
+public class GetExpenseByIdHandlerTests : AbstractHandlerTests
 {
     [Fact]
     public void Exists()
@@ -28,13 +28,19 @@ public class HandlerTests : AbstractHandlerTests
     [Fact]
     public void AfterUpdate()
     {
-        var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidRequest()));
+        var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidCreateExpenseRequest()));
 
         Assert.IsType<SuccessResponse>(
-            UpdateExpense(new Application.Expenses.Update.Request(createdExpense.Id,50)));
+            UpdateExpense(new Application.Expenses.Update.UpdateExpenseRequest(
+                createdExpense.Id,
+                50, 
+                "Entertainment", 
+                Description: "Movies")));
         
         var expense = Assert.IsType<SuccessResponse>(GetExpenseById(createdExpense.Id));
         
         Assert.Equal(50, expense.Amount);
+        Assert.Equal("Entertainment", expense.Category);
+        Assert.Equal("Movies", expense.Description);
     }
 }

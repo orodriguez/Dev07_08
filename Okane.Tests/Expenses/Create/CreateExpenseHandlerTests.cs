@@ -4,7 +4,7 @@ using Okane.Application.Expenses.Create;
 
 namespace Okane.Tests.Expenses.Create;
 
-public class HandlerTests : AbstractHandlerTests
+public class CreateExpenseHandlerTests : AbstractHandlerTests
 {
     [Fact]
     public void Valid()
@@ -19,7 +19,7 @@ public class HandlerTests : AbstractHandlerTests
     [Fact]
     public void AmountZeroOrLess()
     {
-        var request = new ValidRequest { Amount = -1 };
+        var request = new ValidCreateExpenseRequest { Amount = -1 };
         var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
 
         var error = Assert.Single(errors);
@@ -49,7 +49,7 @@ public class HandlerTests : AbstractHandlerTests
     [Fact]
     public void DescriptionTooBig()
     {
-        var request = new ValidRequest
+        var request = new ValidCreateExpenseRequest
         {
             Description = string.Join("", Enumerable.Repeat('x', 141))
         };
@@ -57,14 +57,14 @@ public class HandlerTests : AbstractHandlerTests
 
         var error = Assert.Single(errors);
         
-        Assert.Equal(nameof(Request.Description), error.Property);
-        Assert.Equal($"{nameof(Request.Description)} is too big", error.Message);
+        Assert.Equal(nameof(CreateExpenseRequest.Description), error.Property);
+        Assert.Equal($"{nameof(CreateExpenseRequest.Description)} is too big", error.Message);
     }
     
     [Fact]
     public void CategoryTooBig()
     {
-        var request = new ValidRequest
+        var request = new ValidCreateExpenseRequest
         {
             Category = string.Join("", Enumerable.Repeat('x', 51))
         };
@@ -72,7 +72,7 @@ public class HandlerTests : AbstractHandlerTests
 
         var error = Assert.Single(errors);
         
-        Assert.Equal(nameof(Request.Category), error.Property);
-        Assert.Equal($"{nameof(Request.Category)} is too big", error.Message);
+        Assert.Equal(nameof(CreateExpenseRequest.Category), error.Property);
+        Assert.Equal($"{nameof(CreateExpenseRequest.Category)} is too big", error.Message);
     }
 }

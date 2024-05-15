@@ -1,4 +1,4 @@
-using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Update;
 using Okane.Domain;
 
 namespace Okane.Application.Expenses;

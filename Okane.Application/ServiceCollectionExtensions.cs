@@ -9,14 +9,15 @@ public static class ServiceCollectionExtensions
     public static void AddOkane(this IServiceCollection services)
     {
         services.AddHandlers();
-        services.AddTransient<IValidator<Expenses.Create.Request>, Expenses.Create.Validator>();
+        services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
         services.AddSingleton<IExpensesRepository, InMemoryRepository>();
     }
 
     private static void AddHandlers(this IServiceCollection services)
     {
-        services.AddTransient<Expenses.Create.Handler>();
-        services.AddTransient<Expenses.Retrieve.Handler>();
-        services.AddTransient<Expenses.ById.Handler>();
+        services.AddTransient<Expenses.Create.CreateExpenseHandler>();
+        services.AddTransient<Expenses.Retrieve.RetrieveExpensesHandler>();
+        services.AddTransient<Expenses.ById.GetExpenseByIdHandler>();
+        services.AddTransient<Expenses.Update.UpdateExpenseHandler>();
     }
 }

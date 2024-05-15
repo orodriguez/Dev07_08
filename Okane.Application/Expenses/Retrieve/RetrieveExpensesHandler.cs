@@ -1,10 +1,10 @@
 namespace Okane.Application.Expenses.Retrieve;
 
-public class Handler
+public class RetrieveExpensesHandler
 {
     private readonly IExpensesRepository _expensesRepository;
 
-    public Handler(IExpensesRepository expensesRepository) => 
+    public RetrieveExpensesHandler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
     public IEnumerable<SuccessResponse> Handle() =>

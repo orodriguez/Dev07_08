@@ -1,12 +1,10 @@
-using Okane.Domain;
-
 namespace Okane.Application.Expenses.ById;
 
-public class Handler
+public class GetExpenseByIdHandler
 {
     private readonly IExpensesRepository _expensesRepository;
 
-    public Handler(IExpensesRepository expensesRepository) => 
+    public GetExpenseByIdHandler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
     public IExpenseResponse Handle(int id)

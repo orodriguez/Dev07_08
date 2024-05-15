@@ -1,8 +1,6 @@
-using Okane.Application.Expenses;
-
 namespace Okane.Tests.Expenses.Retrieve;
 
-public class HandlerTestses : AbstractHandlerTests
+public class RetrieveExpensesHandler : AbstractHandlerTests
 {
     [Fact]
     public void NoExpenses() => 

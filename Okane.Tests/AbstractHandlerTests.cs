@@ -1,6 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.ById;
+using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 
 namespace Okane.Tests
@@ -19,20 +22,18 @@ namespace Okane.Tests
         }
 
         protected IEnumerable<SuccessResponse> RetrieveExpenses() => 
-            Resolve<Application.Expenses.Retrieve.Handler>().Handle();
+            Resolve<RetrieveExpensesHandler>().Handle();
 
-        protected IExpenseResponse CreateExpense(Application.Expenses.Create.Request request) =>
-            Resolve<Application.Expenses.Create.Handler>().Handle(request);
+        protected IExpenseResponse CreateExpense(CreateExpenseRequest createExpenseRequest) =>
+            Resolve<CreateExpenseHandler>().Handle(createExpenseRequest);
 
         protected IExpenseResponse GetExpenseById(int id) => 
-            Resolve<Application.Expenses.ById.Handler>().Handle(id);
+            Resolve<GetExpenseByIdHandler>().Handle(id);
+
+        protected IExpenseResponse UpdateExpense(UpdateExpenseRequest updateExpenseRequest) => 
+            Resolve<UpdateExpenseHandler>().Handle(updateExpenseRequest);
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();
-
-        protected IExpenseResponse UpdateExpense(Request request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -3,25 +3,25 @@ using Okane.Domain;
 
 namespace Okane.Application.Expenses.Create;
 
-public class Handler
+public class CreateExpenseHandler
 {
-    private readonly IValidator<Request> _validator;
+    private readonly IValidator<CreateExpenseRequest> _validator;
     private readonly IExpensesRepository _expensesRepository;
 
-    public Handler(IValidator<Request> validator, IExpensesRepository expensesRepository)
+    public CreateExpenseHandler(IValidator<CreateExpenseRequest> validator, IExpensesRepository expensesRepository)
     {
         _validator = validator;
         _expensesRepository = expensesRepository;
     }
 
-    public IExpenseResponse Handle(Request request)
+    public IExpenseResponse Handle(CreateExpenseRequest createExpenseRequest)
     {
-        var validation = _validator.Validate(request);
+        var validation = _validator.Validate(createExpenseRequest);
 
         if (!validation.IsValid)
             return ValidationErrorsResponse.From(validation);
         
-        var expense = request.ToExpense();
+        var expense = createExpenseRequest.ToExpense();
 
         _expensesRepository.Add(expense);
         
