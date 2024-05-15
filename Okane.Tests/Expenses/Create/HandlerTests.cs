@@ -1,5 +1,6 @@
 using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.Create;
 
 namespace Okane.Tests.Expenses.Create;
 
@@ -18,14 +19,15 @@ public class HandlerTests : AbstractHandlerTests
     [Fact]
     public void AmountZeroOrLess()
     {
-        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(new(-1, "Food")));
+        var request = new ValidRequest { Amount = -1 };
+        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
 
         var error = Assert.Single(errors);
         
         Assert.Equal("Amount", error.Property);
         Assert.Equal("Amount must be a positive value", error.Message);
     }
-    
+
     [Fact]
     public void WithDescription()
     {
@@ -34,7 +36,7 @@ public class HandlerTests : AbstractHandlerTests
         
         Assert.Equal("Pizza", response.Description);
     }
-    
+
     [Fact]
     public void WithoutDescription()
     {
@@ -43,4 +45,21 @@ public class HandlerTests : AbstractHandlerTests
         
         Assert.Null(response.Description);
     }
+
+    [Fact]
+    public void DescriptionTooBig()
+    {
+        var request = new ValidRequest
+        {
+            Description = string.Join("", Enumerable.Repeat('x', 141))
+        };
+        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+
+        var error = Assert.Single(errors);
+        
+        Assert.Equal("Description", error.Property);
+        Assert.Equal("Description is too big", error.Message);
+    }
 }
+
+public record ValidRequest() : Request(10, "Food", "Pizza");

@@ -9,5 +9,9 @@ public class Validator : AbstractValidator<Request>
         RuleFor(request => request.Amount)
             .GreaterThan(-1)
             .WithMessage("Amount must be a positive value");
+
+        RuleFor(request => request.Description)
+            .MaximumLength(140)
+            .WithMessage("Description is too big");
     }
 }

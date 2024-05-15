@@ -20,7 +20,5 @@ public record ValidationErrorsResponse(IEnumerable<ValidationErrorsResponse.Prop
         return new ValidationErrorsResponse(errors);
     }
 
-    public record PropertyError(string Property, string Message)
-    {
-    }
+    public record PropertyError(string Property, string Message);
 }
