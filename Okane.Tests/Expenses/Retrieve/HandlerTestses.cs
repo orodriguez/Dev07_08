@@ -11,7 +11,7 @@ public class HandlerTestses : AbstractHandlerTests
     [Fact]
     public void OneExpenses()
     {
-        CreateExpense(new(10, "Food"));
+        CreateExpense(new(10, "Food","Comida Dominicana"));
 
         var expense = Assert.Single(RetrieveExpenses());
         Assert.Equal(1, expense.Id);
@@ -22,11 +22,13 @@ public class HandlerTestses : AbstractHandlerTests
     [Fact]
     public void ManyExpenses()
     {
-        CreateExpense(new(10, "Food"));
-        CreateExpense(new(20, "Games"));
+        CreateExpense(new(10, "Food","Postres Exoticos"));
+        CreateExpense(new(20, "Games","Trading Card Games"));
         
         var response = RetrieveExpenses();
         
         Assert.Equal(2, response.Count());
     }
+    
+    // Id test 
 }

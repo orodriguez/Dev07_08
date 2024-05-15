@@ -18,7 +18,7 @@ public abstract class AbstractHandlerTests
     }
 
     protected IEnumerable<Response> RetrieveExpenses() => 
-        Resolve<Application.Expenses.Retrieve.Handler>().Handle();
+        Resolve<Application.Expenses.Retrieve.Handler>().HandleAll();
 
     protected Response CreateExpense(Application.Expenses.Create.Request request) =>
         Resolve<Application.Expenses.Create.Handler>().Handle(request);
