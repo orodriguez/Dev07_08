@@ -9,7 +9,7 @@ public class Handler
     public Handler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public Response Handle(Request request)
+    public SuccessResponse Handle(Request request)
     {
         var expense = request.ToExpense();
 

@@ -9,8 +9,14 @@ public class Handler
     public Handler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public Response? Handle(int id) =>
-        _expensesRepository
-            .ById(id)?
-            .ToExpenseResponse();
+    public IExpenseResponse Handle(int id)
+    {
+        var expense = _expensesRepository
+            .ById(id);
+
+        if (expense == null)
+            return new NotFoundResponse();
+        
+        return expense.ToExpenseResponse();
+    }
 }

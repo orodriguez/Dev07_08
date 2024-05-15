@@ -1,3 +1,6 @@
+using Okane.Application;
+using Okane.Application.Expenses;
+
 namespace Okane.Tests.Expenses.ById;
 
 public class HandlerTests : AbstractHandlerTests
@@ -5,21 +8,20 @@ public class HandlerTests : AbstractHandlerTests
     [Fact]
     public void Exists()
     {
-        var createdExpense = CreateExpense(new(20, "Games"));
+        var expense = CreateExpense(new(20, "Games"));
 
-        var retrievedExpense = GetExpenseById(createdExpense.Id);
+        var retrievedExpense = Assert.IsType<SuccessResponse>(GetExpenseById(expense.Id));
         
-        Assert.Equal(createdExpense.Id, retrievedExpense.Id);
-        Assert.Equal(createdExpense.Amount, retrievedExpense.Amount);
-        Assert.Equal(createdExpense.Category, retrievedExpense.Category);
-        Assert.Equal(createdExpense.Description, retrievedExpense.Description);
+        Assert.Equal(expense.Id, retrievedExpense.Id);
+        Assert.Equal(expense.Amount, retrievedExpense.Amount);
+        Assert.Equal(expense.Category, retrievedExpense.Category);
+        Assert.Equal(expense.Description, retrievedExpense.Description);
     }
     
     [Fact]
     public void NotFound()
     {
         const int unknownId = 42;
-        var response = GetExpenseById(unknownId);
-        Assert.Null(response);
+        Assert.IsType<NotFoundResponse>(GetExpenseById(unknownId));
     }
 }

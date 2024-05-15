@@ -17,13 +17,13 @@ namespace Okane.Tests
             _provider = services.BuildServiceProvider();
         }
 
-        protected IEnumerable<Response> RetrieveExpenses() => 
+        protected IEnumerable<SuccessResponse> RetrieveExpenses() => 
             Resolve<Application.Expenses.Retrieve.Handler>().Handle();
 
-        protected Response CreateExpense(Application.Expenses.Create.Request request) =>
+        protected SuccessResponse CreateExpense(Application.Expenses.Create.Request request) =>
             Resolve<Application.Expenses.Create.Handler>().Handle(request);
 
-        protected Response GetExpenseById(int id) => 
+        protected IExpenseResponse GetExpenseById(int id) => 
             Resolve<Application.Expenses.ById.Handler>().Handle(id);
 
         private T Resolve<T>() where T : notnull =>

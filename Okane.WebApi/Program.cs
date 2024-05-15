@@ -1,5 +1,6 @@
 using Okane.Application;
 using Okane.Application.Expenses.Create;
+using Okane.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,14 +29,8 @@ app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) =>
         handler.Handle())
     .WithOpenApi();
 
-app.MapGet("/expenses/{id}", (Okane.Application.Expenses.ById.Handler handler, int id) =>
-    {
-        var response = handler.Handle(id);
-        if (response == null)
-            return Results.NotFound();
-        
-        return Results.Ok(response);
-    })
+app.MapGet("/expenses/{id}", void (Okane.Application.Expenses.ById.Handler handler, int id) => 
+        handler.Handle(id).ToResult())
     .WithOpenApi();
 
 app.Run();

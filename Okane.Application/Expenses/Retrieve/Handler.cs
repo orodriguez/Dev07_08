@@ -7,7 +7,7 @@ public class Handler
     public Handler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public IEnumerable<Response> Handle() =>
+    public IEnumerable<SuccessResponse> Handle() =>
         _expensesRepository
             .All()
             .Select(expense => expense.ToExpenseResponse());
