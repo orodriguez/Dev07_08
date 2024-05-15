@@ -60,6 +60,21 @@ public class HandlerTests : AbstractHandlerTests
         Assert.Equal(nameof(Request.Description), error.Property);
         Assert.Equal($"{nameof(Request.Description)} is too big", error.Message);
     }
+    
+    [Fact]
+    public void CategoryTooBig()
+    {
+        var request = new ValidRequest
+        {
+            Category = string.Join("", Enumerable.Repeat('x', 51))
+        };
+        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+
+        var error = Assert.Single(errors);
+        
+        Assert.Equal(nameof(Request.Category), error.Property);
+        Assert.Equal($"{nameof(Request.Category)} is too big", error.Message);
+    }
 }
 
 public record ValidRequest() : Request(10, "Food", "Pizza");
