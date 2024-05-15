@@ -76,5 +76,3 @@ public class HandlerTests : AbstractHandlerTests
         Assert.Equal($"{nameof(Request.Category)} is too big", error.Message);
     }
 }
-
-public record ValidRequest() : Request(10, "Food", "Pizza");

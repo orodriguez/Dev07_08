@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.Update;
 
 namespace Okane.Tests
 {
@@ -28,5 +29,10 @@ namespace Okane.Tests
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();
+
+        protected IExpenseResponse UpdateExpense(Request request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

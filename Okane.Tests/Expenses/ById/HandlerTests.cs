@@ -24,4 +24,17 @@ public class HandlerTests : AbstractHandlerTests
         const int unknownId = 42;
         Assert.IsType<NotFoundResponse>(GetExpenseById(unknownId));
     }
+    
+    [Fact]
+    public void AfterUpdate()
+    {
+        var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidRequest()));
+
+        Assert.IsType<SuccessResponse>(
+            UpdateExpense(new Application.Expenses.Update.Request(createdExpense.Id,50)));
+        
+        var expense = Assert.IsType<SuccessResponse>(GetExpenseById(createdExpense.Id));
+        
+        Assert.Equal(50, expense.Amount);
+    }
 }
