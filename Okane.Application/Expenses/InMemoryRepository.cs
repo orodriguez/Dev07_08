@@ -19,4 +19,9 @@ public class InMemoryRepository : IExpensesRepository
 
     public IEnumerable<Expense> All() => 
         _expenses;
+
+    public object GetById(int expenseId)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -1,3 +1,4 @@
+
 namespace Okane.Application.Expenses.Retrieve;
 
 public class Handler
@@ -11,7 +12,12 @@ public class Handler
     {
         var expenses = _expensesRepository.All();
         var response = expenses
-            .Select(expense => new Response(expense.Id, expense.Amount, expense.Category));
+            .Select(expense => new Response(expense.Id, expense.Amount, expense.Category, expense.Description));
         return response;
+    }
+
+    public object HandleById(string id)
+    {
+        throw new NotImplementedException();
     }
 }

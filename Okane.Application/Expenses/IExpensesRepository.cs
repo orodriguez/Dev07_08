@@ -7,4 +7,5 @@ public interface IExpensesRepository
 {
     Expense Add(Expense expense);
     IEnumerable<Expense> All();
+    object GetById(int expenseId);
 }
