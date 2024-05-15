@@ -1,5 +1,3 @@
-using Okane.Domain;
-
 namespace Okane.Application.Expenses.Retrieve;
 
 public class Handler

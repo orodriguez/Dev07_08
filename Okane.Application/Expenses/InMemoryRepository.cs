@@ -20,6 +20,6 @@ public class InMemoryRepository : IExpensesRepository
     public IEnumerable<Expense> All() => 
         _expenses;
 
-    public Expense ById(int id) => 
-        _expenses.First(expense => expense.Id == id);
+    public Expense? ById(int id) => 
+        _expenses.FirstOrDefault(expense => expense.Id == id);
 }

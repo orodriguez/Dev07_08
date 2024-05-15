@@ -14,4 +14,12 @@ public class HandlerTests : AbstractHandlerTests
         Assert.Equal(createdExpense.Category, retrievedExpense.Category);
         Assert.Equal(createdExpense.Description, retrievedExpense.Description);
     }
+    
+    [Fact]
+    public void NotFound()
+    {
+        const int unknownId = 42;
+        var response = GetExpenseById(unknownId);
+        Assert.Null(response);
+    }
 }

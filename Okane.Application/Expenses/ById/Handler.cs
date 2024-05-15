@@ -9,8 +9,8 @@ public class Handler
     public Handler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public Response Handle(int id) => 
+    public Response? Handle(int id) =>
         _expensesRepository
-            .ById(id)
+            .ById(id)?
             .ToExpenseResponse();
 }

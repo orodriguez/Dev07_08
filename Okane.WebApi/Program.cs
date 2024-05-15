@@ -29,7 +29,13 @@ app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) =>
     .WithOpenApi();
 
 app.MapGet("/expenses/{id}", (Okane.Application.Expenses.ById.Handler handler, int id) =>
-        handler.Handle(id))
+    {
+        var response = handler.Handle(id);
+        if (response == null)
+            return Results.NotFound();
+        
+        return Results.Ok(response);
+    })
     .WithOpenApi();
 
 app.Run();
