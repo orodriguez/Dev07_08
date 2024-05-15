@@ -11,15 +11,10 @@ public class Handler
 
     public Response Handle(Request request)
     {
-        var expense = new Expense
-        {
-            Amount = request.Amount,
-            Category = request.Category,
-            Description = request.Description
-        };
+        var expense = request.ToExpense();
 
         _expensesRepository.Add(expense);
         
-        return new Response(expense.Id, request.Amount, request.Category, request.Description);
+        return expense.ToExpenseResponse();
     }
 }

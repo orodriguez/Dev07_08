@@ -1,3 +1,5 @@
+using Okane.Domain;
+
 namespace Okane.Application.Expenses.ById;
 
 public class Handler
@@ -7,11 +9,8 @@ public class Handler
     public Handler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public Response Handle(int id)
-    {
-        var expense = _expensesRepository.ById(id);
-        
-        // TODO: Extract method to create response
-        return new Response(expense.Id, expense.Amount, expense.Category, expense.Description);
-    }
+    public Response Handle(int id) => 
+        _expensesRepository
+            .ById(id)
+            .ToExpenseResponse();
 }
