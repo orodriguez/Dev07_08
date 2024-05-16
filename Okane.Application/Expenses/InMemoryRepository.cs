@@ -22,4 +22,17 @@ public class InMemoryRepository : IExpensesRepository
 
     public Expense? ById(int id) => 
         _expenses.FirstOrDefault(expense => expense.Id == id);
+    
+    
+    // for memory db
+    public void Update(Expense expense)
+    {
+        var existingExpense = _expenses.FirstOrDefault(e => e.Id == expense.Id);
+        if (existingExpense != null)
+        {
+            existingExpense.Amount = expense.Amount;
+            existingExpense.Category = expense.Category;
+            existingExpense.Description = expense.Description;
+        }
+    }
 }
