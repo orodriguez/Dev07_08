@@ -1,5 +1,2 @@
 namespace Okane.Application.Expenses;
-
-public interface IExpenseResponse
-{
-}
+public interface IExpenseResponse{}

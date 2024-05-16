@@ -9,6 +9,10 @@ public record CreateExpenseRequest(int Amount, string Category, string? Descript
         {
             Amount = Amount,
             Category = Category,
-            Description = Description
+            Description = Description,
+            // 
+            CreationDate = DateTime.UtcNow
         };
+    
+    
 }

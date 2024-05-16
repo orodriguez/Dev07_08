@@ -1,6 +1,4 @@
 using FluentValidation;
-using Okane.Domain;
-
 namespace Okane.Application.Expenses.Create;
 
 public class CreateExpenseHandler
