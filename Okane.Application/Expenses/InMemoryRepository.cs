@@ -24,7 +24,7 @@ public class InMemoryRepository : IExpensesRepository
         _expenses.FirstOrDefault(expense => expense.Id == id);
     
     
-    // for memory db
+    // for memory db Update
     public void Update(Expense expense)
     {
         var existingExpense = _expenses.FirstOrDefault(e => e.Id == expense.Id);
@@ -33,6 +33,15 @@ public class InMemoryRepository : IExpensesRepository
             existingExpense.Amount = expense.Amount;
             existingExpense.Category = expense.Category;
             existingExpense.Description = expense.Description;
+        }
+    }
+    // For Delete xD
+    public void Delete(int id)
+    {
+        var expense = _expenses.FirstOrDefault(e => e.Id == id);
+        if (expense != null)
+        {
+            _expenses.Remove(expense);
         }
     }
 }

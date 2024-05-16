@@ -6,7 +6,7 @@ public class UpdateExpenseHandler
 
     public UpdateExpenseHandler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
-// updateExpenseRequest
+        // updateExpenseRequest
     public IExpenseResponse Handle(UpdateExpenseRequest updateExpenseRequest)
     {
         var existingExpense = _expensesRepository.ById(updateExpenseRequest.Id);

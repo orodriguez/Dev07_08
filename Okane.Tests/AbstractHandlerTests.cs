@@ -3,6 +3,7 @@ using Okane.Application;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 
@@ -32,6 +33,10 @@ namespace Okane.Tests
 
         protected IExpenseResponse UpdateExpense(UpdateExpenseRequest updateExpenseRequest) => 
             Resolve<UpdateExpenseHandler>().Handle(updateExpenseRequest);
+        
+        // Add to 
+        protected IExpenseResponse DeleteExpense(int id) =>
+            Resolve<DeleteExpenseHandler>().Handle(new DeleteExpenseRequest(id));
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();

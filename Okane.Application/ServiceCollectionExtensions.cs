@@ -19,5 +19,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<Expenses.Retrieve.RetrieveExpensesHandler>();
         services.AddTransient<Expenses.ById.GetExpenseByIdHandler>();
         services.AddTransient<Expenses.Update.UpdateExpenseHandler>();
+        // Add to AddHandlers Collection of services xD
+        services.AddTransient<Expenses.Delete.DeleteExpenseHandler>();
     }
 }
