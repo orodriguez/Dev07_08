@@ -20,23 +20,14 @@ public class UpdateExpenseHandler
     {
         var category = _categoriesRepository.ByName(request.CategoryName);
         
-        var expense = new Expense
-        {
-            Amount = request.Amount,
-            Category = category,
-            Description = request.Description
-        };
-
         var existingExpense = _expensesRepository.ById(id);
 
         if (existingExpense == null)
             return new NotFoundResponse();
-        
-        existingExpense.Amount = expense.Amount;
-        existingExpense.Category = expense.Category;
-        existingExpense.Description = expense.Description;
-        
-        _expensesRepository.Update(id, expense);
+
+        existingExpense.Update(request, category);
+
+        _expensesRepository.Update(existingExpense);
         
         return existingExpense.ToExpenseResponse();
     }

@@ -23,7 +23,7 @@ public class ExpensesRepository : IExpensesRepository
     public Expense? ById(int id) => 
         _db.Expenses.Include(e => e.Category).FirstOrDefault(expense => expense.Id == id);
 
-    public bool Update(int id, Expense expense) => 
+    public bool Update(Expense expense) => 
         _db.SaveChanges() > 0;
 
     public bool Delete(Expense expense)
