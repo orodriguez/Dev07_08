@@ -1,6 +1,7 @@
 using Okane.Application;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.WebApi;
@@ -39,5 +40,10 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
 app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
         handler.Handle(id).ToResult())
     .WithOpenApi();
+
+app.MapDelete("/expenses/{id}", (DeleteExpenseHandler handler, int id) => 
+        handler.Handle(id).ToResult())
+    .WithOpenApi();
+
 
 app.Run();

@@ -8,4 +8,5 @@ public interface IExpensesRepository
     Expense Add(Expense expense);
     IEnumerable<Expense> All();
     Expense? ById(int id);
+    Expense? Delete(int id);
 }

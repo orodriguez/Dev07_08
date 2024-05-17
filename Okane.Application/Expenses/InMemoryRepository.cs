@@ -22,4 +22,15 @@ public class InMemoryRepository : IExpensesRepository
 
     public Expense? ById(int id) => 
         _expenses.FirstOrDefault(expense => expense.Id == id);
+
+    public Expense? Delete(int id)
+    {
+        var expense = this.ById(id);
+
+        if (expense is null)
+            return null;
+
+        _expenses.Remove(expense);
+        return expense;
+    }
 }
