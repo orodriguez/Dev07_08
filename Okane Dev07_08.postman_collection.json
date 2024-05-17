@@ -28,7 +28,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"amount\": 10,\n  \"category\": \"Food\",\n  \"description\": \"Pizza\"\n}",
+					"raw": "{\n  \"amount\": 10,\n  \"categoryName\": \"Food\",\n  \"description\": \"Pizza\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -70,7 +70,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"amount\": -10,\n  \"category\": \"Food\",\n  \"description\": \"Pizza\"\n}",
+					"raw": "{\n  \"amount\": -10,\n  \"categoryName\": \"Food\",\n  \"description\": \"Pizza\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -112,7 +112,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"amount\": 50,\n  \"category\": \"Food\",\n  \"description\": \"Pizza\"\n}",
+					"raw": "{\n  \"amount\": 50,\n  \"categoryName\": \"Entertainment\",\n  \"description\": \"Pizza\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
