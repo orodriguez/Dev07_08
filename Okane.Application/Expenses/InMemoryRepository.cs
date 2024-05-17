@@ -35,7 +35,7 @@ public class InMemoryRepository : IExpensesRepository
     {
         if(expense != null)
         {
-            _expenses[expense.Id-1] = expense;
+            _expenses[_expenses.FindIndex(oldExpense => oldExpense.Id == expense.Id)] = expense;
         }
     }
 }
