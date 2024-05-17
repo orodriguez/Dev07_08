@@ -9,7 +9,7 @@ public class RetrieveExpensesHandler : AbstractHandlerTests
     [Fact]
     public void OneExpenses()
     {
-        CreateExpense(new(10, "Food"));
+        CreateExpense(new(10, "Food", null));
 
         var expense = Assert.Single(RetrieveExpenses());
         Assert.Equal(1, expense.Id);
@@ -20,8 +20,8 @@ public class RetrieveExpensesHandler : AbstractHandlerTests
     [Fact]
     public void ManyExpenses()
     {
-        CreateExpense(new(10, "Food"));
-        CreateExpense(new(20, "Games"));
+        CreateExpense(new(10, "Food", "Eggs"));
+        CreateExpense(new(20, "Games", "GTA"));
         
         var response = RetrieveExpenses();
         
