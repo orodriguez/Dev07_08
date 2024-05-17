@@ -25,7 +25,7 @@ namespace Okane.Tests
             _provider = services.BuildServiceProvider();
         }
 
-        protected IEnumerable<SuccessResponse> RetrieveExpenses() => 
+        protected IEnumerable<SuccessExpenseResponse> RetrieveExpenses() => 
             Resolve<RetrieveExpensesHandler>().Handle();
 
         protected IExpenseResponse CreateExpense(CreateExpenseRequest createExpenseRequest) =>

@@ -1,4 +1,5 @@
 using Okane.Application;
+using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Retrieve;
@@ -26,10 +27,14 @@ app.UseHttpsRedirection();
 
 app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
         handler.Handle(request).ToResult())
+    .Produces<SuccessExpenseResponse>()
+    .Produces<ValidationErrorsResponse>(StatusCodes.Status400BadRequest)
     .WithOpenApi();
 
 app.MapPut("/expenses/{id}", (UpdateExpenseHandler handler, int id, UpdateExpenseRequest request) =>
         handler.Handle(id, request).ToResult())
+    .Produces<SuccessExpenseResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
 app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
@@ -38,6 +43,8 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
 
 app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
         handler.Handle(id).ToResult())
+    .Produces<SuccessExpenseResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
 app.Run();

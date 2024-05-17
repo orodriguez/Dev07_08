@@ -8,9 +8,9 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void Exists()
     {
-        var expense = Assert.IsType<SuccessResponse>(CreateExpense(new(20, "Games")));
+        var expense = Assert.IsType<SuccessExpenseResponse>(CreateExpense(new(20, "Games")));
 
-        var retrievedExpense = Assert.IsType<SuccessResponse>(GetExpenseById(expense.Id));
+        var retrievedExpense = Assert.IsType<SuccessExpenseResponse>(GetExpenseById(expense.Id));
         
         Assert.Equal(expense.Id, retrievedExpense.Id);
         Assert.Equal(expense.Amount, retrievedExpense.Amount);
@@ -28,15 +28,15 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void AfterUpdate()
     {
-        var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidCreateExpenseRequest()));
+        var createdExpense = Assert.IsType<SuccessExpenseResponse>(CreateExpense(new ValidCreateExpenseRequest()));
 
-        Assert.IsType<SuccessResponse>(
+        Assert.IsType<SuccessExpenseResponse>(
             UpdateExpense(createdExpense.Id, new Application.Expenses.Update.UpdateExpenseRequest(
                 50, 
                 "Entertainment", 
                 Description: "Movies")));
         
-        var expense = Assert.IsType<SuccessResponse>(GetExpenseById(createdExpense.Id));
+        var expense = Assert.IsType<SuccessExpenseResponse>(GetExpenseById(createdExpense.Id));
         
         Assert.Equal(50, expense.Amount);
         Assert.Equal("Entertainment", expense.Category);

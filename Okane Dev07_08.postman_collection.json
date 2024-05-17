@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "5c07b467-706e-4ddf-a9ea-002849643ace",
+		"name": "Okane Dev07_08",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2402593"
+	},
+	"item": [
+		{
+			"name": "Expenses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.environment.set(\"createdExpenseId\", pm.response.json().id);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 10,\n  \"category\": \"Food\",\n  \"description\": \"Pizza\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5225/expenses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5225",
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Expenses - Invalid Amount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": -10,\n  \"category\": \"Food\",\n  \"description\": \"Pizza\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5225/expenses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5225",
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Expenses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 50,\n  \"category\": \"Food\",\n  \"description\": \"Pizza\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5225/expenses/{{createdExpenseId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5225",
+					"path": [
+						"expenses",
+						"{{createdExpenseId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Expenses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5225/expenses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5225",
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Expenses ById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5225/expenses/{{createdExpenseId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5225",
+					"path": [
+						"expenses",
+						"{{createdExpenseId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Expenses ById - NotFound",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5225/expenses/-1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5225",
+					"path": [
+						"expenses",
+						"-1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5225/swagger/v1/swagger.json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5225",
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
