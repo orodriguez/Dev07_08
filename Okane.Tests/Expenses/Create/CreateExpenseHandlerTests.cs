@@ -9,7 +9,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void Valid()
     {
-        var response = Assert.IsType<SuccessResponse>(CreateExpense(new(10, "Food")));
+        var response = Assert.IsType<SuccessResponse>(CreateExpense(new(10, "Food",DateTime.Now)));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
@@ -32,7 +32,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     public void WithDescription()
     {
         var response = Assert.IsType<SuccessResponse>(
-            CreateExpense(new(10, "Food", Description: "Pizza")));
+            CreateExpense(new(10, "Food", Description: "Pizza", CreationDate:DateTime.Now)));
         
         Assert.Equal("Pizza", response.Description);
     }
@@ -41,7 +41,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     public void WithoutDescription()
     {
         var response = Assert.IsType<SuccessResponse>(
-            CreateExpense(new(10, "Food")));
+            CreateExpense(new(10, "Food",DateTime.Now)));
         
         Assert.Null(response.Description);
     }
