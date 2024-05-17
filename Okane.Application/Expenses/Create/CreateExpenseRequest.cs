@@ -4,11 +4,12 @@ namespace Okane.Application.Expenses.Create;
 
 public record CreateExpenseRequest(int Amount, string Category, string? Description = null)
 {
-    public Expense ToExpense() =>
+    public Expense ToExpense(DateTime createdAt) =>
         new()
         {
             Amount = Amount,
             Category = Category,
-            Description = Description
+            Description = Description,
+            CreatedAt = createdAt
         };
 }

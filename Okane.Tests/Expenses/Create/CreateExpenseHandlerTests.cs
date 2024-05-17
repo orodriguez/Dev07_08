@@ -9,11 +9,14 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void Valid()
     {
+        Now = DateTime.Parse("2024-02-14");
+        
         var response = Assert.IsType<SuccessResponse>(CreateExpense(new(10, "Food")));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
         Assert.Equal("Food", response.Category);
+        Assert.Equal(DateTime.Parse("2024-02-14"), response.CreatedAt);
     }
     
     [Fact]

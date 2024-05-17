@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
         services.AddHandlers();
         services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
         services.AddSingleton<IExpensesRepository, InMemoryRepository>();
+        services.AddTransient<Func<DateTime>>(_ => () => DateTime.Now);
     }
 
     private static void AddHandlers(this IServiceCollection services)
