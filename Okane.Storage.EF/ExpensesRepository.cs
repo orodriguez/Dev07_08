@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Okane.Application.Expenses;
 using Okane.Domain;
 
@@ -24,20 +23,8 @@ public class ExpensesRepository : IExpensesRepository
     public Expense? ById(int id) => 
         _db.Expenses.Include(e => e.Category).FirstOrDefault(expense => expense.Id == id);
 
-    public Expense? Update(int id, Expense expense)
-    {
-        var existingExpense = ById(id);
-
-        if (existingExpense == null)
-            return null;
-        
-        existingExpense.Amount = expense.Amount;
-        existingExpense.Category = expense.Category;
-        existingExpense.Description = expense.Description;
-
-        _db.SaveChanges();
-        return existingExpense;
-    }
+    public bool Update(int id, Expense expense) => 
+        _db.SaveChanges() > 0;
 
     public bool Delete(Expense expense)
     {

@@ -23,19 +23,7 @@ public class InMemoryExpensesRepository : IExpensesRepository
     public Expense? ById(int id) => 
         _expenses.FirstOrDefault(expense => expense.Id == id);
 
-    public Expense? Update(int id, Expense request)
-    {
-        var expense = ById(id);
-
-        if (expense == null)
-            return null;
-
-        expense.Amount = request.Amount;
-        expense.Category = request.Category;
-        expense.Description = request.Description;
-
-        return expense;
-    }
+    public bool Update(int id, Expense request) => true;
 
     public bool Delete(Expense expenseToDelete) => 
         _expenses.Remove(expenseToDelete);

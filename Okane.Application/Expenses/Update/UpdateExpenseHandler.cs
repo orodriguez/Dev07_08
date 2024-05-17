@@ -26,12 +26,18 @@ public class UpdateExpenseHandler
             Category = category,
             Description = request.Description
         };
-        
-        var updatedExpense = _expensesRepository.Update(id, expense);
 
-        if (updatedExpense == null)
+        var existingExpense = _expensesRepository.ById(id);
+
+        if (existingExpense == null)
             return new NotFoundResponse();
         
-        return updatedExpense.ToExpenseResponse();
+        existingExpense.Amount = expense.Amount;
+        existingExpense.Category = expense.Category;
+        existingExpense.Description = expense.Description;
+        
+        _expensesRepository.Update(id, expense);
+        
+        return existingExpense.ToExpenseResponse();
     }
 }

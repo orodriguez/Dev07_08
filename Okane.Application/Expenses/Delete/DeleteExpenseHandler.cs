@@ -1,5 +1,3 @@
-using System.Data;
-
 namespace Okane.Application.Expenses.Delete;
 
 public class DeleteExpenseHandler
