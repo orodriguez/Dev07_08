@@ -1,5 +1,6 @@
 using Okane.Application;
 using Okane.Application.Expenses;
+using System.Runtime.CompilerServices;
 
 namespace Okane.Tests.Expenses.ById;
 
@@ -35,7 +36,8 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
                 createdExpense.Id,
                 50, 
                 "Entertainment", 
-                Description: "Movies")));
+                Description: "Movies",
+                createdExpense.CreationDate ?? DateTime.Now)));
         
         var expense = Assert.IsType<SuccessResponse>(GetExpenseById(createdExpense.Id));
         

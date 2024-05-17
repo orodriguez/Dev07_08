@@ -9,4 +9,5 @@ public interface IExpensesRepository
     IEnumerable<Expense> All();
     Expense? ById(int id);
     void Delete(Expense expense);
+    void Update(Expense expense);
 }

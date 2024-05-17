@@ -30,4 +30,12 @@ public class InMemoryRepository : IExpensesRepository
             _expenses.Remove(expense);
         }
     }
+
+    public void Update(Expense expense)
+    {
+        if(expense != null)
+        {
+            _expenses[expense.Id-1] = expense;
+        }
+    }
 }
