@@ -31,8 +31,7 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
         var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidCreateExpenseRequest()));
 
         Assert.IsType<SuccessResponse>(
-            UpdateExpense(new Application.Expenses.Update.UpdateExpenseRequest(
-                createdExpense.Id,
+            UpdateExpense(createdExpense.Id, new Application.Expenses.Update.UpdateExpenseRequest(
                 50, 
                 "Entertainment", 
                 Description: "Movies")));

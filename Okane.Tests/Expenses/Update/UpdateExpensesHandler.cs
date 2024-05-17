@@ -11,8 +11,8 @@ public class UpdateExpensesHandler : AbstractHandlerTests
     {
         var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidCreateExpenseRequest()));
 
-        var updatedExpense = Assert.IsType<SuccessResponse>(UpdateExpense(
-            new UpdateExpenseRequest(createdExpense.Id, 50, "Entertainment", "Movies")));
+        var updatedExpense = Assert.IsType<SuccessResponse>(UpdateExpense(createdExpense.Id, 
+            new UpdateExpenseRequest(50, "Entertainment", "Movies")));
         
         Assert.Equal(1, createdExpense.Id);
         Assert.Equal(50, updatedExpense.Amount);
@@ -23,7 +23,8 @@ public class UpdateExpensesHandler : AbstractHandlerTests
     [Fact]
     public void NotFound()
     {
-        var response = UpdateExpense(new UpdateExpenseRequest(-42, 50, "Entertainment"));
+        var response = UpdateExpense(-42, 
+            new UpdateExpenseRequest(50, "Entertainment"));
         
         Assert.IsType<NotFoundResponse>(response);
     }

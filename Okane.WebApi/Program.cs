@@ -28,8 +28,8 @@ app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest req
         handler.Handle(request).ToResult())
     .WithOpenApi();
 
-app.MapPut("/expenses", (UpdateExpenseHandler handler, UpdateExpenseRequest request) =>
-        handler.Handle(request).ToResult())
+app.MapPut("/expenses/{id}", (UpdateExpenseHandler handler, int id, UpdateExpenseRequest request) =>
+        handler.Handle(id, request).ToResult())
     .WithOpenApi();
 
 app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>

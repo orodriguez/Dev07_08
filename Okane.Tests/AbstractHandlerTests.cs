@@ -30,8 +30,8 @@ namespace Okane.Tests
         protected IExpenseResponse GetExpenseById(int id) => 
             Resolve<GetExpenseByIdHandler>().Handle(id);
 
-        protected IExpenseResponse UpdateExpense(UpdateExpenseRequest updateExpenseRequest) => 
-            Resolve<UpdateExpenseHandler>().Handle(updateExpenseRequest);
+        protected IExpenseResponse UpdateExpense(int id, UpdateExpenseRequest updateExpenseRequest) => 
+            Resolve<UpdateExpenseHandler>().Handle(id, updateExpenseRequest);
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();

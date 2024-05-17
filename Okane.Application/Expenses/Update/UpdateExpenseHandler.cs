@@ -9,9 +9,9 @@ public class UpdateExpenseHandler
     public UpdateExpenseHandler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public IExpenseResponse Handle(UpdateExpenseRequest request)
+    public IExpenseResponse Handle(int id, UpdateExpenseRequest request)
     {
-        var expense = _expensesRepository.Update(request);
+        var expense = _expensesRepository.Update(id, request);
 
         if (expense == null)
             return new NotFoundResponse();
