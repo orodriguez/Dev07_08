@@ -3,6 +3,11 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Categories;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.ById;
+using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Delete;
+using Okane.Application.Expenses.Retrieve;
+using Okane.Application.Expenses.Update;
 
 namespace Okane.Application;
 
@@ -25,9 +30,10 @@ public static class ServiceCollectionExtensions
 
     private static void AddHandlers(this IServiceCollection services)
     {
-        services.AddTransient<Expenses.Create.CreateExpenseHandler>();
-        services.AddTransient<Expenses.Retrieve.RetrieveExpensesHandler>();
-        services.AddTransient<Expenses.ById.GetExpenseByIdHandler>();
-        services.AddTransient<Expenses.Update.UpdateExpenseHandler>();
+        services.AddTransient<CreateExpenseHandler>();
+        services.AddTransient<RetrieveExpensesHandler>();
+        services.AddTransient<GetExpenseByIdHandler>();
+        services.AddTransient<UpdateExpenseHandler>();
+        services.AddTransient<DeleteExpenseHandler>();
     }
 }

@@ -2,6 +2,7 @@ using Okane.Application;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.Storage.EF;
@@ -35,6 +36,12 @@ app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest req
 
 app.MapPut("/expenses/{id}", (UpdateExpenseHandler handler, int id, UpdateExpenseRequest request) =>
         handler.Handle(id, request).ToResult())
+    .Produces<SuccessExpenseResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapDelete("/expenses/{id}", (DeleteExpenseHandler handler, int id) =>
+        handler.Handle(id).ToResult())
     .Produces<SuccessExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();

@@ -36,4 +36,7 @@ public class InMemoryExpensesRepository : IExpensesRepository
 
         return expense;
     }
+
+    public bool Delete(Expense expenseToDelete) => 
+        _expenses.Remove(expenseToDelete);
 }

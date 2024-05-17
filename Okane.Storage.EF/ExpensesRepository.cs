@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Okane.Application.Expenses;
 using Okane.Domain;
 
@@ -36,5 +37,11 @@ public class ExpensesRepository : IExpensesRepository
 
         _db.SaveChanges();
         return existingExpense;
+    }
+
+    public bool Delete(Expense expense)
+    {
+        _db.Expenses.Remove(expense);
+        return _db.SaveChanges() > 0;
     }
 }
