@@ -7,6 +7,7 @@ using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
+using Okane.Application.Responses;
 using Okane.Domain;
 
 namespace Okane.Tests
@@ -35,19 +36,19 @@ namespace Okane.Tests
             categoriesRepository.Add(new Category { Name = "Games" } );
         }
 
-        protected IEnumerable<SuccessExpenseResponse> RetrieveExpenses() => 
+        protected IEnumerable<ExpenseResponse> RetrieveExpenses() => 
             Resolve<RetrieveExpensesHandler>().Handle();
 
-        protected IExpenseResponse CreateExpense(CreateExpenseRequest createExpenseRequest) =>
+        protected IResponse CreateExpense(CreateExpenseRequest createExpenseRequest) =>
             Resolve<CreateExpenseHandler>().Handle(createExpenseRequest);
 
-        protected IExpenseResponse GetExpenseById(int id) => 
+        protected IResponse GetExpenseById(int id) => 
             Resolve<GetExpenseByIdHandler>().Handle(id);
 
-        protected IExpenseResponse UpdateExpense(int id, UpdateExpenseRequest updateExpenseRequest) => 
+        protected IResponse UpdateExpense(int id, UpdateExpenseRequest updateExpenseRequest) => 
             Resolve<UpdateExpenseHandler>().Handle(id, updateExpenseRequest);
 
-        protected IExpenseResponse DeleteExpense(int id) => 
+        protected IResponse DeleteExpense(int id) => 
             Resolve<DeleteExpenseHandler>().Handle(id);
 
         private T Resolve<T>() where T : notnull =>

@@ -1,5 +1,5 @@
 using Okane.Application.Categories;
-using Okane.Domain;
+using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.Update;
 
@@ -16,7 +16,7 @@ public class UpdateExpenseHandler
         _categoriesRepository = categoriesRepository;
     }
 
-    public IExpenseResponse Handle(int id, UpdateExpenseRequest request)
+    public IResponse Handle(int id, UpdateExpenseRequest request)
     {
         var category = _categoriesRepository.ByName(request.CategoryName);
         

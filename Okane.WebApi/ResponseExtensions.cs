@@ -1,13 +1,13 @@
 using Okane.Application;
-using Okane.Application.Expenses;
+using Okane.Application.Responses;
 
 namespace Okane.WebApi;
 
 public static class ResponseExtensions
 {
-    public static IResult ToResult(this IExpenseResponse response) =>
+    public static IResult ToResult(this IResponse response) =>
         response switch {
-            SuccessExpenseResponse success => Results.Ok(success),
+            ISuccessResponse success => Results.Ok(success),
             NotFoundResponse => Results.NotFound(),
             ValidationErrorsResponse errors => Results.BadRequest(errors),
             _ => throw new ArgumentOutOfRangeException(nameof(response))

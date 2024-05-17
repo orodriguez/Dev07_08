@@ -1,5 +1,6 @@
 using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Responses;
 
 namespace Okane.Tests.Expenses.Delete;
 
@@ -8,11 +9,11 @@ public class DeleteExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void Exists()
     {
-        var createResponse = Assert.IsType<SuccessExpenseResponse>(
+        var createResponse = Assert.IsType<ExpenseResponse>(
             CreateExpense(new(20, "Games")));
 
         var deleteResponse = DeleteExpense(createResponse.Id);
-        Assert.IsType<SuccessExpenseResponse>(deleteResponse);
+        Assert.IsType<ExpenseResponse>(deleteResponse);
     }
     
     [Fact]

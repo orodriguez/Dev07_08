@@ -1,6 +1,6 @@
 using FluentValidation;
 using Okane.Application.Categories;
-using Okane.Domain;
+using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.Create;
 
@@ -22,7 +22,7 @@ public class CreateExpenseHandler
         _now = now;
     }
 
-    public IExpenseResponse Handle(CreateExpenseRequest createExpenseRequest)
+    public IResponse Handle(CreateExpenseRequest createExpenseRequest)
     {
         var validation = _validator.Validate(createExpenseRequest);
 

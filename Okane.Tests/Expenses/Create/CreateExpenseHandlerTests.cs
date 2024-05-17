@@ -1,6 +1,6 @@
-using Okane.Application;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
+using Okane.Application.Responses;
 
 namespace Okane.Tests.Expenses.Create;
 
@@ -11,7 +11,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     {
         Now = DateTime.Parse("2024-02-14");
         
-        var response = Assert.IsType<SuccessExpenseResponse>(CreateExpense(new(10, "Food")));
+        var response = Assert.IsType<ExpenseResponse>(CreateExpense(new(10, "Food")));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
@@ -34,7 +34,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void WithDescription()
     {
-        var response = Assert.IsType<SuccessExpenseResponse>(
+        var response = Assert.IsType<ExpenseResponse>(
             CreateExpense(new(10, "Food", Description: "Pizza")));
         
         Assert.Equal("Pizza", response.Description);
@@ -43,7 +43,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void WithoutDescription()
     {
-        var response = Assert.IsType<SuccessExpenseResponse>(
+        var response = Assert.IsType<ExpenseResponse>(
             CreateExpense(new(10, "Food")));
         
         Assert.Null(response.Description);

@@ -1,3 +1,5 @@
+using Okane.Application.Responses;
+
 namespace Okane.Application.Expenses.ById;
 
 public class GetExpenseByIdHandler
@@ -7,7 +9,7 @@ public class GetExpenseByIdHandler
     public GetExpenseByIdHandler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public IExpenseResponse Handle(int id)
+    public IResponse Handle(int id)
     {
         var expense = _expensesRepository
             .ById(id);

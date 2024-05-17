@@ -1,5 +1,6 @@
 using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Responses;
 
 namespace Okane.Tests.Expenses.ById;
 
@@ -8,9 +9,9 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void Exists()
     {
-        var expense = Assert.IsType<SuccessExpenseResponse>(CreateExpense(new(20, "Games")));
+        var expense = Assert.IsType<ExpenseResponse>(CreateExpense(new(20, "Games")));
 
-        var retrievedExpense = Assert.IsType<SuccessExpenseResponse>(GetExpenseById(expense.Id));
+        var retrievedExpense = Assert.IsType<ExpenseResponse>(GetExpenseById(expense.Id));
         
         Assert.Equal(expense.Id, retrievedExpense.Id);
         Assert.Equal(expense.Amount, retrievedExpense.Amount);
@@ -28,15 +29,15 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void AfterUpdate()
     {
-        var createdExpense = Assert.IsType<SuccessExpenseResponse>(CreateExpense(new ValidCreateExpenseRequest()));
+        var createdExpense = Assert.IsType<ExpenseResponse>(CreateExpense(new ValidCreateExpenseRequest()));
 
-        Assert.IsType<SuccessExpenseResponse>(
+        Assert.IsType<ExpenseResponse>(
             UpdateExpense(createdExpense.Id, new Application.Expenses.Update.UpdateExpenseRequest(
                 50, 
                 "Entertainment", 
                 Description: "Movies")));
         
-        var expense = Assert.IsType<SuccessExpenseResponse>(GetExpenseById(createdExpense.Id));
+        var expense = Assert.IsType<ExpenseResponse>(GetExpenseById(createdExpense.Id));
         
         Assert.Equal(50, expense.Amount);
         Assert.Equal("Entertainment", expense.CategoryName);

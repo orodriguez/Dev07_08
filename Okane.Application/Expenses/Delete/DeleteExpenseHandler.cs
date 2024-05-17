@@ -1,3 +1,5 @@
+using Okane.Application.Responses;
+
 namespace Okane.Application.Expenses.Delete;
 
 public class DeleteExpenseHandler
@@ -7,7 +9,7 @@ public class DeleteExpenseHandler
     public DeleteExpenseHandler(IExpensesRepository expenses) => 
         _expenses = expenses;
 
-    public IExpenseResponse Handle(int id)
+    public IResponse Handle(int id)
     {
         var expenseToDelete = _expenses.ById(id);
 
