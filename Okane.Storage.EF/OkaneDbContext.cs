@@ -6,7 +6,8 @@ namespace Okane.Storage.EF;
 public class OkaneDbContext : DbContext
 {
     public DbSet<Expense> Expenses { get; set; }
-    
+    public DbSet<Category> Categories { get; set; }
+
     public OkaneDbContext(DbContextOptions options) : base(options)
     {
     }

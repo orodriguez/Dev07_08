@@ -1,5 +1,5 @@
+using Microsoft.EntityFrameworkCore;
 using Okane.Application.Expenses;
-using Okane.Application.Expenses.Update;
 using Okane.Domain;
 
 namespace Okane.Storage.EF;
@@ -18,23 +18,23 @@ public class ExpensesRepository : IExpensesRepository
     }
 
     public IEnumerable<Expense> All() => 
-        _db.Expenses;
+        _db.Expenses.Include(e => e.Category);
 
     public Expense? ById(int id) => 
-        _db.Expenses.FirstOrDefault(expense => expense.Id == id);
+        _db.Expenses.Include(e => e.Category).FirstOrDefault(expense => expense.Id == id);
 
-    public Expense? Update(int id, UpdateExpenseRequest request)
+    public Expense? Update(int id, Expense expense)
     {
-        var expense = ById(id);
+        var existingExpense = ById(id);
 
-        if (expense == null)
+        if (existingExpense == null)
             return null;
         
-        expense.Amount = request.Amount;
-        expense.Category = request.Category;
-        expense.Description = request.Description;
+        existingExpense.Amount = expense.Amount;
+        existingExpense.Category = expense.Category;
+        existingExpense.Description = expense.Description;
 
         _db.SaveChanges();
-        return expense;
+        return existingExpense;
     }
 }

@@ -1,6 +1,7 @@
 using System.Security.AccessControl;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Okane.Application.Categories;
 using Okane.Application.Expenses;
 
 namespace Okane.Application;
@@ -16,7 +17,11 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static void AddOkaneInMemoryStorage(this IServiceCollection services) => services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
+    public static void AddOkaneInMemoryStorage(this IServiceCollection services)
+    {
+        services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
+        services.AddSingleton<ICategoriesRepository, InMemoryCategoriesRepository>();
+    }
 
     private static void AddHandlers(this IServiceCollection services)
     {

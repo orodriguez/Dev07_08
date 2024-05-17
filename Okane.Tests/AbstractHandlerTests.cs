@@ -1,10 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application;
+using Okane.Application.Categories;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
+using Okane.Domain;
 
 namespace Okane.Tests
 {
@@ -24,6 +26,12 @@ namespace Okane.Tests
             services.AddTransient<Func<DateTime>>(_ => () => Now);
 
             _provider = services.BuildServiceProvider();
+
+            var categoriesRepository = Resolve<ICategoriesRepository>();
+
+            categoriesRepository.Add(new Category { Name = "Food" } );
+            categoriesRepository.Add(new Category { Name = "Entertainment" } );
+            categoriesRepository.Add(new Category { Name = "Games" } );
         }
 
         protected IEnumerable<SuccessExpenseResponse> RetrieveExpenses() => 

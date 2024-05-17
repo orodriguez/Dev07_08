@@ -15,7 +15,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
-        Assert.Equal("Food", response.Category);
+        Assert.Equal("Food", response.CategoryName);
         Assert.Equal(DateTime.Parse("2024-02-14"), response.CreatedAt);
     }
     
@@ -69,13 +69,13 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     {
         var request = new ValidCreateExpenseRequest
         {
-            Category = string.Join("", Enumerable.Repeat('x', 51))
+            CategoryName = string.Join("", Enumerable.Repeat('x', 51))
         };
         var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
 
         var error = Assert.Single(errors);
         
-        Assert.Equal(nameof(CreateExpenseRequest.Category), error.Property);
-        Assert.Equal($"{nameof(CreateExpenseRequest.Category)} is too big", error.Message);
+        Assert.Equal(nameof(CreateExpenseRequest.CategoryName), error.Property);
+        Assert.Equal($"{nameof(CreateExpenseRequest.CategoryName)} is too big", error.Message);
     }
 }

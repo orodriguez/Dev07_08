@@ -14,7 +14,7 @@ public class RetrieveExpensesHandler : AbstractHandlerTests
         var expense = Assert.Single(RetrieveExpenses());
         Assert.Equal(1, expense.Id);
         Assert.Equal(10, expense.Amount);
-        Assert.Equal("Food", expense.Category);
+        Assert.Equal("Food", expense.CategoryName);
     }
 
     [Fact]

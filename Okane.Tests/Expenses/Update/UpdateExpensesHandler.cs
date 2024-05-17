@@ -16,7 +16,7 @@ public class UpdateExpensesHandler : AbstractHandlerTests
         
         Assert.Equal(1, createdExpense.Id);
         Assert.Equal(50, updatedExpense.Amount);
-        Assert.Equal("Entertainment", updatedExpense.Category);
+        Assert.Equal("Entertainment", updatedExpense.CategoryName);
         Assert.Equal("Movies", updatedExpense.Description);
     }
     

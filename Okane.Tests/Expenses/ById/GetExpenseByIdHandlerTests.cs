@@ -14,7 +14,7 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
         
         Assert.Equal(expense.Id, retrievedExpense.Id);
         Assert.Equal(expense.Amount, retrievedExpense.Amount);
-        Assert.Equal(expense.Category, retrievedExpense.Category);
+        Assert.Equal(expense.CategoryName, retrievedExpense.CategoryName);
         Assert.Equal(expense.Description, retrievedExpense.Description);
     }
     
@@ -39,7 +39,7 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
         var expense = Assert.IsType<SuccessExpenseResponse>(GetExpenseById(createdExpense.Id));
         
         Assert.Equal(50, expense.Amount);
-        Assert.Equal("Entertainment", expense.Category);
+        Assert.Equal("Entertainment", expense.CategoryName);
         Assert.Equal("Movies", expense.Description);
     }
 }
