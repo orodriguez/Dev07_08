@@ -1,4 +1,4 @@
-using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Update;
 using Okane.Domain;
 
 namespace Okane.Application.Expenses;
@@ -19,4 +19,7 @@ public class InMemoryRepository : IExpensesRepository
 
     public IEnumerable<Expense> All() => 
         _expenses;
+
+    public Expense? ById(int id) => 
+        _expenses.FirstOrDefault(expense => expense.Id == id);
 }

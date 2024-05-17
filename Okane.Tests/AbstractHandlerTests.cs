@@ -1,28 +1,39 @@
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.ById;
+using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Retrieve;
+using Okane.Application.Expenses.Update;
 
-namespace Okane.Tests;
-
-public abstract class AbstractHandlerTests
+namespace Okane.Tests
 {
-    private readonly ServiceProvider _provider;
-
-    protected AbstractHandlerTests()
+    public abstract class AbstractHandlerTests
     {
-        var services = new ServiceCollection();
+        private readonly ServiceProvider _provider;
+
+        protected AbstractHandlerTests()
+        {
+            var services = new ServiceCollection();
         
-        services.AddOkane();
+            services.AddOkane();
 
-        _provider = services.BuildServiceProvider();
+            _provider = services.BuildServiceProvider();
+        }
+
+        protected IEnumerable<SuccessResponse> RetrieveExpenses() => 
+            Resolve<RetrieveExpensesHandler>().Handle();
+
+        protected IExpenseResponse CreateExpense(CreateExpenseRequest createExpenseRequest) =>
+            Resolve<CreateExpenseHandler>().Handle(createExpenseRequest);
+
+        protected IExpenseResponse GetExpenseById(int id) => 
+            Resolve<GetExpenseByIdHandler>().Handle(id);
+
+        protected IExpenseResponse UpdateExpense(UpdateExpenseRequest updateExpenseRequest) => 
+            Resolve<UpdateExpenseHandler>().Handle(updateExpenseRequest);
+
+        private T Resolve<T>() where T : notnull =>
+            _provider.GetRequiredService<T>();
     }
-
-    protected IEnumerable<Response> RetrieveExpenses() => 
-        Resolve<Application.Expenses.Retrieve.Handler>().Handle();
-
-    protected Response CreateExpense(Application.Expenses.Create.Request request) =>
-        Resolve<Application.Expenses.Create.Handler>().Handle(request);
-
-    private T Resolve<T>() where T : notnull =>
-        _provider.GetRequiredService<T>();
 }

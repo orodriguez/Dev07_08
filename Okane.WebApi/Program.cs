@@ -1,5 +1,9 @@
 using Okane.Application;
+using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Retrieve;
+using Okane.Application.Expenses.Update;
+using Okane.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,24 +21,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-//Modificar los endpoints GET /expenses y POST /expenses para que manejen la propiedad Description en los gastos.
-//Description es de tipo string y es opcional.
-//Agregar un endpoint nuevo GET /expenses/:id. Este endpoint retorna un solo expense según el id que se pase.
 
 app.UseHttpsRedirection();
 
-app.MapPost("/expenses", (Handler handler, Request request) => 
-        handler.Handle(request))
+app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
+        handler.Handle(request).ToResult())
     .WithOpenApi();
-    
 
-app.MapGet("/expenses", (Okane.Application.Expenses.Retrieve.Handler handler) => 
+app.MapPut("/expenses", (UpdateExpenseHandler handler, UpdateExpenseRequest request) =>
+        handler.Handle(request).ToResult())
+    .WithOpenApi();
+
+app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
         handler.Handle())
-        .WithOpenApi();
-
-app.MapGet("/expenses/{id}", (Okane.Application.Expenses.Retrieve.Handler handler, string id) => 
-        handler.HandleOne(id))
     .WithOpenApi();
 
+app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
+        handler.Handle(id).ToResult())
+    .WithOpenApi();
 
 app.Run();
