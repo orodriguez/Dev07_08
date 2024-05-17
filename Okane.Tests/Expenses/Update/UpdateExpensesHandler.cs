@@ -1,3 +1,4 @@
+using Okane.Application;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Update;
 
@@ -17,5 +18,13 @@ public class UpdateExpensesHandler : AbstractHandlerTests
         Assert.Equal(50, updatedExpense.Amount);
         Assert.Equal("Entertainment", updatedExpense.Category);
         Assert.Equal("Movies", updatedExpense.Description);
+    }
+    
+    [Fact]
+    public void NotFound()
+    {
+        var response = UpdateExpense(new UpdateExpenseRequest(-42, 50, "Entertainment"));
+        
+        Assert.IsType<NotFoundResponse>(response);
     }
 }

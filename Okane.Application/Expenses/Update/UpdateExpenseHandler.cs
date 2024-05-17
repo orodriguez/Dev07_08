@@ -1,3 +1,5 @@
+using Okane.Domain;
+
 namespace Okane.Application.Expenses.Update;
 
 public class UpdateExpenseHandler
@@ -7,8 +9,13 @@ public class UpdateExpenseHandler
     public UpdateExpenseHandler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public IExpenseResponse Handle(UpdateExpenseRequest updateExpenseRequest)
+    public IExpenseResponse Handle(UpdateExpenseRequest request)
     {
-        throw new NotImplementedException();
+        var expense = _expensesRepository.Update(request);
+
+        if (expense == null)
+            return new NotFoundResponse();
+        
+        return expense.ToExpenseResponse();
     }
 }
