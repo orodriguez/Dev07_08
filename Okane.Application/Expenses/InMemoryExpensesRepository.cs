@@ -3,12 +3,12 @@ using Okane.Domain;
 
 namespace Okane.Application.Expenses;
 
-public class InMemoryRepository : IExpensesRepository
+public class InMemoryExpensesRepository : IExpensesRepository
 {
     private int _nextId = 1;
     private readonly List<Expense> _expenses;
 
-    public InMemoryRepository() => _expenses = new List<Expense>();
+    public InMemoryExpensesRepository() => _expenses = new List<Expense>();
 
     public Expense Add(Expense expense)
     {

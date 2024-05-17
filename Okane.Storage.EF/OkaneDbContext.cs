@@ -10,4 +10,7 @@ public class OkaneDbContext : DbContext
     public OkaneDbContext(DbContextOptions options) : base(options)
     {
     }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 }

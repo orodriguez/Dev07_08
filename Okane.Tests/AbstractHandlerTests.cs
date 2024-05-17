@@ -19,7 +19,8 @@ namespace Okane.Tests
             
             var services = new ServiceCollection();
         
-            services.AddOkane();
+            services.AddOkane().AddOkaneInMemoryStorage();
+            
             services.AddTransient<Func<DateTime>>(_ => () => Now);
 
             _provider = services.BuildServiceProvider();

@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Expenses;
@@ -6,13 +7,16 @@ namespace Okane.Application;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddOkane(this IServiceCollection services)
+    public static IServiceCollection AddOkane(this IServiceCollection services)
     {
         services.AddHandlers();
         services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
-        services.AddSingleton<IExpensesRepository, InMemoryRepository>();
         services.AddTransient<Func<DateTime>>(_ => () => DateTime.Now);
+
+        return services;
     }
+
+    public static void AddOkaneInMemoryStorage(this IServiceCollection services) => services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
 
     private static void AddHandlers(this IServiceCollection services)
     {
