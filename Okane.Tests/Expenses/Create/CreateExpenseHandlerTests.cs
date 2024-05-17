@@ -75,4 +75,11 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
         Assert.Equal(nameof(CreateExpenseRequest.Category), error.Property);
         Assert.Equal($"{nameof(CreateExpenseRequest.Category)} is too big", error.Message);
     }
+    [Fact]
+    public void CreationWithTime()
+    {
+        var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidCreateExpenseRequest()));
+        
+        Assert.NotNull(createdExpense.CreationDate);
+    }
 }
