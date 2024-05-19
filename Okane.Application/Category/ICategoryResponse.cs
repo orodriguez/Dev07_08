@@ -1,6 +1,8 @@
-﻿namespace Okane.Application.Category;
+﻿using Okane.Application.Expenses;
 
-public interface ICategoryResponse
+namespace Okane.Application.Category;
+
+public interface ICategoryResponse : IExpenseResponse
 {
     
 }
