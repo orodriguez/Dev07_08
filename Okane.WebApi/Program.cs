@@ -1,4 +1,5 @@
 using Okane.Application;
+using Okane.Application.Category.Create;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Retrieve;
@@ -38,6 +39,10 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
 
 app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
         handler.Handle(id).ToResult())
+    .WithOpenApi();
+
+app.MapPost("/category", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
+        handler.Handle(request).ToResult())
     .WithOpenApi();
 
 app.Run();
