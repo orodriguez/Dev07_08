@@ -1,4 +1,3 @@
-using Okane.Application.Expenses.Update;
 using Okane.Domain;
 
 namespace Okane.Application.Expenses;
@@ -22,4 +21,8 @@ public class InMemoryRepository : IExpensesRepository
 
     public Expense? ById(int id) => 
         _expenses.FirstOrDefault(expense => expense.Id == id);
+    //
+    public bool HasExpensesForCategory(int categoryId) =>
+        _expenses.Any(expense => expense.Id== categoryId);
+    
 }

@@ -9,12 +9,12 @@ public class GetCategoryByIdHandler
 
     public ICategoryResponse Handle(int id)
     {
-        var expense = _categoryRepository
+        var category = _categoryRepository
             .ById(id);
 
-        if (expense == null)
+        if (category == null)
             return new NotFoundResponseCategory();
         
-        return expense.ToCategoryResponse();
+        return category.ToCategoryResponse();
     }
 }
