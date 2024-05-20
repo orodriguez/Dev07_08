@@ -1,12 +1,16 @@
 ﻿using FluentValidation;
 
-namespace Okane.Application.Category.Create;
-
-public class CreateCategoryRequestValidator : AbstractValidator<CreateCategoryRequest>
+namespace Okane.Application.Category.Create
 {
-    
-    public CreateCategoryRequestValidator()
+    public class CreateCategoryRequestValidator : AbstractValidator<CreateCategoryRequest>
     {
-        RuleFor(x => x.Name).NotEmpty().WithMessage("The category name must not be empty.");
+        public CreateCategoryRequestValidator()
+        {
+            RuleFor(request => request.Name)
+                .NotEmpty()
+                .WithMessage("The category name must not be empty.")
+                .MaximumLength(50)
+                .WithMessage("The category name must not exceed 50 characters.");
+        }
     }
 }

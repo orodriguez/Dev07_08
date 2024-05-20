@@ -18,7 +18,7 @@ public class CreateCategoryHandler
         var validation = _validator.Validate(createCategoryRequest);
 
         if (!validation.IsValid)
-            return (ICategoryResponse)ValidationErrorsResponse.From(validation);
+            return ValidationErrorsResponse.From(validation) as ICategoryResponse;
 
         var category = createCategoryRequest.ToCategory();
         var addedCategory = _categoryRepository.Add(category);
