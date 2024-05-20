@@ -24,4 +24,10 @@ public class CategoriesRepository : ICategoriesRepository
 
     public bool NameExists(string name) => 
         _db.Categories.Any(c => c.Name == name);
+
+    public bool Delete(Category category)
+    {
+        _db.Categories.Remove(category);
+        return _db.SaveChanges() > 0;
+    }
 }

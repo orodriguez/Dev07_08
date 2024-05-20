@@ -3,6 +3,7 @@ using Okane.Application;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
+using Okane.Application.Categories.Delete;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
@@ -58,6 +59,9 @@ namespace Okane.Tests
 
         protected IGetCategoryByIdResponse GetCategoryById(int id) => 
             Resolve<GetCategoryByIdHandler>().Handle(id);
+
+        protected IDeleteCategoryResponse DeleteCategory(int id) => 
+            Resolve<DeleteCategoryHandler>().Handle(id);
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();

@@ -2,6 +2,7 @@ using Okane.Application;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
+using Okane.Application.Categories.Delete;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
@@ -35,9 +36,16 @@ app.UseHttpsRedirection();
 app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
         handler.Handle(request).ToResult())
     .Produces<CategoryResponse>()
+    .Produces<ConflictResponse>()
     .WithOpenApi();
 
 app.MapGet("/categories/{Id}", (GetCategoryByIdHandler handler, int id) =>
+        handler.Handle(id).ToResult())
+    .Produces<CategoryResponse>()
+    .Produces<NotFoundResponse>()
+    .WithOpenApi();
+
+app.MapDelete("/categories/{Id}", (DeleteCategoryHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<CategoryResponse>()
     .WithOpenApi();

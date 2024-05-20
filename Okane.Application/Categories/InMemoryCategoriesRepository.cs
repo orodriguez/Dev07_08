@@ -25,4 +25,7 @@ public class InMemoryCategoriesRepository : ICategoriesRepository
 
     public bool NameExists(string name) => 
         _categories.Any(c => c.Name == name);
+
+    public bool Delete(Category category) => 
+        _categories.Remove(category);
 }

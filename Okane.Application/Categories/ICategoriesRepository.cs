@@ -8,4 +8,5 @@ public interface ICategoriesRepository
     Category Add(Category category);
     Category? ById(int id);
     bool NameExists(string name);
+    bool Delete(Category category);
 }
