@@ -22,7 +22,7 @@ public class CreateExpenseHandler
         _now = now;
     }
 
-    public IResponse Handle(CreateExpenseRequest request)
+    public ICreateExpenseResponse Handle(CreateExpenseRequest request)
     {
         var validation = _validator.Validate(request);
 
