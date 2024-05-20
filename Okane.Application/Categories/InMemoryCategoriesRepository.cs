@@ -19,4 +19,7 @@ public class InMemoryCategoriesRepository : ICategoriesRepository
         _categories.Add(category);
         return category;
     }
+
+    public Category? ById(int id) => 
+        _categories.FirstOrDefault(c => c.Id == id);
 }

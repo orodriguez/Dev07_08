@@ -1,6 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application;
 using Okane.Application.Categories;
+using Okane.Application.Categories.ById;
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
@@ -50,6 +52,12 @@ namespace Okane.Tests
 
         protected IResponse DeleteExpense(int id) => 
             Resolve<DeleteExpenseHandler>().Handle(id);
+
+        protected ICreateCategoryResponse CreateCategory(CreateCategoryRequest request) => 
+            Resolve<CreateCategoryHandler>().Handle(request);
+
+        protected IGetCategoryByIdResponse GetCategoryById(int id) => 
+            Resolve<GetCategoryByIdHandler>().Handle(id);
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();

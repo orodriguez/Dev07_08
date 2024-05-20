@@ -18,4 +18,7 @@ public class CategoriesRepository : ICategoriesRepository
         _db.SaveChanges();
         return category;
     }
+
+    public Category? ById(int id) => 
+        _db.Categories.FirstOrDefault(c => c.Id == id);
 }
