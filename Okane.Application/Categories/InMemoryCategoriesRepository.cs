@@ -22,4 +22,7 @@ public class InMemoryCategoriesRepository : ICategoriesRepository
 
     public Category? ById(int id) => 
         _categories.FirstOrDefault(c => c.Id == id);
+
+    public bool NameExists(string name) => 
+        _categories.Any(c => c.Name == name);
 }

@@ -1,3 +1,5 @@
+using Okane.Application.Responses;
+
 namespace Okane.Application.Categories.Create;
 
 public class CreateCategoryHandler
@@ -9,8 +11,13 @@ public class CreateCategoryHandler
 
     public ICreateCategoryResponse Handle(CreateCategoryRequest request)
     {
-        var category = request.ToCategory();
+        var nameExists = _categories.NameExists(request.Name);
+
+        if (nameExists)
+            return new ConflictResponse($"Category with Name '{request.Name}' already exists.");
         
+        var category = request.ToCategory();
+
         _categories.Add(category);
         
         return CategoryResponse.From(category);

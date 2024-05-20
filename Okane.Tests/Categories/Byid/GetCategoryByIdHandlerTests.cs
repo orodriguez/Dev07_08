@@ -8,12 +8,12 @@ public class GetCategoryByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void CategoryExists()
     {
-        var createResponse = CreateCategory(new("Food"));
+        var createResponse = Assert.IsType<CategoryResponse>(CreateCategory(new("Taxes")));
 
         var categoryResponse = Assert.IsType<CategoryResponse>(GetCategoryById(createResponse.Id));
         
         Assert.Equal(createResponse.Id, categoryResponse.Id);
-        Assert.Equal("Food", categoryResponse.Name);
+        Assert.Equal("Taxes", categoryResponse.Name);
     }
     
     [Fact]

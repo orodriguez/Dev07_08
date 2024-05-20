@@ -7,4 +7,5 @@ public interface ICategoriesRepository
     Category ByName(string categoryName);
     Category Add(Category category);
     Category? ById(int id);
+    bool NameExists(string name);
 }

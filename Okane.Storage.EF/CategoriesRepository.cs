@@ -21,4 +21,7 @@ public class CategoriesRepository : ICategoriesRepository
 
     public Category? ById(int id) => 
         _db.Categories.FirstOrDefault(c => c.Id == id);
+
+    public bool NameExists(string name) => 
+        _db.Categories.Any(c => c.Name == name);
 }
