@@ -9,8 +9,8 @@ public class CategoriesRepository : ICategoriesRepository
 
     public CategoriesRepository(OkaneDbContext db) => _db = db;
 
-    public Category ByName(string categoryName) => 
-        _db.Categories.First(c => c.Name == categoryName);
+    public Category? ByName(string categoryName) => 
+        _db.Categories.FirstOrDefault(c => c.Name == categoryName);
 
     public Category Add(Category category)
     {
