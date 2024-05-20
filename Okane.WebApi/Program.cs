@@ -1,6 +1,7 @@
 using Okane.Application;
 using Okane.Application.Category.ById;
 using Okane.Application.Category.Create;
+using Okane.Application.Category.Delete;
 using Okane.Application.Category.Retrieve;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
@@ -31,12 +32,16 @@ app.MapPost("/category", (CreateCategoryHandler handler, CreateCategoryRequest r
         handler.Handle(request).ToResultCategory())
     .WithOpenApi();
 
-app.MapGet("/category/{id}", (GetCategoryByIdHandler handler, int id) => 
+app.MapGet("/category/{id}", (GetCategoryByIdHandler handler, int id) =>
         handler.Handle(id).ToResultCategory())
     .WithOpenApi();
 
 app.MapGet("/category", (RetrieveCategoryHandler handler) =>
         handler.Handle())
+    .WithOpenApi();
+
+app.MapDelete("/category/{id}", (DeleteCategoryHandler handler, int id) =>
+        handler.Handle(id).ToResultCategory())
     .WithOpenApi();
 //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
@@ -52,7 +57,7 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
         handler.Handle())
     .WithOpenApi();
 
-app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
+app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .WithOpenApi();
 app.Run();

@@ -19,4 +19,13 @@ public class InMemoryCategoryRepository : ICategoryRepository
 
     public Domain.Category? ById(int id) =>
         _categories.FirstOrDefault(category => category.Id == id);
+    
+    public void Delete(int id) // Implementación del método Delete
+    {
+        var category = _categories.FirstOrDefault(c => c.Id == id);
+        if (category != null)
+        {
+            _categories.Remove(category);
+        }
+    }
 }

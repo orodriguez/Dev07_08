@@ -28,6 +28,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient<CreateCategoryHandler>();
         // GetByID
         services.AddTransient<Category.ById.GetCategoryByIdHandler>();
+        // Get All Category
         services.AddTransient<Category.Retrieve.RetrieveCategoryHandler>();
+        // Delete 
+        services.AddTransient<Category.Delete.DeleteCategoryHandler>();
     }
 }
