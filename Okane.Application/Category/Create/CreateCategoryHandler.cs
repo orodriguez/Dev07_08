@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
-using Okane.Domain;
-
+// Check
 namespace Okane.Application.Category.Create
 {
     public class CreateCategoryHandler
@@ -8,7 +7,8 @@ namespace Okane.Application.Category.Create
         private readonly IValidator<CreateCategoryRequest> _validator;
         private readonly ICategoryRepository _categoryRepository;
 
-        public CreateCategoryHandler(IValidator<CreateCategoryRequest> validator, ICategoryRepository categoryRepository)
+        public CreateCategoryHandler(IValidator<CreateCategoryRequest> validator,
+            ICategoryRepository categoryRepository)
         {
             _validator = validator;
             _categoryRepository = categoryRepository;
@@ -22,9 +22,9 @@ namespace Okane.Application.Category.Create
                 return ValidationErrorsCategoryResponse.From(validation);
 
             var category = createCategoryRequest.ToCategory();
-            var addedCategory = _categoryRepository.Add(category);
+            _categoryRepository.Add(category);
 
-            return CategorySuccessResponse.From(addedCategory);
+            return category.ToCategoryResponse();
         }
     }
 }

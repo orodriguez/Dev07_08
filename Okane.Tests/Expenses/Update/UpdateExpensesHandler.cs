@@ -8,9 +8,9 @@ public class UpdateExpensesHandler : AbstractHandlerTests
     [Fact]
     public void Valid()
     {
-        var createdExpense = Assert.IsType<SuccessResponse>(CreateExpense(new ValidCreateExpenseRequest()));
+        var createdExpense = Assert.IsType<ExpensesSuccessResponse>(CreateExpense(new ValidCreateExpenseRequest()));
 
-        var updatedExpense = Assert.IsType<SuccessResponse>(UpdateExpense(
+        var updatedExpense = Assert.IsType<ExpensesSuccessResponse>(UpdateExpense(
             new UpdateExpenseRequest(createdExpense.Id, 50, "Entertainment", "Movies")));
         
         Assert.Equal(1, createdExpense.Id);

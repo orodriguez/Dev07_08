@@ -24,6 +24,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapPost("/category", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
+        handler.Handle(request).ToResultCategory())
+    .WithOpenApi();
 
 app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
         handler.Handle(request).ToResult())
@@ -40,10 +43,4 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
 app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
         handler.Handle(id).ToResult())
     .WithOpenApi();
-
-app.MapPost("/category", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
-{
-    handler.Handle(request).ToResult();
-}).WithOpenApi();
-
 app.Run();

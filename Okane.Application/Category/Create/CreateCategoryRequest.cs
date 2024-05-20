@@ -1,13 +1,12 @@
 ﻿namespace Okane.Application.Category.Create
 {
-    public record class CreateCategoryRequest(string Name)
+    // Check
+    public record CreateCategoryRequest(string Category)
     {
-        public Domain.Category ToCategory()
-        {
-            return new Domain.Category
+        public Domain.Category ToCategory() =>
+            new()
             {
-                Name = Name
+                Name = Category
             };
-        }
     }
 }

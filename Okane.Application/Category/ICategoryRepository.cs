@@ -1,5 +1,5 @@
 ﻿namespace Okane.Application.Category;
-// Nuestra interfaz para desplegar nuestros metodos Add All y ById
+    // Check
 public interface ICategoryRepository 
 {
     Domain.Category Add(Domain.Category category);
