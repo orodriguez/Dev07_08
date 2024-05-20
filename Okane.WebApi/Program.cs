@@ -41,4 +41,9 @@ app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .WithOpenApi();
 
+app.MapPost("/category", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
+{
+    return handler.Handle(request).ToResult();
+}).WithOpenApi();
+
 app.Run();

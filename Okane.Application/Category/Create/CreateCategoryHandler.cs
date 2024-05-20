@@ -1,28 +1,30 @@
 ﻿using FluentValidation;
+using Okane.Domain;
 
-namespace Okane.Application.Category.Create;
-
-public class CreateCategoryHandler
+namespace Okane.Application.Category.Create
 {
-    private readonly ICategoryRepository _categoryRepository;
-    private readonly IValidator<CreateCategoryRequest> _validator;
-
-    public CreateCategoryHandler(IValidator<CreateCategoryRequest> validator, ICategoryRepository categoryRepository)
+    public class CreateCategoryHandler
     {
-        _validator = validator;
-        _categoryRepository = categoryRepository;
-    }
+        private readonly IValidator<CreateCategoryRequest> _validator;
+        private readonly ICategoryRepository _categoryRepository;
 
-    public ICategoryResponse Handle(CreateCategoryRequest createCategoryRequest)
-    {
-        var validation = _validator.Validate(createCategoryRequest);
+        public CreateCategoryHandler(IValidator<CreateCategoryRequest> validator, ICategoryRepository categoryRepository)
+        {
+            _validator = validator;
+            _categoryRepository = categoryRepository;
+        }
 
-        if (!validation.IsValid)
-            return ValidationErrorsResponse.From(validation) as ICategoryResponse;
+        public ICategoryResponse Handle(CreateCategoryRequest createCategoryRequest)
+        {
+            var validation = _validator.Validate(createCategoryRequest);
 
-        var category = createCategoryRequest.ToCategory();
-        var addedCategory = _categoryRepository.Add(category);
+            if (!validation.IsValid)
+                return ValidationErrorsCategoryResponse.From(validation);
 
-        return CategorySuccessResponse.From(addedCategory);
+            var category = createCategoryRequest.ToCategory();
+            var addedCategory = _categoryRepository.Add(category);
+
+            return CategorySuccessResponse.From(addedCategory);
+        }
     }
 }

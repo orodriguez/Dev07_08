@@ -20,7 +20,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     public void AmountZeroOrLess()
     {
         var request = new ValidCreateExpenseRequest { Amount = -1 };
-        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+        var errors = Assert.IsType<ValidationErrorsExpenseResponse>(CreateExpense(request));
 
         var error = Assert.Single(errors);
         
@@ -53,7 +53,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
         {
             Description = string.Join("", Enumerable.Repeat('x', 141))
         };
-        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+        var errors = Assert.IsType<ValidationErrorsExpenseResponse>(CreateExpense(request));
 
         var error = Assert.Single(errors);
         
@@ -68,7 +68,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
         {
             Category = string.Join("", Enumerable.Repeat('x', 51))
         };
-        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+        var errors = Assert.IsType<ValidationErrorsExpenseResponse>(CreateExpense(request));
 
         var error = Assert.Single(errors);
         

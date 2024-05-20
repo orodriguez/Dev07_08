@@ -1,6 +1,6 @@
 ﻿namespace Okane.Application.Category;
 
-public interface ICategoryResponse :IResponseComunications
+public interface ICategoryResponse 
 {
     
 }

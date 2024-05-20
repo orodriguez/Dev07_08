@@ -1,12 +1,13 @@
-﻿namespace Okane.Application.Category.Create;
-
-public record class CreateCategoryRequest(string Name)
+﻿namespace Okane.Application.Category.Create
 {
-    public Domain.Category ToCategory()
+    public record class CreateCategoryRequest(string Name)
     {
-        return new Domain.Category
+        public Domain.Category ToCategory()
         {
-            Name = Name
-        };
+            return new Domain.Category
+            {
+                Name = Name
+            };
+        }
     }
 }

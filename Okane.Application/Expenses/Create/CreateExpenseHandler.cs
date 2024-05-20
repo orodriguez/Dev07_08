@@ -19,7 +19,7 @@ public class CreateExpenseHandler
         var validation = _validator.Validate(createExpenseRequest);
 
         if (!validation.IsValid)
-            return ValidationErrorsResponse.From(validation) as IExpenseResponse;
+            return ValidationErrorsExpenseResponse.From(validation);
         
         var expense = createExpenseRequest.ToExpense();
 

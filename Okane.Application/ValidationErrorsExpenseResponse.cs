@@ -5,18 +5,18 @@ using Okane.Application.Expenses;
 
 namespace Okane.Application;
 
-public record ValidationErrorsResponse(IEnumerable<ValidationErrorsResponse.PropertyError> Errors) 
-    : IEnumerable<ValidationErrorsResponse.PropertyError>, IResponseComunications
+public record ValidationErrorsExpenseResponse(IEnumerable<ValidationErrorsExpenseResponse.PropertyError> Errors) 
+    : IEnumerable<ValidationErrorsExpenseResponse.PropertyError>,IExpenseResponse
 {
     public IEnumerator<PropertyError> GetEnumerator() => Errors.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-      public static ValidationErrorsResponse From(ValidationResult validation)
+      public static ValidationErrorsExpenseResponse From(ValidationResult validation)
     {
         var errors = validation
             .Errors
             .Select(failure => new PropertyError(failure.PropertyName, failure.ErrorMessage));
         
-        return new ValidationErrorsResponse(errors);
+        return new ValidationErrorsExpenseResponse(errors);
     }
 
     public record PropertyError(string Property, string Message);
