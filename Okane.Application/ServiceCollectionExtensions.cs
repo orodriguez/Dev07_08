@@ -14,10 +14,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
         services.AddSingleton<IExpensesRepository, InMemoryRepository>();
         // Category 
-        services.AddTransient<IValidator<CreateCategoryRequest>,CreateCategoryRequestValidator>();
+        services.AddTransient<IValidator<CreateCategoryRequest>, CreateCategoryRequestValidator>();
         services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
-      
-        
     }
 
     private static void AddHandlers(this IServiceCollection services)
@@ -28,6 +26,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<Expenses.Update.UpdateExpenseHandler>();
         // Check
         services.AddTransient<CreateCategoryHandler>();
+        // GetByID
+        services.AddTransient<Category.ById.GetCategoryByIdHandler>();
     }
- 
 }

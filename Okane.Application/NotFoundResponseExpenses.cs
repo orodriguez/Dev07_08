@@ -4,6 +4,6 @@ using Okane.Application.Expenses;
 namespace Okane.Application;
 
 public record NotFoundResponseExpenses : IExpenseResponse;
-// Me falta GetByID, implementare en los siguientes commits
+// Done / usando NotFoundResponseCategory 
 public record NotFoundResponseCategory : ICategoryResponse;
 
