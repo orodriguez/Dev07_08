@@ -22,19 +22,19 @@ public class CreateExpenseHandler
         _now = now;
     }
 
-    public IResponse Handle(CreateExpenseRequest createExpenseRequest)
+    public IResponse Handle(CreateExpenseRequest request)
     {
-        var validation = _validator.Validate(createExpenseRequest);
+        var validation = _validator.Validate(request);
 
         if (!validation.IsValid)
             return ValidationErrorsResponse.From(validation);
 
-        var category = _categoriesRepository.ByName(createExpenseRequest.CategoryName);
+        var category = _categoriesRepository.ByName(request.CategoryName);
 
         if (category == null)
-            return new NotFoundResponse();
+            return new NotFoundResponse($"Category with Name '{request.CategoryName}' was not found.");
         
-        var expense = createExpenseRequest.ToExpense(category, _now());
+        var expense = request.ToExpense(category, _now());
 
         _expensesRepository.Add(expense);
         

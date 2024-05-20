@@ -3,4 +3,4 @@ using Okane.Application.Categories.Delete;
 
 namespace Okane.Application.Responses;
 
-public record NotFoundResponse : IResponse, IGetCategoryByIdResponse, IDeleteCategoryResponse;
+public record NotFoundResponse(string? Message = null) : IResponse, IGetCategoryByIdResponse, IDeleteCategoryResponse;

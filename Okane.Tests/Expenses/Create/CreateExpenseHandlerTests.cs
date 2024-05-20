@@ -89,9 +89,11 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void CategoryDoesNotExist()
     {
-        Assert.IsType<NotFoundResponse>(CreateExpense(new ValidCreateExpenseRequest
+        var notFoundResponse = Assert.IsType<NotFoundResponse>(CreateExpense(new ValidCreateExpenseRequest
         {
             CategoryName = "Unknown"
         }));
+        
+        Assert.Equal("Category with Name 'Unknown' was not found.", notFoundResponse.Message);
     }
 }
