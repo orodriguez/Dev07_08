@@ -36,18 +36,19 @@ app.UseHttpsRedirection();
 app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
         handler.Handle(request).ToResult())
     .Produces<CategoryResponse>()
-    .Produces<ConflictResponse>()
+    .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
     .WithOpenApi();
 
 app.MapGet("/categories/{Id}", (GetCategoryByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<CategoryResponse>()
-    .Produces<NotFoundResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
 app.MapDelete("/categories/{Id}", (DeleteCategoryHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<CategoryResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
 app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
