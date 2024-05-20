@@ -10,8 +10,8 @@ public class InMemoryCategoriesRepository : ICategoriesRepository
     public InMemoryCategoriesRepository() => 
         _categories = new List<Category>();
 
-    public Category ByName(string categoryName) => 
-        _categories.First(c => c.Name == categoryName);
+    public Category? ByName(string categoryName) => 
+        _categories.FirstOrDefault(c => c.Name == categoryName);
 
     public Category Add(Category category)
     {

@@ -6,6 +6,13 @@ namespace Okane.Tests.Expenses.ById;
 
 public class GetExpenseByIdHandlerTests : AbstractHandlerTests
 {
+    public GetExpenseByIdHandlerTests()
+    {
+        CreateCategory(new("Food"));
+        CreateCategory(new("Entertainment"));
+        CreateCategory(new("Games"));
+    }
+
     [Fact]
     public void Exists()
     {

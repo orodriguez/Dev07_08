@@ -4,7 +4,7 @@ namespace Okane.Application.Categories;
 
 public interface ICategoriesRepository
 {
-    Category ByName(string categoryName);
+    Category? ByName(string categoryName);
     Category Add(Category category);
     Category? ById(int id);
     bool NameExists(string name);

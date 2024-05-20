@@ -7,6 +7,12 @@ namespace Okane.Tests.Expenses.Update;
 
 public class UpdateExpensesHandler : AbstractHandlerTests
 {
+    public UpdateExpensesHandler()
+    {
+        CreateCategory(new("Food"));
+        CreateCategory(new("Entertainment"));
+    }
+
     [Fact]
     public void Valid()
     {

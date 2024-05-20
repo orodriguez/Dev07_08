@@ -6,6 +6,11 @@ namespace Okane.Tests.Expenses.Delete;
 
 public class DeleteExpenseHandlerTests : AbstractHandlerTests
 {
+    public DeleteExpenseHandlerTests()
+    {
+        CreateCategory(new("Games"));
+    }
+
     [Fact]
     public void Exists()
     {

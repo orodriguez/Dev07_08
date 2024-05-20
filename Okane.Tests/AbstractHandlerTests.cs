@@ -31,12 +31,6 @@ namespace Okane.Tests
             services.AddTransient<Func<DateTime>>(_ => () => Now);
 
             _provider = services.BuildServiceProvider();
-
-            var categoriesRepository = Resolve<ICategoriesRepository>();
-
-            categoriesRepository.Add(new Category { Name = "Food" } );
-            categoriesRepository.Add(new Category { Name = "Entertainment" } );
-            categoriesRepository.Add(new Category { Name = "Games" } );
         }
 
         protected IEnumerable<ExpenseResponse> RetrieveExpenses() => 

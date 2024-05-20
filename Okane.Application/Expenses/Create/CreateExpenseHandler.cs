@@ -30,6 +30,9 @@ public class CreateExpenseHandler
             return ValidationErrorsResponse.From(validation);
 
         var category = _categoriesRepository.ByName(createExpenseRequest.CategoryName);
+
+        if (category == null)
+            throw new NotImplementedException();
         
         var expense = createExpenseRequest.ToExpense(category, _now());
 

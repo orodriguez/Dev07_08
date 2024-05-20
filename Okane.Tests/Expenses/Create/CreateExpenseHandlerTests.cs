@@ -6,6 +6,13 @@ namespace Okane.Tests.Expenses.Create;
 
 public class CreateExpenseHandlerTests : AbstractHandlerTests
 {
+    public CreateExpenseHandlerTests()
+    {
+        CreateCategory(new("Food"));
+        CreateCategory(new("Entertainment"));
+        CreateCategory(new("Games"));        
+    }
+
     [Fact]
     public void Valid()
     {

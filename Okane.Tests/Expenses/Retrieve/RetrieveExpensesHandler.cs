@@ -2,6 +2,12 @@ namespace Okane.Tests.Expenses.Retrieve;
 
 public class RetrieveExpensesHandler : AbstractHandlerTests
 {
+    public RetrieveExpensesHandler()
+    {
+        CreateCategory(new("Food"));
+        CreateCategory(new("Games"));
+    }
+
     [Fact]
     public void NoExpenses() => 
         Assert.Empty(RetrieveExpenses());
