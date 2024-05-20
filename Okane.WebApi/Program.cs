@@ -1,6 +1,7 @@
 using Okane.Application;
 using Okane.Application.Category.ById;
 using Okane.Application.Category.Create;
+using Okane.Application.Category.Retrieve;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Retrieve;
@@ -25,14 +26,19 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 app.MapPost("/category", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
         handler.Handle(request).ToResultCategory())
     .WithOpenApi();
 
-// EndPoint
 app.MapGet("/category/{id}", (GetCategoryByIdHandler handler, int id) => 
         handler.Handle(id).ToResultCategory())
     .WithOpenApi();
+
+app.MapGet("/category", (RetrieveCategoryHandler handler) =>
+        handler.Handle())
+    .WithOpenApi();
+//↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
         handler.Handle(request).ToResult())
