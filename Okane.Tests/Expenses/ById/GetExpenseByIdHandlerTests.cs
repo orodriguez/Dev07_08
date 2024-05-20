@@ -22,7 +22,7 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
     public void NotFound()
     {
         const int unknownId = 42;
-        Assert.IsType<NotFoundResponse>(GetExpenseById(unknownId));
+        Assert.IsType<NotFoundResponseExpenses>(GetExpenseById(unknownId));
     }
     
     [Fact]

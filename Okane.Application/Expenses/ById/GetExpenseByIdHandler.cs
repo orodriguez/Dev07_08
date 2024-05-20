@@ -13,7 +13,7 @@ public class GetExpenseByIdHandler
             .ById(id);
 
         if (expense == null)
-            return new NotFoundResponse();
+            return new NotFoundResponseExpenses();
         
         return expense.ToExpenseResponse();
     }

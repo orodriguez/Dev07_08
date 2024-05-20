@@ -8,16 +8,16 @@ public static class ResponseExtensions
     public static IResult ToResult(this IExpenseResponse response) =>
         response switch {
             SuccessResponse success => Results.Ok(success),
-            NotFoundResponse => Results.NotFound(),
+            NotFoundResponseExpenses => Results.NotFound(),
             ValidationErrorsExpenseResponse errors => Results.BadRequest(errors),
             _ => throw new ArgumentOutOfRangeException(nameof(response))
         };
     
-    // Method to handle ICategoryResponse
+    // ICategoryResponse
     public static IResult ToResult(this ICategoryResponse response) =>
         response switch {
             CategorySuccessResponse success => Results.Ok(success),
-            NotFoundResponse => Results.NotFound(),
+            NotFoundResponseCategory => Results.NotFound(),
             ValidationErrorsCategoryResponse errors => Results.BadRequest(errors),
             _ => throw new ArgumentOutOfRangeException(nameof(response))
         };
