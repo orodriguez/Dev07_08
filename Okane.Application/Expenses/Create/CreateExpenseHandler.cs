@@ -32,7 +32,7 @@ public class CreateExpenseHandler
         var category = _categoriesRepository.ByName(createExpenseRequest.CategoryName);
 
         if (category == null)
-            throw new NotImplementedException();
+            return new NotFoundResponse();
         
         var expense = createExpenseRequest.ToExpense(category, _now());
 

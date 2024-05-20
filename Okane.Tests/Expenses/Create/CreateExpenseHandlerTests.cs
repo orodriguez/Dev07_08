@@ -85,4 +85,13 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
         Assert.Equal(nameof(CreateExpenseRequest.CategoryName), error.Property);
         Assert.Equal($"{nameof(CreateExpenseRequest.CategoryName)} is too big", error.Message);
     }
+    
+    [Fact]
+    public void CategoryDoesNotExist()
+    {
+        Assert.IsType<NotFoundResponse>(CreateExpense(new ValidCreateExpenseRequest
+        {
+            CategoryName = "Unknown"
+        }));
+    }
 }
