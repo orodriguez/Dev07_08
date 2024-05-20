@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Okane.Application.Categories;
 using Okane.Domain;
 
@@ -18,4 +19,21 @@ public class CategoriesRepository : ICategoriesRepository
         _db.SaveChanges();
         return category;
     }
+
+    public IEnumerable<Category> All() =>
+        _db.Categories;
+
+    public bool Update(Category category) =>
+        _db.SaveChanges() > 0;
+
+    public bool Delete(Category category)
+    {
+        _db.Categories.Remove(category);
+        return _db.SaveChanges() > 0;
+    }
+
+    public Category? ById(int id) =>
+        _db.Categories
+            .FirstOrDefault(category => category.Id == id);
+
 }

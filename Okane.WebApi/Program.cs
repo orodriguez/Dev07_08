@@ -1,4 +1,10 @@
 using Okane.Application;
+using Okane.Application.Categories;
+using Okane.Application.Categories.ById;
+using Okane.Application.Categories.Create;
+using Okane.Application.Categories.Delete;
+using Okane.Application.Categories.Retrieve;
+using Okane.Application.Categories.Update;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
@@ -54,6 +60,36 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
 app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
         handler.Handle(id).ToResult())
     .Produces<ExpenseResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapGet("/categories/{id}", (GetCategoryByIdHandler handler, int id) => 
+        handler.Handle(id).ToResult())
+    .Produces<CategoryResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) => 
+        handler.Handle(request))
+    .Produces<CategoryResponse>()
+    .Produces<ValidationErrorsResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapDelete("/categories/{id}", (DeleteCategoryHandler handler, int id) =>
+        handler.Handle(id).ToResult())
+    .Produces<CategoryResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapGet("/categories", (RetrieveCategoriesHandler handler) =>
+        handler.Handle())
+    .Produces<CategoryResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapPut("/categories/{id}", (UpdateCategoryHandler handler, UpdateCategoryRequest request, int id) =>
+        handler.Handle(id, request).ToResult())
+    .Produces<CategoryResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
