@@ -9,9 +9,11 @@ using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
+using Okane.Application.Expenses.ByCategoryId;
 using Okane.Application.Responses;
 using Okane.Storage.EF;
 using Okane.WebApi;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOkane()
-    .AddOkaneEFStorage();
+    .AddOkaneInMemoryStorage();
 
 var app = builder.Build();
 
@@ -77,6 +79,10 @@ app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<ExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapGet("/category/{id}/expenses", ([FromServices] RetrieveExpensesByCategoryIdHandler handler, [FromRoute] int id) =>
+        handler.Handle(id))
     .WithOpenApi();
 
 app.Run();

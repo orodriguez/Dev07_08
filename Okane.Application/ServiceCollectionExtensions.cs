@@ -11,6 +11,7 @@ using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
+using Okane.Application.Expenses.ByCategoryId;
 
 namespace Okane.Application;
 
@@ -41,5 +42,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<CreateCategoryHandler>();
         services.AddTransient<GetCategoryByIdHandler>();
         services.AddTransient<DeleteCategoryHandler>();
+        services.AddTransient<RetrieveExpensesByCategoryIdHandler>();
     }
 }
