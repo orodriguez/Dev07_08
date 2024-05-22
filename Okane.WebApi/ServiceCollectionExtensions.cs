@@ -1,3 +1,4 @@
+using Okane.Application.Auth;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
 using Okane.WebApi.Security;
@@ -9,6 +10,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddOkaneWebApi(this IServiceCollection services)
     {
         services.AddHttpContextAccessor();
+        services.AddTransient<IUserSession, HttpContextUserSession>();
         services.AddTransient<IPasswordHasher, BCryptPasswordHasher>();
         services.AddTransient<ITokenGenerator, JwtTokenGenerator>();
         return services;
