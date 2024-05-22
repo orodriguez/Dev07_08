@@ -19,8 +19,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddOkane()
-    .AddOkaneEFStorage();
+builder.Services.AddOkane();
+//
+builder.Services.AddOkaneInMemoryStorage();
+//.AddOkaneEFStorage();
 
 var app = builder.Build();
 
@@ -73,7 +75,7 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
         handler.Handle())
     .WithOpenApi();
 
-app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
+app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<ExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
