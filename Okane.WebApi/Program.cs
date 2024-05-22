@@ -20,6 +20,7 @@ using Okane.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// TODO: Move this to AddOkaneWebApi extension method
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,6 +37,7 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             ValidIssuer = "http://okane.com",
             ValidAudience = "public",
+            // TODO: Extract secret to file
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.ASCII.GetBytes("Super secret key, it must be long enough to work"))
         };
@@ -63,7 +65,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 
 app.MapPost("/auth/signup", (IRequestHandler<SignUpRequest, ISignUpResponse> handler, SignUpRequest request) =>
         handler.Handle(request).ToResult())
