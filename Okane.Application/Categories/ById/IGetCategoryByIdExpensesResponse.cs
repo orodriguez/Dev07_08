@@ -1,6 +1,7 @@
-﻿namespace Okane.Application.Categories.ById;
+﻿using Okane.Application.Responses;
 
-public interface IGetCategoryByIdExpensesResponse
+namespace Okane.Application.Categories.ById;
+
+public interface IGetCategoryByIdExpensesResponse : IResponse
 {
-    
 }
