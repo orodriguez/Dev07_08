@@ -1,4 +1,5 @@
 // Done 
+
 using Microsoft.AspNetCore.Mvc;
 using Okane.Application;
 using Okane.Application.Categories;
@@ -37,8 +38,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/category/{id}/expenses",
-        ([FromServices] GetCategoryByIdExpensesHandler handler, int id) => handler.Handle(id).ToResult())
+app.MapGet("/category/{id}/expenses", (GetCategoryByIdExpensesHandler handler, int id) =>
+        handler.Handle(id).ToResult())
     .Produces<GetCategoryByIdExpensesResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
