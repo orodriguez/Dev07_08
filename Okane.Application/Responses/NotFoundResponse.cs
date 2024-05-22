@@ -7,4 +7,4 @@ namespace Okane.Application.Responses;
 public record NotFoundResponse(string? Message = null) : IResponse, 
     IGetCategoryByIdResponse, 
     IDeleteCategoryResponse, 
-    ICreateExpenseResponse;
+    ICreateExpenseResponse, IGetCategoryByIdExpensesResponse;
