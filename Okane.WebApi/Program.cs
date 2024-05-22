@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Okane.Application;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
@@ -10,7 +11,7 @@ using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
-using Okane.Storage.EF;
+//using Okane.Storage.EF;
 using Okane.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapGet("/category/{id}/expenses",
+        ([FromServices] GetCategoryByIdExpensesHandler handler, int id) => handler.Handle(id).ToResult())
+    .Produces<GetCategoryByIdExpensesResponse>()
+    .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
 
 app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
         handler.Handle(request).ToResult())
