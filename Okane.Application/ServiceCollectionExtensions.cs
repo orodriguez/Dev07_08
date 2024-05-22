@@ -41,5 +41,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<CreateCategoryHandler>();
         services.AddTransient<GetCategoryByIdHandler>();
         services.AddTransient<DeleteCategoryHandler>();
+        services.AddTransient<GetCategoryByIdExpensesHandler>();
     }
 }
