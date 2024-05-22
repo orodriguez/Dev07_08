@@ -13,6 +13,10 @@ public class CreateCategoryHandler
     {
         var nameExists = _categories.NameExists(request.Name);
 
+        if (request.Name.Length > 100)
+        {
+            return new ConflictResponse($"Category with Name '{request.Name}' cannot have more than 100 characters.");
+        }
         if (nameExists)
             return new ConflictResponse($"Category with Name '{request.Name}' already exists.");
         
