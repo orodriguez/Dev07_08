@@ -1,4 +1,5 @@
 using Okane.Application;
+using Okane.Application.Auth.Signup;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
@@ -20,7 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOkane()
-    .AddOkaneEFStorage();
+    .AddOkaneEFStorage()
+    .AddOkaneWebApi();
 
 var app = builder.Build();
 
@@ -32,6 +34,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapPost("/auth/signup", (IRequestHandler<SignUpRequest, ISignUpResponse> handler, SignUpRequest request) =>
+        handler.Handle(request).ToResult())
+    .WithOpenApi();
 
 app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
         handler.Handle(request).ToResult())

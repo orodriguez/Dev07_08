@@ -1,6 +1,8 @@
 using System.Security.AccessControl;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Okane.Application.Auth;
+using Okane.Application.Auth.Signup;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
@@ -29,6 +31,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
         services.AddSingleton<ICategoriesRepository, InMemoryCategoriesRepository>();
+        services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
     }
 
     private static void AddHandlers(this IServiceCollection services)
@@ -41,5 +44,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<CreateCategoryHandler>();
         services.AddTransient<GetCategoryByIdHandler>();
         services.AddTransient<DeleteCategoryHandler>();
+        services.AddTransient<IRequestHandler<SignUpRequest, ISignUpResponse>, SignUpHandler>();
     }
 }

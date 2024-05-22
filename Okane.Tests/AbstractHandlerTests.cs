@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Okane.Application;
-using Okane.Application.Categories;
+using Okane.Application.Auth.Signup;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
 using Okane.Application.Categories.Delete;
@@ -11,7 +12,6 @@ using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
-using Okane.Domain;
 
 namespace Okane.Tests
 {
@@ -19,6 +19,7 @@ namespace Okane.Tests
     {
         private readonly ServiceProvider _provider;
         protected DateTime Now { get; set; }
+        protected Mock<IPasswordHasher> PasswordHasherMock { get; }
 
         protected AbstractHandlerTests()
         {
@@ -29,6 +30,10 @@ namespace Okane.Tests
             services.AddOkane().AddOkaneInMemoryStorage();
             
             services.AddTransient<Func<DateTime>>(_ => () => Now);
+            
+            PasswordHasherMock = new Mock<IPasswordHasher>(MockBehavior.Strict);
+            
+            services.AddTransient<IPasswordHasher>(_ => PasswordHasherMock.Object);
 
             _provider = services.BuildServiceProvider();
         }
@@ -56,6 +61,9 @@ namespace Okane.Tests
 
         protected IDeleteCategoryResponse DeleteCategory(int id) => 
             Resolve<DeleteCategoryHandler>().Handle(id);
+
+        protected ISignUpResponse SignUp(SignUpRequest request) => 
+            Resolve<IRequestHandler<SignUpRequest, ISignUpResponse>>().Handle(request);
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();
