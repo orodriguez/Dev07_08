@@ -16,6 +16,9 @@ public class CreateCategoryHandler
         if (nameExists)
             return new ConflictResponse($"Category with Name '{request.Name}' already exists.");
         
+        if (request.Name.Length > 100)
+            return new ConflictResponse($"Category Name can't be longer than 100 characters.");
+        
         var category = request.ToCategory();
 
         _categories.Add(category);
