@@ -2,6 +2,7 @@ using System.Security.AccessControl;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Auth;
+using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
@@ -45,5 +46,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<GetCategoryByIdHandler>();
         services.AddTransient<DeleteCategoryHandler>();
         services.AddTransient<IRequestHandler<SignUpRequest, ISignUpResponse>, SignUpHandler>();
+        services.AddTransient<IRequestHandler<SignInRequest, ISignInResponse>, SignInHandler>();
     }
 }

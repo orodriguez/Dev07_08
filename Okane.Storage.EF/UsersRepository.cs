@@ -15,4 +15,7 @@ public class UsersRepository : IUsersRepository
         _db.SaveChanges();
         return user;
     }
+
+    public User? ByEmail(string email) => 
+        _db.Users.FirstOrDefault(u => u.Email == email);
 }

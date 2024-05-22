@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Okane.Application;
+using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
@@ -12,9 +13,10 @@ using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
+using Okane.Domain;
 
 namespace Okane.Tests
-{
+{   
     public abstract class AbstractHandlerTests
     {
         private readonly ServiceProvider _provider;
@@ -31,9 +33,20 @@ namespace Okane.Tests
             
             services.AddTransient<Func<DateTime>>(_ => () => Now);
             
+            // TODO: Extract all this setup to another place
             PasswordHasherMock = new Mock<IPasswordHasher>(MockBehavior.Strict);
+            PasswordHasherMock.Setup(hasher => hasher.Hash(It.IsAny<string>()))
+                .Returns((string plainPassword) => plainPassword);
+            PasswordHasherMock.Setup(hasher => 
+                    hasher.Verify(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(true);
             
             services.AddTransient<IPasswordHasher>(_ => PasswordHasherMock.Object);
+
+            var tokenGeneratorMock = new Mock<ITokenGenerator>();
+            tokenGeneratorMock.Setup(generator => generator.Generate(It.IsAny<User>()))
+                .Returns("FakeToken");
+            services.AddTransient<ITokenGenerator>(_ => tokenGeneratorMock.Object);
 
             _provider = services.BuildServiceProvider();
         }
@@ -64,6 +77,10 @@ namespace Okane.Tests
 
         protected ISignUpResponse SignUp(SignUpRequest request) => 
             Resolve<IRequestHandler<SignUpRequest, ISignUpResponse>>().Handle(request);
+        
+        // TODO: Remove all this repetition
+        protected ISignInResponse SignInUser(SignInRequest request) => 
+            Resolve<IRequestHandler<SignInRequest, ISignInResponse>>().Handle(request);
 
         private T Resolve<T>() where T : notnull =>
             _provider.GetRequiredService<T>();
