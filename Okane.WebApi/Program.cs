@@ -3,6 +3,7 @@ using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
 using Okane.Application.Categories.Delete;
+using Okane.Application.Categories.ExpensesByCategory;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
@@ -49,6 +50,10 @@ app.MapDelete("/categories/{Id}", (DeleteCategoryHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<CategoryResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapGet("/category/{id}/expenses", (RetrieveExpensesByCategoryHandler handler, int id) =>
+        handler.Handle(id))
     .WithOpenApi();
 
 app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
