@@ -18,6 +18,16 @@ public class CategoriesRepository : ICategoriesRepository
         _db.SaveChanges();
         return category;
     }
+//
+    public IList<Expense> GetExpensesByCategoryId(int categoryId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void AddExpense(Expense expense)
+    {
+        throw new NotImplementedException();
+    }
 
     public Category? ById(int id) => 
         _db.Categories.FirstOrDefault(c => c.Id == id);
