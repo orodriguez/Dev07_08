@@ -37,6 +37,7 @@ public class CreateExpenseHandler
         var expense = request.ToExpense(category, _now());
 
         _expensesRepository.Add(expense);
+        _categoriesRepository.AddExpense(expense);
         
         return expense.ToExpenseResponse();
     }

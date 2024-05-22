@@ -25,6 +25,6 @@ public class GetCategoryByIdExpensesHandler
                 e.CreatedAt
             )).ToList();
 
-        return new GetCategoryByIdExpensesResponse(category.Id, category.Name, expenses);
+        return CategoryResponse.WithExpenses(category, expenses);
     }
 }

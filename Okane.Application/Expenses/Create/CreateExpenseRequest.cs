@@ -9,6 +9,7 @@ public record CreateExpenseRequest(int Amount, string CategoryName, string? Desc
         {
             Amount = Amount,
             Category = category,
+            CategoryId = category.Id,
             Description = Description,
             CreatedAt = createdAt
         };
