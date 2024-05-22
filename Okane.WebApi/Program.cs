@@ -42,23 +42,26 @@ app.MapGet("/category/{id}/expenses",
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
-
-app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
-        handler.Handle(request).ToResult())
-    .Produces<CategoryResponse>()
-    .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
-    .WithOpenApi();
-
 app.MapGet("/categories/{Id}", (GetCategoryByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<CategoryResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
-app.MapDelete("/categories/{Id}", (DeleteCategoryHandler handler, int id) =>
+app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
+        handler.Handle())
+    .WithOpenApi();
+
+app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
-    .Produces<CategoryResponse>()
+    .Produces<ExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+    .WithOpenApi();
+
+app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
+        handler.Handle(request).ToResult())
+    .Produces<CategoryResponse>()
+    .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
     .WithOpenApi();
 
 app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
@@ -79,13 +82,9 @@ app.MapDelete("/expenses/{id}", (DeleteExpenseHandler handler, int id) =>
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
-app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
-        handler.Handle())
-    .WithOpenApi();
-
-app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) =>
+app.MapDelete("/categories/{Id}", (DeleteCategoryHandler handler, int id) =>
         handler.Handle(id).ToResult())
-    .Produces<ExpenseResponse>()
+    .Produces<CategoryResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
     .WithOpenApi();
 
