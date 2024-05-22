@@ -14,8 +14,8 @@ public class Validator : AbstractValidator<CreateExpenseRequest>
             .MaximumLength(140)
             .WithMessage($"{nameof(CreateExpenseRequest.Description)} is too big");
         
-        RuleFor(request => request.Category)
+        RuleFor(request => request.CategoryName)
             .MaximumLength(50)
-            .WithMessage($"{nameof(CreateExpenseRequest.Category)} is too big");
+            .WithMessage($"{nameof(CreateExpenseRequest.CategoryName)} is too big");
     }
 }

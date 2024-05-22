@@ -14,6 +14,19 @@ Personal finances application for Dev07_08 Alterna module live coding.
 
 * Install [pgAdmin](https://www.pgadmin.org/download/)
 
+Install EntityFramework tools
+
+```bash
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
+```
+
+Run migrations
+```bash
+cd Okane.Storage.EF
+dotnet ef database update
+```
+
 ## IDE
 
 * [Rider](https://www.jetbrains.com/es-es/rider/download/)

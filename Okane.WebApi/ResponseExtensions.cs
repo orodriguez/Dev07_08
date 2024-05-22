@@ -1,15 +1,15 @@
 using Okane.Application;
-using Okane.Application.Expenses;
+using Okane.Application.Responses;
 
 namespace Okane.WebApi;
 
 public static class ResponseExtensions
 {
-    public static IResult ToResult(this IExpenseResponse response) =>
+    public static IResult ToResult(this IResponse response) =>
         response switch {
-            SuccessResponse success => Results.Ok(success),
-            NotFoundResponse => Results.NotFound(),
+            NotFoundResponse notFound => Results.NotFound(notFound.Message),
             ValidationErrorsResponse errors => Results.BadRequest(errors),
-            _ => throw new ArgumentOutOfRangeException(nameof(response))
+            ConflictResponse conflict => Results.Conflict(conflict.Message),
+            _ => Results.Ok(response)
         };
 }

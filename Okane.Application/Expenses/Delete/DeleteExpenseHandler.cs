@@ -1,18 +1,23 @@
-﻿namespace Okane.Application.Expenses.Delete;
+using Okane.Application.Responses;
+
+namespace Okane.Application.Expenses.Delete;
 
 public class DeleteExpenseHandler
 {
-    private readonly IExpensesRepository _expensesRepository;
+    private readonly IExpensesRepository _expenses;
 
-    public DeleteExpenseHandler(IExpensesRepository expensesRepository) =>
-        _expensesRepository = expensesRepository;
+    public DeleteExpenseHandler(IExpensesRepository expenses) => 
+        _expenses = expenses;
 
-    public IExpenseResponse Handle(int id)
+    public IResponse Handle(int id)
     {
-        var deletedExpense = _expensesRepository.Delete(id);
-        
-        if (deletedExpense is null)
+        var expenseToDelete = _expenses.ById(id);
+
+        if (expenseToDelete == null)
             return new NotFoundResponse();
-        return deletedExpense.ToExpenseResponse();
+
+        _expenses.Delete(expenseToDelete);
+
+        return expenseToDelete.ToExpenseResponse();
     }
 }

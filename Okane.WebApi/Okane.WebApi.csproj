@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Okane.Application\Okane.Application.csproj" />
+      <ProjectReference Include="..\Okane.Storage.EF\Okane.Storage.EF.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,19 +1,29 @@
-using Okane.Application;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
+using Okane.Application.Responses;
 
 namespace Okane.Tests.Expenses.Create;
 
 public class CreateExpenseHandlerTests : AbstractHandlerTests
 {
+    public CreateExpenseHandlerTests()
+    {
+        CreateCategory(new("Food"));
+        CreateCategory(new("Entertainment"));
+        CreateCategory(new("Games"));        
+    }
+
     [Fact]
     public void Valid()
     {
-        var response = Assert.IsType<SuccessResponse>(CreateExpense(new(10, "Food")));
+        Now = DateTime.Parse("2024-02-14");
+        
+        var response = Assert.IsType<ExpenseResponse>(CreateExpense(new(10, "Food")));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
-        Assert.Equal("Food", response.Category);
+        Assert.Equal("Food", response.CategoryName);
+        Assert.Equal(DateTime.Parse("2024-02-14"), response.CreatedAt);
     }
     
     [Fact]
@@ -31,7 +41,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void WithDescription()
     {
-        var response = Assert.IsType<SuccessResponse>(
+        var response = Assert.IsType<ExpenseResponse>(
             CreateExpense(new(10, "Food", Description: "Pizza")));
         
         Assert.Equal("Pizza", response.Description);
@@ -40,7 +50,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void WithoutDescription()
     {
-        var response = Assert.IsType<SuccessResponse>(
+        var response = Assert.IsType<ExpenseResponse>(
             CreateExpense(new(10, "Food")));
         
         Assert.Null(response.Description);
@@ -66,13 +76,24 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     {
         var request = new ValidCreateExpenseRequest
         {
-            Category = string.Join("", Enumerable.Repeat('x', 51))
+            CategoryName = string.Join("", Enumerable.Repeat('x', 51))
         };
         var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
 
         var error = Assert.Single(errors);
         
-        Assert.Equal(nameof(CreateExpenseRequest.Category), error.Property);
-        Assert.Equal($"{nameof(CreateExpenseRequest.Category)} is too big", error.Message);
+        Assert.Equal(nameof(CreateExpenseRequest.CategoryName), error.Property);
+        Assert.Equal($"{nameof(CreateExpenseRequest.CategoryName)} is too big", error.Message);
+    }
+    
+    [Fact]
+    public void CategoryDoesNotExist()
+    {
+        var notFoundResponse = Assert.IsType<NotFoundResponse>(CreateExpense(new ValidCreateExpenseRequest
+        {
+            CategoryName = "Unknown"
+        }));
+        
+        Assert.Equal("Category with Name 'Unknown' was not found.", notFoundResponse.Message);
     }
 }

@@ -1,17 +1,17 @@
 using System.Collections;
 using FluentValidation.Results;
-using Okane.Application.Expenses;
+using Okane.Application.Expenses.Create;
 
-namespace Okane.Application;
+namespace Okane.Application.Responses;
 
 public record ValidationErrorsResponse(IEnumerable<ValidationErrorsResponse.PropertyError> Errors) 
-    : IEnumerable<ValidationErrorsResponse.PropertyError>, IExpenseResponse
+    : IEnumerable<ValidationErrorsResponse.PropertyError>, IResponse, ICreateExpenseResponse
 {
     public IEnumerator<PropertyError> GetEnumerator() => Errors.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public static IExpenseResponse From(ValidationResult validation)
+    public static ICreateExpenseResponse From(ValidationResult validation)
     {
         var errors = validation
             .Errors

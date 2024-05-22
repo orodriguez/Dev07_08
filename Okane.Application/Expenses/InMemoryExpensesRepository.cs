@@ -3,12 +3,12 @@ using Okane.Domain;
 
 namespace Okane.Application.Expenses;
 
-public class InMemoryRepository : IExpensesRepository
+public class InMemoryExpensesRepository : IExpensesRepository
 {
     private int _nextId = 1;
     private readonly List<Expense> _expenses;
 
-    public InMemoryRepository() => _expenses = new List<Expense>();
+    public InMemoryExpensesRepository() => _expenses = new List<Expense>();
 
     public Expense Add(Expense expense)
     {
@@ -23,14 +23,8 @@ public class InMemoryRepository : IExpensesRepository
     public Expense? ById(int id) => 
         _expenses.FirstOrDefault(expense => expense.Id == id);
 
-    public Expense? Delete(int id)
-    {
-        var expense = this.ById(id);
+    public bool Update(Expense expense) => true;
 
-        if (expense is null)
-            return null;
-
-        _expenses.Remove(expense);
-        return expense;
-    }
+    public bool Delete(Expense expenseToDelete) => 
+        _expenses.Remove(expenseToDelete);
 }

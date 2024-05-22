@@ -2,6 +2,12 @@ namespace Okane.Tests.Expenses.Retrieve;
 
 public class RetrieveExpensesHandler : AbstractHandlerTests
 {
+    public RetrieveExpensesHandler()
+    {
+        CreateCategory(new("Food"));
+        CreateCategory(new("Games"));
+    }
+
     [Fact]
     public void NoExpenses() => 
         Assert.Empty(RetrieveExpenses());
@@ -14,7 +20,7 @@ public class RetrieveExpensesHandler : AbstractHandlerTests
         var expense = Assert.Single(RetrieveExpenses());
         Assert.Equal(1, expense.Id);
         Assert.Equal(10, expense.Amount);
-        Assert.Equal("Food", expense.Category);
+        Assert.Equal("Food", expense.CategoryName);
     }
 
     [Fact]
