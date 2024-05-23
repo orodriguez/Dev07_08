@@ -18,6 +18,7 @@ using Okane.Application.Responses;
 using Okane.Storage.EF;
 using Okane.WebApi;
 
+// Done
 var builder = WebApplication.CreateBuilder(args);
 
 // TODO: Move this to AddOkaneWebApi extension method
