@@ -17,14 +17,19 @@ public class InMemoryExpensesRepository : IExpensesRepository
         return expense;
     }
 
-    public IEnumerable<Expense> All() => 
+    public IEnumerable<Expense> All() =>
         _expenses;
 
-    public Expense? ById(int id) => 
+    public Expense? ById(int id) =>
         _expenses.FirstOrDefault(expense => expense.Id == id);
 
     public bool Update(Expense expense) => true;
 
-    public bool Delete(Expense expenseToDelete) => 
+    public bool Delete(Expense expenseToDelete) =>
         _expenses.Remove(expenseToDelete);
+
+    public IEnumerable<Expense> ByUserId(int userId)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -9,4 +9,5 @@ public interface IExpensesRepository
     Expense? ById(int id);
     bool Update(Expense expense);
     bool Delete(Expense expense);
+    IEnumerable<Expense> ByUserId(int userId);
 }

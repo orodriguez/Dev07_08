@@ -31,4 +31,9 @@ public class ExpensesRepository : IExpensesRepository
         _db.Expenses.Remove(expense);
         return _db.SaveChanges() > 0;
     }
+
+    public IEnumerable<Expense> ByUserId(int userId)
+    {
+        throw new NotImplementedException();
+    }
 }
