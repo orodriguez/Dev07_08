@@ -16,15 +16,10 @@ public class RetrieveExpensesHandler
 
     public IEnumerable<ExpenseResponse> Handle()
     {
-        var userId = _userSession.GetCurrentUserId();
-        var expenses = _expensesRepository.ByUserId(userId);
-        return expenses.Select(expense => expense.ToExpenseResponse());
-
-        return null;
-        /*
+        
         return _expensesRepository
             .All()
+            .Where(expense => expense.UserId == _userSession.GetCurrentUserId())
             .Select(expense => expense.ToExpenseResponse());
-            */
     }
 }
