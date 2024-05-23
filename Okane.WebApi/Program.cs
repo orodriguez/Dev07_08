@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(options =>
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
-        { 
+        {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
@@ -50,8 +50,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOkane()
-    .AddOkaneEFStorage()
+    //  .AddOkaneEFStorage()
     .AddOkaneWebApi();
+builder.Services.AddOkaneInMemoryStorage();
 
 var app = builder.Build();
 
@@ -121,7 +122,7 @@ app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
     .RequireAuthorization()
     .WithOpenApi();
 
-app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
+app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<ExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
