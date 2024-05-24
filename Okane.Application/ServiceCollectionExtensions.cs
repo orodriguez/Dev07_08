@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddOkane(this IServiceCollection services)
     {
+        var l = new List<int>();
         services.AddHandlers();
         services.AddTransient<ExpenseFactory>();
         services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
@@ -32,6 +33,7 @@ public static class ServiceCollectionExtensions
     public static void AddOkaneInMemoryStorage(this IServiceCollection services)
     {
         services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
+        services.AddSingleton<IReadOnlyExpensesRepository, InMemoryExpensesRepository>();
         services.AddSingleton<ICategoriesRepository, InMemoryCategoriesRepository>();
         services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
     }

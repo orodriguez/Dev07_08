@@ -4,10 +4,10 @@ namespace Okane.Application.Expenses.Retrieve;
 
 public class RetrieveExpensesHandler
 {
-    private readonly IExpensesRepository _expensesRepository;
+    private readonly IReadOnlyExpensesRepository _expensesRepository;
     private readonly IUserSession _session;
 
-    public RetrieveExpensesHandler(IExpensesRepository expensesRepository, IUserSession session)
+    public RetrieveExpensesHandler(IReadOnlyExpensesRepository expensesRepository, IUserSession session)
     {
         _expensesRepository = expensesRepository;
         _session = session;

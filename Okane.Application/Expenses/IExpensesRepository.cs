@@ -2,12 +2,9 @@ using Okane.Domain;
 
 namespace Okane.Application.Expenses;
 
-public interface IExpensesRepository
+public interface IExpensesRepository : IReadOnlyExpensesRepository
 {
     Expense Add(Expense expense);
-    IEnumerable<Expense> All();
-    Expense? ById(int id);
     bool Update(Expense expense);
     bool Delete(Expense expense);
-    IEnumerable<Expense> ByUserId(int userId);
 }

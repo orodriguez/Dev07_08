@@ -1,42 +1,29 @@
-using FluentValidation;
-using Okane.Application.Categories;
 using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.Create;
 
 public class CreateExpenseHandler
 {
-    private readonly IValidator<CreateExpenseRequest> _validator;
-    private readonly IExpensesRepository _expensesRepository;
-    private readonly ICategoriesRepository _categoriesRepository;
     private readonly ExpenseFactory _expenseFactory;
+    private readonly IExpensesRepository _expensesRepository;
 
     public CreateExpenseHandler(
-        IValidator<CreateExpenseRequest> validator,
-        IExpensesRepository expensesRepository,
-        ICategoriesRepository categoriesRepository, 
-        ExpenseFactory expenseFactory)
+        ExpenseFactory expenseFactory, 
+        IExpensesRepository expensesRepository)
     {
-        _validator = validator;
-        _expensesRepository = expensesRepository;
-        _categoriesRepository = categoriesRepository;
         _expenseFactory = expenseFactory;
+        _expensesRepository = expensesRepository;
     }
 
     public ICreateExpenseResponse Handle(CreateExpenseRequest request)
     {
-        var validation = _validator.Validate(request);
+        var result = _expenseFactory.Create(request);
 
-        if (!validation.IsValid)
-            return ValidationErrorsResponse.From(validation);
-
-        var category = _categoriesRepository.ByName(request.CategoryName);
-
-        if (category == null)
-            return new NotFoundResponse($"Category with Name '{request.CategoryName}' was not found.");
+        if (result is ICreateExpenseResponse response)
+            return response;
         
-        var expense = _expenseFactory.Create(request, category);
-
+        var expense = ((ExpenseFactoryResponse)result).Value;
+        
         _expensesRepository.Add(expense);
         
         return expense.ToExpenseResponse();

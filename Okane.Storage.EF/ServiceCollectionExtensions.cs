@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
             options.UseNpgsql("Host=localhost;Port=5432;Database=OkaneDev;Username=postgres;Password=1234;"));
         
         services.AddTransient<IExpensesRepository, ExpensesRepository>();
+        services.AddTransient<IReadOnlyExpensesRepository, ExpensesRepository>();
         services.AddTransient<ICategoriesRepository, CategoriesRepository>();
         services.AddTransient<IUsersRepository, UsersRepository>();
         return services;
