@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Auth;
 using Okane.Application.Categories;
@@ -8,12 +9,10 @@ namespace Okane.Storage.EF;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddOkaneEFStorage(this IServiceCollection services)
+    public static IServiceCollection AddOkaneEFStorage(this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddDbContext<OkaneDbContext>(options => 
-            // TODO: Move this to config file
-            options.UseNpgsql("Host=localhost;Port=5432;Database=OkaneDev;Username=postgres;Password=1234;"));
-        
+        var connectionString = configuration.GetConnectionString("Default");
+        services.AddDbContext<OkaneDbContext>(options => options.UseNpgsql(connectionString));
         services.AddTransient<IExpensesRepository, ExpensesRepository>();
         services.AddTransient<IReadOnlyExpensesRepository, ExpensesRepository>();
         services.AddTransient<ICategoriesRepository, CategoriesRepository>();
