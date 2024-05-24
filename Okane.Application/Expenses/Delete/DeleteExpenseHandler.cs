@@ -1,23 +1,24 @@
+using MediatR;
 using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.Delete;
 
-public class DeleteExpenseHandler
+public class DeleteExpenseHandler : IRequestHandler<DeleteExpenseRequest, IDeleteExpenseResponse>
 {
     private readonly IExpensesRepository _expenses;
 
     public DeleteExpenseHandler(IExpensesRepository expenses) => 
         _expenses = expenses;
 
-    public IResponse Handle(int id)
+    public Task<IDeleteExpenseResponse> Handle(DeleteExpenseRequest request, CancellationToken cancellationToken)
     {
-        var expenseToDelete = _expenses.ById(id);
+        var expenseToDelete = _expenses.ById(request.Id);
 
         if (expenseToDelete == null)
-            return new NotFoundResponse();
+            return Task.FromResult<IDeleteExpenseResponse>(new NotFoundResponse());
 
         _expenses.Delete(expenseToDelete);
 
-        return expenseToDelete.ToExpenseResponse();
+        return Task.FromResult<IDeleteExpenseResponse>(expenseToDelete.ToExpenseResponse());
     }
 }

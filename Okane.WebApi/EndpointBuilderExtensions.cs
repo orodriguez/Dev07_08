@@ -1,3 +1,4 @@
+using MediatR;
 using Okane.Application;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
@@ -29,32 +30,32 @@ public static class EndpointBuilderExtensions
     private static void MapAuth(this IEndpointRouteBuilder app)
     {
         var auth = app.MapGroup("/auth");
-        auth.MapPost("/signup", (IRequestHandler<SignUpRequest, ISignUpResponse> handler, SignUpRequest request) =>
-                handler.Handle(request).ToResult())
+        auth.MapPost("/signup", async (IMediator mediator, SignUpRequest request) =>
+                (await mediator.Send(request)).ToResult())
             .WithOpenApi();
 
-        auth.MapPost("/token", (IRequestHandler<SignInRequest, ISignInResponse> handler, SignInRequest request) =>
-                handler.Handle(request).ToResult())
+        auth.MapPost("/token", async (IMediator mediator, SignInRequest request) =>
+                (await mediator.Send(request)).ToResult())
             .WithOpenApi();
     }
 
     private static void MapCategories(this IEndpointRouteBuilder app)
     {
         var categories = app.MapGroup("/categories").RequireAuthorization();
-        categories.MapPost("/", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
-                handler.Handle(request).ToResult())
+        categories.MapPost("/", async (IMediator mediator, CreateCategoryRequest request) =>
+                (await mediator.Send(request)).ToResult())
             .Produces<CategoryResponse>()
             .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
             .WithOpenApi();
 
-        categories.MapGet(IdPath, (GetCategoryByIdHandler handler, int id) =>
-                handler.Handle(id).ToResult())
+        categories.MapGet(IdPath, async (IMediator mediator, int id) =>
+                (await mediator.Send(new GetCategoryByIdRequest(id))).ToResult())
             .Produces<CategoryResponse>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-        categories.MapDelete(IdPath, (DeleteCategoryHandler handler, int id) =>
-                handler.Handle(id).ToResult())
+        categories.MapDelete(IdPath, async (IMediator mediator, int id) =>
+                (await mediator.Send(new DeleteCategoryRequest(id))).ToResult())
             .Produces<CategoryResponse>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
@@ -63,30 +64,30 @@ public static class EndpointBuilderExtensions
     private static void MapExpenses(this IEndpointRouteBuilder app)
     {
         var expenses = app.MapGroup("/expenses").RequireAuthorization();
-        expenses.MapPost("/", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
-                handler.Handle(request).ToResult())
+        expenses.MapPost("/", async (IMediator mediator, CreateExpenseRequest request) =>
+                (await mediator.Send(request)).ToResult())
             .Produces<ExpenseResponse>()
             .Produces<ValidationErrorsResponse>(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
-        expenses.MapPut(IdPath, (UpdateExpenseHandler handler, int id, UpdateExpenseRequest request) =>
-                handler.Handle(id, request).ToResult())
+        expenses.MapPut(IdPath, async (IMediator mediator, int id, UpdateExpenseRequest request) =>
+                (await mediator.Send(request with { Id = id })).ToResult())
             .Produces<ExpenseResponse>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-        expenses.MapDelete(IdPath, (DeleteExpenseHandler handler, int id) =>
-                handler.Handle(id).ToResult())
+        expenses.MapDelete(IdPath, async (IMediator mediator, int id) =>
+                (await mediator.Send(new DeleteExpenseRequest(id))).ToResult())
             .Produces<ExpenseResponse>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-        expenses.MapGet("/", (RetrieveExpensesHandler handler) =>
-                handler.Handle())
+        expenses.MapGet("/", (IMediator mediator) =>
+                mediator.Send(new RetrieveExpensesRequest()))
             .WithOpenApi();
 
-        expenses.MapGet(IdPath, (GetExpenseByIdHandler handler, int id) => 
-                handler.Handle(id).ToResult())
+        expenses.MapGet(IdPath, async (IMediator mediator, int id) => 
+                (await mediator.Send(new GetExpenseByIdRequest(id))).ToResult())
             .Produces<ExpenseResponse>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();

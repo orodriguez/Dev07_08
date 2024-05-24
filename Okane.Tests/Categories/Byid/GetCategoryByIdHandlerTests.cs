@@ -1,4 +1,6 @@
 using Okane.Application.Categories;
+using Okane.Application.Categories.ById;
+using Okane.Application.Categories.Create;
 using Okane.Application.Responses;
 
 namespace Okane.Tests.Categories.ById;
@@ -6,17 +8,17 @@ namespace Okane.Tests.Categories.ById;
 public class GetCategoryByIdHandlerTests : AbstractHandlerTests
 {
     [Fact]
-    public void CategoryExists()
+    public async Task CategoryExists()
     {
-        var createResponse = Assert.IsType<CategoryResponse>(CreateCategory(new("Taxes")));
+        var createResponse = Assert.IsType<CategoryResponse>(await HandleAsync(new CreateCategoryRequest("Taxes")));
 
-        var categoryResponse = Assert.IsType<CategoryResponse>(GetCategoryById(createResponse.Id));
+        var categoryResponse = Assert.IsType<CategoryResponse>(await HandleAsync(new GetCategoryByIdRequest(createResponse.Id)));
         
         Assert.Equal(createResponse.Id, categoryResponse.Id);
         Assert.Equal("Taxes", categoryResponse.Name);
     }
     
     [Fact]
-    public void NotFound() => 
-        Assert.IsType<NotFoundResponse>(GetCategoryById(-1));
+    public async Task NotFound() => 
+        Assert.IsType<NotFoundResponse>(await HandleAsync(new GetCategoryByIdRequest(-1)));
 }

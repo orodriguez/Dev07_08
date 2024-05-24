@@ -1,3 +1,4 @@
+using MediatR;
 using Okane.Domain;
 
 namespace Okane.Application.Auth.Signup;
@@ -12,14 +13,14 @@ public class SignUpHandler : IRequestHandler<SignUpRequest, ISignUpResponse>
         _users = users;
         _passwordHasher = passwordHasher;
     }
-
-    public ISignUpResponse Handle(SignUpRequest request)
+    
+    public Task<ISignUpResponse> Handle(SignUpRequest request, CancellationToken cancellationToken)
     {
         var user = CreateUser(request);
         
         _users.Add(user);
         
-        return CreateResponse(user);
+        return Task.FromResult(CreateResponse(user));
     }
 
     private User CreateUser(SignUpRequest request) =>

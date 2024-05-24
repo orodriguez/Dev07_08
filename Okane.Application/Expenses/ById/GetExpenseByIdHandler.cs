@@ -1,22 +1,23 @@
+using MediatR;
 using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.ById;
 
-public class GetExpenseByIdHandler
+public class GetExpenseByIdHandler : IRequestHandler<GetExpenseByIdRequest, IGetExpenseByIdResponse>
 {
     private readonly IExpensesRepository _expensesRepository;
 
     public GetExpenseByIdHandler(IExpensesRepository expensesRepository) => 
         _expensesRepository = expensesRepository;
 
-    public IResponse Handle(int id)
+    public Task<IGetExpenseByIdResponse> Handle(GetExpenseByIdRequest request, CancellationToken cancellationToken)
     {
         var expense = _expensesRepository
-            .ById(id);
+            .ById(request.Id);
 
         if (expense == null)
-            return new NotFoundResponse();
+            return Task.FromResult<IGetExpenseByIdResponse>(new NotFoundResponse());
         
-        return expense.ToExpenseResponse();
+        return Task.FromResult<IGetExpenseByIdResponse>(expense.ToExpenseResponse());
     }
 }

@@ -1,4 +1,4 @@
-using System.Security.AccessControl;
+using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Auth;
@@ -14,6 +14,7 @@ using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
+using Okane.Application.Responses;
 
 namespace Okane.Application;
 
@@ -21,10 +22,9 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddOkane(this IServiceCollection services)
     {
-        var l = new List<int>();
         services.AddHandlers();
         services.AddTransient<ExpenseFactory>();
-        services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
+        services.AddTransient<IValidator<CreateExpenseRequest>, Validator>();
         services.AddTransient<Func<DateTime>>(_ => () => DateTime.Now);
 
         return services;
@@ -39,17 +39,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static void AddHandlers(this IServiceCollection services)
-    {
-        services.AddTransient<CreateExpenseHandler>();
-        services.AddTransient<RetrieveExpensesHandler>();
-        services.AddTransient<GetExpenseByIdHandler>();
-        services.AddTransient<UpdateExpenseHandler>();
-        services.AddTransient<DeleteExpenseHandler>();
-        services.AddTransient<CreateCategoryHandler>();
-        services.AddTransient<GetCategoryByIdHandler>();
-        services.AddTransient<DeleteCategoryHandler>();
-        services.AddTransient<IRequestHandler<SignUpRequest, ISignUpResponse>, SignUpHandler>();
-        services.AddTransient<IRequestHandler<SignInRequest, ISignInResponse>, SignInHandler>();
-    }
+    private static void AddHandlers(this IServiceCollection services) =>
+        services.AddMediatR(
+            configuration => configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 }

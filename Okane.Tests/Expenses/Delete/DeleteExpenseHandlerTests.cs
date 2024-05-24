@@ -1,30 +1,34 @@
-using Okane.Application;
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Delete;
 using Okane.Application.Responses;
 
 namespace Okane.Tests.Expenses.Delete;
 
-public class DeleteExpenseHandlerTests : AbstractHandlerTests
+public class DeleteExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
-    public DeleteExpenseHandlerTests()
+    public async Task InitializeAsync()
     {
-        CreateCategory(new("Games"));
+        await HandleAsync(new CreateCategoryRequest("Games"));
     }
 
     [Fact]
-    public void Exists()
+    public async Task Exists()
     {
         var createResponse = Assert.IsType<ExpenseResponse>(
-            CreateExpense(new(20, "Games")));
+            await HandleAsync(new CreateExpenseRequest(20, "Games")));
 
-        var deleteResponse = DeleteExpense(createResponse.Id);
+        var deleteResponse = await HandleAsync(new DeleteExpenseRequest(createResponse.Id));
         Assert.IsType<ExpenseResponse>(deleteResponse);
     }
-    
+
     [Fact]
-    public void NotFound()
+    public async Task NotFound()
     {
-        var response = DeleteExpense(-50);
+        var response = await HandleAsync(new DeleteExpenseRequest(-50));
         Assert.IsType<NotFoundResponse>(response);
     }
+
+    public Task DisposeAsync() => Task.CompletedTask;
 }

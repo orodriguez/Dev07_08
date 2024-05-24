@@ -1,38 +1,44 @@
-using Okane.Application;
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
 
 namespace Okane.Tests.Expenses.Update;
 
-public class UpdateExpensesHandler : AbstractHandlerTests
+public class UpdateExpensesHandler : AbstractHandlerTests, IAsyncLifetime
 {
-    public UpdateExpensesHandler()
+    public async Task InitializeAsync()
     {
-        CreateCategory(new("Food"));
-        CreateCategory(new("Entertainment"));
+        await HandleAsync(new CreateCategoryRequest("Food"));
+        await HandleAsync(new CreateCategoryRequest("Entertainment"));
     }
 
     [Fact]
-    public void Valid()
+    public async Task Valid()
     {
-        var createdExpense = Assert.IsType<ExpenseResponse>(CreateExpense(new ValidCreateExpenseRequest()));
+        var createdExpense = Assert.IsType<ExpenseResponse>(
+            await HandleAsync(new CreateExpenseRequest(10, "Food", "Pizza")));
 
-        var updatedExpense = Assert.IsType<ExpenseResponse>(UpdateExpense(createdExpense.Id, 
-            new UpdateExpenseRequest(50, "Entertainment", "Movies")));
+        var updatedExpense = Assert.IsType<ExpenseResponse>(await HandleAsync(new UpdateExpenseRequest(
+            createdExpense.Id, 
+            50, 
+            "Entertainment", 
+            "Movies")));
         
         Assert.Equal(1, createdExpense.Id);
         Assert.Equal(50, updatedExpense.Amount);
         Assert.Equal("Entertainment", updatedExpense.CategoryName);
         Assert.Equal("Movies", updatedExpense.Description);
     }
-    
+
     [Fact]
-    public void NotFound()
+    public async Task NotFound()
     {
-        var response = UpdateExpense(-42, 
-            new UpdateExpenseRequest(50, "Entertainment"));
+        var response = await HandleAsync(new UpdateExpenseRequest(-1, 50, "Entertainment"));
         
         Assert.IsType<NotFoundResponse>(response);
     }
+
+    public Task DisposeAsync() => Task.CompletedTask;
 }

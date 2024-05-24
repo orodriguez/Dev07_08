@@ -1,8 +1,9 @@
+using MediatR;
 using Okane.Application.Auth;
 
 namespace Okane.Application.Expenses.Retrieve;
 
-public class RetrieveExpensesHandler
+public class RetrieveExpensesHandler : IRequestHandler<RetrieveExpensesRequest, RetrieveExpensesResponse>
 {
     private readonly IReadOnlyExpensesRepository _expensesRepository;
     private readonly IUserSession _session;
@@ -13,12 +14,14 @@ public class RetrieveExpensesHandler
         _session = session;
     }
 
-    public IEnumerable<ExpenseResponse> Handle()
+    public Task<RetrieveExpensesResponse> Handle(RetrieveExpensesRequest request, CancellationToken cancellationToken)
     {
         var userId = _session.CurrentUserId;
-        
-        return _expensesRepository
+
+        var expenses = _expensesRepository
             .ByUserId(userId)
             .Select(expense => expense.ToExpenseResponse());
+        
+        return Task.FromResult(new RetrieveExpensesResponse(expenses));
     }
 }

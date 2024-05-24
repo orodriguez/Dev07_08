@@ -1,58 +1,68 @@
 using Okane.Application.Auth;
+using Okane.Application.Auth.Signup;
+using Okane.Application.Categories.Create;
+using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Retrieve;
 
 namespace Okane.Tests.Expenses.Retrieve;
 
-public class RetrieveExpensesHandlerTests : AbstractHandlerTests
+public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
-    public RetrieveExpensesHandlerTests()
+    public async Task InitializeAsync()
     {
         CurrentUserId = Assert.IsType<UserResponse>(
-            SignUpUser(new("user1@mail.com", "1234"))).Id;
+            await HandleAsync(new SignUpRequest("user1@mail.com", "1234"))).Id;
         
-        CreateCategory(new("Food"));
-        CreateCategory(new("Games"));
+        await HandleAsync(new CreateCategoryRequest("Food"));
+        await HandleAsync(new CreateCategoryRequest("Games"));
     }
 
     [Fact]
-    public void NoExpenses() => 
-        Assert.Empty(RetrieveExpenses());
+    public async Task NoExpenses()
+    {
+        var response = Assert.IsType<RetrieveExpensesResponse>(await HandleAsync(new RetrieveExpensesRequest()));
+        Assert.Empty(response);
+    }
 
     [Fact]
-    public void OneExpenses()
+    public async Task OneExpenses()
     {
-        CreateExpense(new(10, "Food"));
+        await HandleAsync(new CreateExpenseRequest(10, "Food"));
 
-        var expense = Assert.Single(RetrieveExpenses());
+        var expenses = Assert.IsType<RetrieveExpensesResponse>(await HandleAsync(new RetrieveExpensesRequest()));
+        var expense = Assert.Single(expenses);
         Assert.Equal(1, expense.Id);
         Assert.Equal(10, expense.Amount);
         Assert.Equal("Food", expense.CategoryName);
     }
 
     [Fact]
-    public void ManyExpenses()
+    public async Task ManyExpenses()
     {
-        CreateExpense(new(10, "Food"));
-        CreateExpense(new(20, "Games"));
+        await HandleAsync(new CreateExpenseRequest(10, "Food"));
+        await HandleAsync(new CreateExpenseRequest(20, "Games"));
         
-        var response = RetrieveExpenses();
+        var response = Assert.IsType<RetrieveExpensesResponse>(await HandleAsync(new RetrieveExpensesRequest()));
         
         Assert.Equal(2, response.Count());
     }
-    
+
     [Fact]
-    public void ExpensesFromAnotherUser()
+    public async Task ExpensesFromAnotherUser()
     {
-        CreateExpense(new(10, "Food"));
+        await HandleAsync(new CreateExpenseRequest(10, "Food"));
         
         
         CurrentUserId = Assert.IsType<UserResponse>(
-            SignUpUser(new("user2@mail.com", "1234"))).Id;
+            await HandleAsync(new SignUpRequest("user2@mail.com", "1234"))).Id;
 
-        CreateExpense(new(20, "Games"));
+        await HandleAsync(new CreateExpenseRequest(20, "Games"));
         
-        var response = RetrieveExpenses();
+        var response = Assert.IsType<RetrieveExpensesResponse>(await HandleAsync(new RetrieveExpensesRequest()));
         
         var expense = Assert.Single(response);
         Assert.Equal("Games", expense.CategoryName);
     }
+
+    public Task DisposeAsync() => Task.CompletedTask;
 }

@@ -7,10 +7,10 @@ namespace Okane.Tests.Categories.Create;
 public class CreateCategoryHandlerTests : AbstractHandlerTests
 {
     [Fact]
-    public void NameAlreadyExists()
+    public async Task NameAlreadyExists()
     {
-        Assert.IsType<CategoryResponse>(CreateCategory(new("Taxes")));
-        var response = Assert.IsType<ConflictResponse>(CreateCategory(new("Taxes")));
+        Assert.IsType<CategoryResponse>(await HandleAsync(new CreateCategoryRequest("Taxes")));
+        var response = Assert.IsType<ConflictResponse>(await HandleAsync(new CreateCategoryRequest("Taxes")));
         Assert.Equal("Category with Name 'Taxes' already exists.", response.Message);
     }
 }
