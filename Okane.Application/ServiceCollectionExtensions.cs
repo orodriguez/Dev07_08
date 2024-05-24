@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddOkane(this IServiceCollection services)
     {
         services.AddHandlers();
+        services.AddTransient<ExpenseFactory>();
         services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
         services.AddTransient<Func<DateTime>>(_ => () => DateTime.Now);
 
