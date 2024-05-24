@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Okane.Application.Expenses;
 using Okane.Domain;
 
@@ -17,11 +18,10 @@ public class ExpensesRepository : IExpensesRepository
         return expense;
     }
 
-    public IEnumerable<Expense> All() => 
-        _db.Expenses.Include(e => e.Category);
+    public IEnumerable<Expense> All() => IncludeCategories();
 
     public Expense? ById(int id) => 
-        _db.Expenses.Include(e => e.Category).FirstOrDefault(expense => expense.Id == id);
+        IncludeCategories().FirstOrDefault(expense => expense.Id == id);
 
     public bool Update(Expense expense) => 
         _db.SaveChanges() > 0;
@@ -33,5 +33,8 @@ public class ExpensesRepository : IExpensesRepository
     }
 
     public IEnumerable<Expense> ByUserId(int userId) => 
-        _db.Expenses.Where(expense => expense.UserId == userId);
+        IncludeCategories().Where(expense => expense.UserId == userId);
+
+    private IIncludableQueryable<Expense, Category> IncludeCategories() => 
+        _db.Expenses.Include(e => e.Category);
 }
