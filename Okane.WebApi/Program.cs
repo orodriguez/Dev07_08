@@ -8,7 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOkane()
     .AddOkaneEFStorage(builder.Configuration)
-    .AddOkaneWebApi();
+    .AddOkaneWebApi(builder.Configuration);
 
 var app = builder.Build();
 
