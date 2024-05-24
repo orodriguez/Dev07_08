@@ -2,6 +2,7 @@ using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Okane.Application;
+using Okane.Application.Auth;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
 using Okane.Application.Categories.ById;
@@ -47,9 +48,20 @@ namespace Okane.Tests
             var tokenGeneratorMock = new Mock<ITokenGenerator>();
             tokenGeneratorMock.Setup(generator => generator.Generate(It.IsAny<User>()))
                 .Returns("FakeToken");
+            
             services.AddTransient<ITokenGenerator>(_ => tokenGeneratorMock.Object);
+            
+            services.AddSingleton<FakeUserSession>();
+            services.AddTransient<IUserSession, FakeUserSession>(provider => 
+                provider.GetRequiredService<FakeUserSession>());
 
             _provider = services.BuildServiceProvider();
+        }
+
+        protected int CurrentUserId
+        {
+            get => Resolve<FakeUserSession>().CurrentUserId;
+            set => Resolve<FakeUserSession>().CurrentUserId = value;
         }
 
         protected IEnumerable<ExpenseResponse> RetrieveExpenses() => 
@@ -76,7 +88,7 @@ namespace Okane.Tests
         protected IDeleteCategoryResponse DeleteCategory(int id) => 
             Resolve<DeleteCategoryHandler>().Handle(id);
 
-        protected ISignUpResponse SignUp(SignUpRequest request) => 
+        protected ISignUpResponse SignUpUser(SignUpRequest request) => 
             Resolve<IRequestHandler<SignUpRequest, ISignUpResponse>>().Handle(request);
         
         // TODO: Remove all this repetition

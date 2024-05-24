@@ -27,4 +27,7 @@ public class InMemoryExpensesRepository : IExpensesRepository
 
     public bool Delete(Expense expense) => 
         _expenses.Remove(expense);
+
+    public IEnumerable<Expense> ByUserId(int userId) => 
+        _expenses.Where(expense => expense.UserId == userId);
 }

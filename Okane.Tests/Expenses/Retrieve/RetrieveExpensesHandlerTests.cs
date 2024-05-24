@@ -1,9 +1,14 @@
+using Okane.Application.Auth;
+
 namespace Okane.Tests.Expenses.Retrieve;
 
-public class RetrieveExpensesHandler : AbstractHandlerTests
+public class RetrieveExpensesHandlerTests : AbstractHandlerTests
 {
-    public RetrieveExpensesHandler()
+    public RetrieveExpensesHandlerTests()
     {
+        CurrentUserId = Assert.IsType<UserResponse>(
+            SignUpUser(new("user1@mail.com", "1234"))).Id;
+        
         CreateCategory(new("Food"));
         CreateCategory(new("Games"));
     }
@@ -32,5 +37,22 @@ public class RetrieveExpensesHandler : AbstractHandlerTests
         var response = RetrieveExpenses();
         
         Assert.Equal(2, response.Count());
+    }
+    
+    [Fact]
+    public void ExpensesFromAnotherUser()
+    {
+        CreateExpense(new(10, "Food"));
+        
+        
+        CurrentUserId = Assert.IsType<UserResponse>(
+            SignUpUser(new("user2@mail.com", "1234"))).Id;
+
+        CreateExpense(new(20, "Games"));
+        
+        var response = RetrieveExpenses();
+        
+        var expense = Assert.Single(response);
+        Assert.Equal("Games", expense.CategoryName);
     }
 }

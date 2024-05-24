@@ -7,17 +7,20 @@ public class HttpContextUserSession : IUserSession
 {
     private readonly IHttpContextAccessor _contextAccessor;
 
-    public HttpContextUserSession(IHttpContextAccessor contextAccessor) => 
+    public HttpContextUserSession(IHttpContextAccessor contextAccessor) =>
         _contextAccessor = contextAccessor;
 
-    public int GetCurrentUserId()
+    public int CurrentUserId
     {
-        var httpContext = _contextAccessor.HttpContext!;
-        
-        var nameIdentifierClaim = httpContext
-            .User
-            .FindFirst(ClaimTypes.NameIdentifier);
-        
-        return int.Parse(nameIdentifierClaim!.Value);
+        get
+        {
+            var httpContext = _contextAccessor.HttpContext!;
+
+            var nameIdentifierClaim = httpContext
+                .User
+                .FindFirst(ClaimTypes.NameIdentifier);
+
+            return int.Parse(nameIdentifierClaim!.Value);
+        }
     }
 }

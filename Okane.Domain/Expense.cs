@@ -9,4 +9,5 @@ public class Expense
 
     public string? InvoiceUrl { get; set; }
     public DateTime CreatedAt { get; set; }
+    public int UserId { get; set; }
 }

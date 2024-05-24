@@ -8,7 +8,7 @@ public class SignInHandlerTests : AbstractHandlerTests
     [Fact]
     public void Valid()
     {
-        Assert.IsType<UserResponse>(SignUp(new("user@mail.com", "4321")));
+        Assert.IsType<UserResponse>(SignUpUser(new("user@mail.com", "4321")));
 
         var response = SignInUser(new SignInRequest("user@mail.com", "4321"));
 
