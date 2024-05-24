@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Auth;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
+using Okane.Tests.Mocks;
 
 namespace Okane.Tests;
 

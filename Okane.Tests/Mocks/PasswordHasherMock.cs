@@ -1,7 +1,7 @@
 using Moq;
 using Okane.Application.Auth.Signup;
 
-namespace Okane.Tests;
+namespace Okane.Tests.Mocks;
 
 public class PasswordHasherMock : Mock<IPasswordHasher>
 {

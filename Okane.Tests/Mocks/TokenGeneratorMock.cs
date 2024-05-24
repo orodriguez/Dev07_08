@@ -2,7 +2,7 @@ using Moq;
 using Okane.Application.Auth.SignIn;
 using Okane.Domain;
 
-namespace Okane.Tests;
+namespace Okane.Tests.Mocks;
 
 public class TokenGeneratorMock : Mock<ITokenGenerator>
 {
