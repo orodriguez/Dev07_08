@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddOkaneWebApi(this IServiceCollection services)
     {
+        services.AddAuthorization();
         services.AddAuthentication(Configure).AddJwtBearer(Configure);
         services.AddHttpContextAccessor();
         services.AddTransient<IUserSession, HttpContextUserSession>();
