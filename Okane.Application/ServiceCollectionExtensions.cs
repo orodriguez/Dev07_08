@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
     public static void AddOkaneInMemoryStorage(this IServiceCollection services)
     {
         services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
-        services.AddSingleton<IReadOnlyExpensesRepository, InMemoryExpensesRepository>();
+        services.AddTransient<IReadOnlyExpensesRepository>(provider => provider.GetRequiredService<IExpensesRepository>());
         services.AddSingleton<ICategoriesRepository, InMemoryCategoriesRepository>();
         services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
     }
