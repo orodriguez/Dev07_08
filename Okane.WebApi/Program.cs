@@ -18,31 +18,7 @@ using Okane.Application.Responses;
 using Okane.Storage.EF;
 using Okane.WebApi;
 
-// TODO: Solve Nuget Dependencies warning
 var builder = WebApplication.CreateBuilder(args);
-
-// TODO: Move this to AddOkaneWebApi extension method
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        { 
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "http://okane.com",
-            ValidAudience = "public",
-            // TODO: Extract secret to file
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.ASCII.GetBytes("Super secret key, it must be long enough to work"))
-        };
-    });
 
 builder.Services.AddAuthorization();
 
