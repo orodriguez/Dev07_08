@@ -4,7 +4,7 @@ using Okane.Application.Expenses.Create;
 
 namespace Okane.Application.Responses;
 
-public record NotFoundResponse(string? Message = null) : IResponse, 
-    IGetCategoryByIdResponse, 
-    IDeleteCategoryResponse, 
+public record NotFoundResponse(string? Message = null) : 
+    IGetCategoryByIdResponse,
+    IDeleteCategoryResponse,
     ICreateExpenseResponse;

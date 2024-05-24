@@ -66,6 +66,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// TODO: Group Urls
 app.MapPost("/auth/signup", (IRequestHandler<SignUpRequest, ISignUpResponse> handler, SignUpRequest request) =>
         handler.Handle(request).ToResult())
     .WithOpenApi();

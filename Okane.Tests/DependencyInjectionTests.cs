@@ -27,7 +27,7 @@ public class DependencyInjectionTests
         
         Assert.Equal("print 'Hello world'", company.CreateSoftware());
 
-        var company2 = provider.GetRequiredService<Company2>();
+        provider.GetRequiredService<Company2>();
     }
 }
 

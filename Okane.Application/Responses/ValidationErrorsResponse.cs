@@ -5,7 +5,7 @@ using Okane.Application.Expenses.Create;
 namespace Okane.Application.Responses;
 
 public record ValidationErrorsResponse(IEnumerable<ValidationErrorsResponse.PropertyError> Errors) 
-    : IEnumerable<ValidationErrorsResponse.PropertyError>, IResponse, ICreateExpenseResponse
+    : IEnumerable<ValidationErrorsResponse.PropertyError>, ICreateExpenseResponse
 {
     public IEnumerator<PropertyError> GetEnumerator() => Errors.GetEnumerator();
 

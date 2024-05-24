@@ -21,10 +21,10 @@ public class InMemoryExpensesRepository : IExpensesRepository
         _expenses;
 
     public Expense? ById(int id) => 
-        _expenses.FirstOrDefault(expense => expense.Id == id);
+        _expenses.Find(expense => expense.Id == id);
 
     public bool Update(Expense expense) => true;
 
-    public bool Delete(Expense expenseToDelete) => 
-        _expenses.Remove(expenseToDelete);
+    public bool Delete(Expense expense) => 
+        _expenses.Remove(expense);
 }

@@ -9,24 +9,27 @@ namespace Okane.Storage.EF.Migrations
     /// <inheritdoc />
     public partial class AddCategoryToExpenses : Migration
     {
+        private const string ExpensesTable = "Expenses";
+        private const string CategoryIdColumn = "CategoryId";
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
                 name: "Category",
-                table: "Expenses");
+                table: ExpensesTable);
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreatedAt",
-                table: "Expenses",
+                table: ExpensesTable,
                 type: "timestamp without time zone",
                 nullable: false,
                 oldClrType: typeof(DateTime),
                 oldType: "timestamp with time zone");
 
             migrationBuilder.AddColumn<int>(
-                name: "CategoryId",
-                table: "Expenses",
+                name: CategoryIdColumn,
+                table: ExpensesTable,
                 type: "integer",
                 nullable: false,
                 defaultValue: 0);
@@ -46,13 +49,13 @@ namespace Okane.Storage.EF.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Expenses_CategoryId",
-                table: "Expenses",
-                column: "CategoryId");
+                table: ExpensesTable,
+                column: CategoryIdColumn);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Expenses_Categories_CategoryId",
-                table: "Expenses",
-                column: "CategoryId",
+                table: ExpensesTable,
+                column: CategoryIdColumn,
                 principalTable: "Categories",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -63,22 +66,22 @@ namespace Okane.Storage.EF.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Expenses_Categories_CategoryId",
-                table: "Expenses");
+                table: ExpensesTable);
 
             migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropIndex(
                 name: "IX_Expenses_CategoryId",
-                table: "Expenses");
+                table: ExpensesTable);
 
             migrationBuilder.DropColumn(
-                name: "CategoryId",
-                table: "Expenses");
+                name: CategoryIdColumn,
+                table: ExpensesTable);
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreatedAt",
-                table: "Expenses",
+                table: ExpensesTable,
                 type: "timestamp with time zone",
                 nullable: false,
                 oldClrType: typeof(DateTime),
@@ -86,7 +89,7 @@ namespace Okane.Storage.EF.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "Category",
-                table: "Expenses",
+                table: ExpensesTable,
                 type: "text",
                 nullable: false,
                 defaultValue: "");

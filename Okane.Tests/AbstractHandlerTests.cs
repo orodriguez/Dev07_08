@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Okane.Application;
@@ -25,7 +26,7 @@ namespace Okane.Tests
 
         protected AbstractHandlerTests()
         {
-            Now = DateTime.Parse("2024-01-01");
+            Now = DateTime.Parse("2024-01-01", new CultureInfo("es-US"));
             
             var services = new ServiceCollection();
         

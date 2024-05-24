@@ -17,5 +17,5 @@ public class InMemoryUsersRepository : IUsersRepository
     }
 
     public User? ByEmail(string email) => 
-        _users.FirstOrDefault(u => u.Email == email);
+        _users.Find(u => u.Email == email);
 }

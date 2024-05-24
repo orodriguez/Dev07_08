@@ -1,3 +1,4 @@
+using System.Globalization;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Responses;
@@ -16,14 +17,14 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void Valid()
     {
-        Now = DateTime.Parse("2024-02-14");
+        Now = DateTime.Parse("2024-02-14", new CultureInfo("es-US"));
         
         var response = Assert.IsType<ExpenseResponse>(CreateExpense(new(10, "Food")));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
         Assert.Equal("Food", response.CategoryName);
-        Assert.Equal(DateTime.Parse("2024-02-14"), response.CreatedAt);
+        Assert.Equal(DateTime.Parse("2024-02-14", new CultureInfo("en-US")), response.CreatedAt);
     }
     
     [Fact]
