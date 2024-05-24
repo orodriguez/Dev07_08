@@ -19,6 +19,9 @@ public class UpdateExpenseHandler
     public IResponse Handle(int id, UpdateExpenseRequest request)
     {
         var category = _categoriesRepository.ByName(request.CategoryName);
+
+        if (category == null)
+            throw new NotImplementedException();
         
         var existingExpense = _expensesRepository.ById(id);
 
