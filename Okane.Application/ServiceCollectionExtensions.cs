@@ -30,12 +30,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static void AddOkaneInMemoryStorage(this IServiceCollection services)
+    public static IServiceCollection AddOkaneInMemoryStorage(this IServiceCollection services)
     {
         services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
         services.AddTransient<IReadOnlyExpensesRepository>(provider => provider.GetRequiredService<IExpensesRepository>());
         services.AddSingleton<ICategoriesRepository, InMemoryCategoriesRepository>();
         services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
+        return services;
     }
 
     private static void AddHandlers(this IServiceCollection services)

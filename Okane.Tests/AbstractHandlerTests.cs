@@ -2,7 +2,6 @@ using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Okane.Application;
-using Okane.Application.Auth;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
 using Okane.Application.Categories.ById;
@@ -15,7 +14,6 @@ using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
-using Okane.Domain;
 
 namespace Okane.Tests
 {   
@@ -23,38 +21,18 @@ namespace Okane.Tests
     {
         private readonly ServiceProvider _provider;
         protected DateTime Now { get; set; }
-        protected Mock<IPasswordHasher> PasswordHasherMock { get; }
+        protected Mock<IPasswordHasher> PasswordHasherMock => Resolve<PasswordHasherMock>();
 
         protected AbstractHandlerTests()
         {
             Now = DateTime.Parse("2024-01-01", new CultureInfo("es-US"));
             
             var services = new ServiceCollection();
-        
-            services.AddOkane().AddOkaneInMemoryStorage();
             
-            services.AddTransient<Func<DateTime>>(_ => () => Now);
+            services.AddOkane()
+                .AddOkaneInMemoryStorage()
+                .AddOkaneTestDoubles(() => Now);
             
-            // TODO: Extract all this setup to another place
-            PasswordHasherMock = new Mock<IPasswordHasher>(MockBehavior.Strict);
-            PasswordHasherMock.Setup(hasher => hasher.Hash(It.IsAny<string>()))
-                .Returns((string plainPassword) => plainPassword);
-            PasswordHasherMock.Setup(hasher => 
-                    hasher.Verify(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(true);
-            
-            services.AddTransient<IPasswordHasher>(_ => PasswordHasherMock.Object);
-
-            var tokenGeneratorMock = new Mock<ITokenGenerator>();
-            tokenGeneratorMock.Setup(generator => generator.Generate(It.IsAny<User>()))
-                .Returns("FakeToken");
-            
-            services.AddTransient<ITokenGenerator>(_ => tokenGeneratorMock.Object);
-            
-            services.AddSingleton<FakeUserSession>();
-            services.AddTransient<IUserSession, FakeUserSession>(provider => 
-                provider.GetRequiredService<FakeUserSession>());
-
             _provider = services.BuildServiceProvider();
         }
 
