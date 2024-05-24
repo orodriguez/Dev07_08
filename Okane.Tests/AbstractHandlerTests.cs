@@ -70,7 +70,6 @@ namespace Okane.Tests
         protected ISignUpResponse SignUpUser(SignUpRequest request) => 
             Resolve<IRequestHandler<SignUpRequest, ISignUpResponse>>().Handle(request);
         
-        // TODO: Remove all this repetition
         protected ISignInResponse SignInUser(SignInRequest request) => 
             Resolve<IRequestHandler<SignInRequest, ISignInResponse>>().Handle(request);
 
