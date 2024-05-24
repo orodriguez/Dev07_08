@@ -9,7 +9,7 @@ public class DbContextFactory : IDesignTimeDbContextFactory<OkaneDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<OkaneDbContext>();
         optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=5432;Database=OkaneDev;Username=postgres;Password=1234;");
+            "Host=localhost;Port=5432;Database=OkaneDev;Username=postgres;Password=admin;");
 
         return new OkaneDbContext(optionsBuilder.Options);
     }

@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContext<OkaneDbContext>(options => 
             // TODO: Move this to config file
-            options.UseNpgsql("Host=localhost;Port=5432;Database=OkaneDev;Username=postgres;Password=1234;"));
+            options.UseNpgsql("Host=localhost;Port=5432;Database=OkaneDev;Username=postgres;Password=admin;"));
         
         services.AddTransient<IExpensesRepository, ExpensesRepository>();
         services.AddTransient<ICategoriesRepository, CategoriesRepository>();
