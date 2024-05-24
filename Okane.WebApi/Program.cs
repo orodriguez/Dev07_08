@@ -66,67 +66,64 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// TODO: Group Urls
-app.MapPost("/auth/signup", (IRequestHandler<SignUpRequest, ISignUpResponse> handler, SignUpRequest request) =>
+const string idPath = "/{id}";
+
+var auth = app.MapGroup("/auth");
+auth.MapPost("/signup", (IRequestHandler<SignUpRequest, ISignUpResponse> handler, SignUpRequest request) =>
         handler.Handle(request).ToResult())
     .WithOpenApi();
 
-app.MapPost("/auth/token", (IRequestHandler<SignInRequest, ISignInResponse> handler, SignInRequest request) =>
+auth.MapPost("/token", (IRequestHandler<SignInRequest, ISignInResponse> handler, SignInRequest request) =>
         handler.Handle(request).ToResult())
     .WithOpenApi();
 
-app.MapPost("/categories", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
+
+var categories = app.MapGroup("/categories").RequireAuthorization();
+categories.MapPost("/", (CreateCategoryHandler handler, CreateCategoryRequest request) =>
         handler.Handle(request).ToResult())
     .Produces<CategoryResponse>()
     .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
-    .RequireAuthorization()
     .WithOpenApi();
 
-app.MapGet("/categories/{Id}", (GetCategoryByIdHandler handler, int id) =>
+categories.MapGet(idPath, (GetCategoryByIdHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<CategoryResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
-    .RequireAuthorization()
     .WithOpenApi();
 
-app.MapDelete("/categories/{Id}", (DeleteCategoryHandler handler, int id) =>
+categories.MapDelete(idPath, (DeleteCategoryHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<CategoryResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
-    .RequireAuthorization()
     .WithOpenApi();
 
-app.MapPost("/expenses", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
+var expenses = app.MapGroup("/expenses").RequireAuthorization();
+expenses.MapPost("/", (CreateExpenseHandler handler, CreateExpenseRequest request) =>
         handler.Handle(request).ToResult())
     .Produces<ExpenseResponse>()
     .Produces<ValidationErrorsResponse>(StatusCodes.Status400BadRequest)
-    .RequireAuthorization()
     .WithOpenApi();
 
-app.MapPut("/expenses/{id}", (UpdateExpenseHandler handler, int id, UpdateExpenseRequest request) =>
+expenses.MapPut(idPath, (UpdateExpenseHandler handler, int id, UpdateExpenseRequest request) =>
         handler.Handle(id, request).ToResult())
     .Produces<ExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
-    .RequireAuthorization()
     .WithOpenApi();
 
-app.MapDelete("/expenses/{id}", (DeleteExpenseHandler handler, int id) =>
+expenses.MapDelete(idPath, (DeleteExpenseHandler handler, int id) =>
         handler.Handle(id).ToResult())
     .Produces<ExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
-    .RequireAuthorization()
     .WithOpenApi();
 
-app.MapGet("/expenses", (RetrieveExpensesHandler handler) =>
+expenses.MapGet("/", (RetrieveExpensesHandler handler) =>
         handler.Handle())
-    .RequireAuthorization()
     .WithOpenApi();
 
-app.MapGet("/expenses/{id}", (GetExpenseByIdHandler handler, int id) => 
+expenses.MapGet(idPath, (GetExpenseByIdHandler handler, int id) => 
         handler.Handle(id).ToResult())
     .Produces<ExpenseResponse>()
     .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
-    .RequireAuthorization()
     .WithOpenApi();
 
 app.Run();
