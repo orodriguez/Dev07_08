@@ -14,6 +14,7 @@ using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
+using Okane.Application.Responses;
 
 namespace Okane.Application;
 
@@ -50,6 +51,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<GetCategoryByIdHandler>();
         services.AddTransient<DeleteCategoryHandler>();
         services.AddTransient<IRequestHandler<SignUpRequest, ISignUpResponse>, SignUpHandler>();
+        services.AddTransient<IRequestHandler<SignUpRequest, IResponse>, SignUpHandler>();
         services.AddTransient<IRequestHandler<SignInRequest, ISignInResponse>, SignInHandler>();
     }
 }

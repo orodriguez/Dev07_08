@@ -66,10 +66,9 @@ namespace Okane.Tests
 
         protected IDeleteCategoryResponse DeleteCategory(int id) => 
             Resolve<DeleteCategoryHandler>().Handle(id);
+        protected IResponse Handle<TRequest>(TRequest request) => 
+            Resolve<IRequestHandler<TRequest, IResponse>>().Handle(request);
 
-        protected ISignUpResponse SignUpUser(SignUpRequest request) => 
-            Resolve<IRequestHandler<SignUpRequest, ISignUpResponse>>().Handle(request);
-        
         protected ISignInResponse SignInUser(SignInRequest request) => 
             Resolve<IRequestHandler<SignInRequest, ISignInResponse>>().Handle(request);
 
