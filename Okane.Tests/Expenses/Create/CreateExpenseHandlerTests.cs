@@ -19,7 +19,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     {
         Now = DateTime.Parse("2024-02-14", new CultureInfo("es-US"));
         
-        var response = Assert.IsType<ExpenseResponse>(CreateExpense(new(10, "Food")));
+        var response = Assert.IsType<ExpenseResponse>(Handle(new CreateExpenseRequest(10, "Food")));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
@@ -30,8 +30,8 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void AmountZeroOrLess()
     {
-        var request = new ValidCreateExpenseRequest { Amount = -1 };
-        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+        CreateExpenseRequest request = new ValidCreateExpenseRequest { Amount = -1 };
+        var errors = Assert.IsType<ValidationErrorsResponse>(Handle(request));
 
         var error = Assert.Single(errors);
         
@@ -43,7 +43,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     public void WithDescription()
     {
         var response = Assert.IsType<ExpenseResponse>(
-            CreateExpense(new(10, "Food", Description: "Pizza")));
+            Handle(new CreateExpenseRequest(10, "Food", Description: "Pizza")));
         
         Assert.Equal("Pizza", response.Description);
     }
@@ -52,7 +52,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     public void WithoutDescription()
     {
         var response = Assert.IsType<ExpenseResponse>(
-            CreateExpense(new(10, "Food")));
+            Handle(new CreateExpenseRequest(10, "Food")));
         
         Assert.Null(response.Description);
     }
@@ -60,11 +60,11 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void DescriptionTooBig()
     {
-        var request = new ValidCreateExpenseRequest
+        CreateExpenseRequest request = new ValidCreateExpenseRequest
         {
             Description = string.Join("", Enumerable.Repeat('x', 141))
         };
-        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+        var errors = Assert.IsType<ValidationErrorsResponse>(Handle(request));
 
         var error = Assert.Single(errors);
         
@@ -75,11 +75,11 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void CategoryTooBig()
     {
-        var request = new ValidCreateExpenseRequest
+        CreateExpenseRequest request = new ValidCreateExpenseRequest
         {
             CategoryName = string.Join("", Enumerable.Repeat('x', 51))
         };
-        var errors = Assert.IsType<ValidationErrorsResponse>(CreateExpense(request));
+        var errors = Assert.IsType<ValidationErrorsResponse>(Handle(request));
 
         var error = Assert.Single(errors);
         
@@ -90,10 +90,11 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
     [Fact]
     public void CategoryDoesNotExist()
     {
-        var notFoundResponse = Assert.IsType<NotFoundResponse>(CreateExpense(new ValidCreateExpenseRequest
+        CreateExpenseRequest request = new ValidCreateExpenseRequest
         {
             CategoryName = "Unknown"
-        }));
+        };
+        var notFoundResponse = Assert.IsType<NotFoundResponse>(Handle(request));
         
         Assert.Equal("Category with Name 'Unknown' was not found.", notFoundResponse.Message);
     }

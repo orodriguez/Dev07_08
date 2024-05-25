@@ -22,7 +22,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddOkane(this IServiceCollection services)
     {
-        var l = new List<int>();
         services.AddHandlers();
         services.AddTransient<ExpenseFactory>();
         services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
@@ -43,6 +42,7 @@ public static class ServiceCollectionExtensions
     private static void AddHandlers(this IServiceCollection services)
     {
         services.AddTransient<CreateExpenseHandler>();
+        services.AddTransient<IRequestHandler<CreateExpenseRequest, IResponse>, CreateExpenseHandler>();
         services.AddTransient<RetrieveExpensesHandler>();
         services.AddTransient<GetExpenseByIdHandler>();
         services.AddTransient<UpdateExpenseHandler>();

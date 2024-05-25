@@ -46,9 +46,6 @@ namespace Okane.Tests
         protected IEnumerable<ExpenseResponse> RetrieveExpenses() => 
             Resolve<RetrieveExpensesHandler>().Handle();
 
-        protected ICreateExpenseResponse CreateExpense(CreateExpenseRequest createExpenseRequest) =>
-            Resolve<CreateExpenseHandler>().Handle(createExpenseRequest);
-
         protected IResponse GetExpenseById(int id) => 
             Resolve<GetExpenseByIdHandler>().Handle(id);
 

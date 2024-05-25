@@ -1,5 +1,5 @@
-using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
 
@@ -16,7 +16,8 @@ public class UpdateExpensesHandler : AbstractHandlerTests
     [Fact]
     public void Valid()
     {
-        var createdExpense = Assert.IsType<ExpenseResponse>(CreateExpense(new ValidCreateExpenseRequest()));
+        CreateExpenseRequest request = new ValidCreateExpenseRequest();
+        var createdExpense = Assert.IsType<ExpenseResponse>(Handle(request));
 
         var updatedExpense = Assert.IsType<ExpenseResponse>(UpdateExpense(createdExpense.Id, 
             new UpdateExpenseRequest(50, "Entertainment", "Movies")));

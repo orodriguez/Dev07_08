@@ -1,5 +1,6 @@
-using Okane.Application;
 using Okane.Application.Expenses;
+using Okane.Application.Expenses.Create;
+using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
 
 namespace Okane.Tests.Expenses.ById;
@@ -16,7 +17,7 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void Exists()
     {
-        var expense = Assert.IsType<ExpenseResponse>(CreateExpense(new(20, "Games")));
+        var expense = Assert.IsType<ExpenseResponse>(Handle(new CreateExpenseRequest(20, "Games")));
 
         var retrievedExpense = Assert.IsType<ExpenseResponse>(GetExpenseById(expense.Id));
         
@@ -36,10 +37,11 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void AfterUpdate()
     {
-        var createdExpense = Assert.IsType<ExpenseResponse>(CreateExpense(new ValidCreateExpenseRequest()));
+        CreateExpenseRequest validCreateExpenseRequest = new ValidCreateExpenseRequest();
+        var createdExpense = Assert.IsType<ExpenseResponse>(Handle(validCreateExpenseRequest));
 
         Assert.IsType<ExpenseResponse>(
-            UpdateExpense(createdExpense.Id, new Application.Expenses.Update.UpdateExpenseRequest(
+            UpdateExpense(createdExpense.Id, new UpdateExpenseRequest(
                 50, 
                 "Entertainment", 
                 Description: "Movies")));

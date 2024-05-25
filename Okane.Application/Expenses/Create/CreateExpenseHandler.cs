@@ -2,7 +2,7 @@ using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.Create;
 
-public class CreateExpenseHandler
+public class CreateExpenseHandler : IRequestHandler<CreateExpenseRequest, ICreateExpenseResponse>
 {
     private readonly ExpenseFactory _expenseFactory;
     private readonly IExpensesRepository _expensesRepository;

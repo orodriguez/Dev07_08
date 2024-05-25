@@ -1,5 +1,6 @@
 using Okane.Application.Auth;
 using Okane.Application.Auth.Signup;
+using Okane.Application.Expenses.Create;
 
 namespace Okane.Tests.Expenses.Retrieve;
 
@@ -8,7 +9,7 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests
     public RetrieveExpensesHandlerTests()
     {
         CurrentUserId = Assert.IsType<UserResponse>(
-            Handle((SignUpRequest)new("user1@mail.com", "1234"))).Id;
+            Handle(new SignUpRequest("user1@mail.com", "1234"))).Id;
         
         CreateCategory(new("Food"));
         CreateCategory(new("Games"));
@@ -21,7 +22,7 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests
     [Fact]
     public void OneExpenses()
     {
-        CreateExpense(new(10, "Food"));
+        Handle(new CreateExpenseRequest(10, "Food"));
 
         var expense = Assert.Single(RetrieveExpenses());
         Assert.Equal(1, expense.Id);
@@ -32,8 +33,8 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests
     [Fact]
     public void ManyExpenses()
     {
-        CreateExpense(new(10, "Food"));
-        CreateExpense(new(20, "Games"));
+        Handle(new CreateExpenseRequest(10, "Food"));
+        Handle(new CreateExpenseRequest(20, "Games"));
         
         var response = RetrieveExpenses();
         
@@ -43,13 +44,13 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests
     [Fact]
     public void ExpensesFromAnotherUser()
     {
-        CreateExpense(new(10, "Food"));
+        Handle(new CreateExpenseRequest(10, "Food"));
         
         
         CurrentUserId = Assert.IsType<UserResponse>(
             Handle(new SignUpRequest("user2@mail.com", "1234"))).Id;
 
-        CreateExpense(new(20, "Games"));
+        Handle(new CreateExpenseRequest(20, "Games"));
         
         var response = RetrieveExpenses();
         
