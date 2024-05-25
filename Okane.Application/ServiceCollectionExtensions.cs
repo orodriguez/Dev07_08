@@ -1,4 +1,3 @@
-using System.Security.AccessControl;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Auth;
@@ -24,7 +23,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddHandlers();
         services.AddTransient<ExpenseFactory>();
-        services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
+        services.AddTransient<IValidator<CreateExpenseRequest>, Validator>();
         services.AddTransient<Func<DateTime>>(_ => () => DateTime.Now);
 
         return services;
