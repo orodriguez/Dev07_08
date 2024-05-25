@@ -47,6 +47,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<UpdateExpenseHandler>();
         services.AddTransient<DeleteExpenseHandler>();
         services.AddTransient<CreateCategoryHandler>();
+        services.AddTransient<IRequestHandler<CreateCategoryRequest, IResponse>, CreateCategoryHandler>();
         services.AddTransient<GetCategoryByIdHandler>();
         services.AddTransient<DeleteCategoryHandler>();
         services.AddTransient<IRequestHandler<SignUpRequest, ISignUpResponse>, SignUpHandler>();

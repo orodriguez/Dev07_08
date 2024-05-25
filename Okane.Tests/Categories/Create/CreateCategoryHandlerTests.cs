@@ -9,8 +9,8 @@ public class CreateCategoryHandlerTests : AbstractHandlerTests
     [Fact]
     public void NameAlreadyExists()
     {
-        Assert.IsType<CategoryResponse>(CreateCategory(new("Taxes")));
-        var response = Assert.IsType<ConflictResponse>(CreateCategory(new("Taxes")));
+        Assert.IsType<CategoryResponse>(Handle(new CreateCategoryRequest("Taxes")));
+        var response = Assert.IsType<ConflictResponse>(Handle(new CreateCategoryRequest("Taxes")));
         Assert.Equal("Category with Name 'Taxes' already exists.", response.Message);
     }
 }

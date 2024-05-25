@@ -1,5 +1,6 @@
 using Okane.Application.Auth;
 using Okane.Application.Auth.Signup;
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses.Create;
 
 namespace Okane.Tests.Expenses.Retrieve;
@@ -11,8 +12,8 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests
         CurrentUserId = Assert.IsType<UserResponse>(
             Handle(new SignUpRequest("user1@mail.com", "1234"))).Id;
         
-        CreateCategory(new("Food"));
-        CreateCategory(new("Games"));
+        Handle(new CreateCategoryRequest("Food"));
+        Handle(new CreateCategoryRequest("Games"));
     }
 
     [Fact]

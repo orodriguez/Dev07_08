@@ -1,3 +1,4 @@
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
@@ -9,8 +10,8 @@ public class UpdateExpensesHandler : AbstractHandlerTests
 {
     public UpdateExpensesHandler()
     {
-        CreateCategory(new("Food"));
-        CreateCategory(new("Entertainment"));
+        Handle(new CreateCategoryRequest("Food"));
+        Handle(new CreateCategoryRequest("Entertainment"));
     }
 
     [Fact]

@@ -2,7 +2,7 @@ using Okane.Application.Responses;
 
 namespace Okane.Application.Categories.Create;
 
-public class CreateCategoryHandler
+public class CreateCategoryHandler : IRequestHandler<CreateCategoryRequest, ICreateCategoryResponse>
 {
     private readonly ICategoriesRepository _categories;
 

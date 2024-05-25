@@ -55,9 +55,6 @@ namespace Okane.Tests
         protected IResponse DeleteExpense(int id) => 
             Resolve<DeleteExpenseHandler>().Handle(id);
 
-        protected ICreateCategoryResponse CreateCategory(CreateCategoryRequest request) => 
-            Resolve<CreateCategoryHandler>().Handle(request);
-
         protected IGetCategoryByIdResponse GetCategoryById(int id) => 
             Resolve<GetCategoryByIdHandler>().Handle(id);
 

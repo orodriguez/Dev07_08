@@ -1,3 +1,4 @@
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
@@ -9,9 +10,9 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests
 {
     public GetExpenseByIdHandlerTests()
     {
-        CreateCategory(new("Food"));
-        CreateCategory(new("Entertainment"));
-        CreateCategory(new("Games"));
+        Handle(new CreateCategoryRequest("Food"));
+        Handle(new CreateCategoryRequest("Entertainment"));
+        Handle(new CreateCategoryRequest("Games"));
     }
 
     [Fact]

@@ -1,4 +1,5 @@
 using System.Globalization;
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Responses;
@@ -9,9 +10,9 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests
 {
     public CreateExpenseHandlerTests()
     {
-        CreateCategory(new("Food"));
-        CreateCategory(new("Entertainment"));
-        CreateCategory(new("Games"));        
+        Handle(new CreateCategoryRequest("Food"));
+        Handle(new CreateCategoryRequest("Entertainment"));
+        Handle(new CreateCategoryRequest("Games"));        
     }
 
     [Fact]

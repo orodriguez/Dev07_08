@@ -9,7 +9,7 @@ public class DeleteCategoryHandlerTests : AbstractHandlerTests
     [Fact]
     public void Exists()
     {
-        var createResponse = Assert.IsType<CategoryResponse>(CreateCategory(new CreateCategoryRequest("Subscriptions")));
+        var createResponse = Assert.IsType<CategoryResponse>(Handle(new CreateCategoryRequest("Subscriptions")));
 
         var deleteResponse = Assert.IsType<CategoryResponse>(DeleteCategory(createResponse.Id));
         

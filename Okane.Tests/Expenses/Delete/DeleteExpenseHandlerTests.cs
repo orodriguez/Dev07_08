@@ -1,3 +1,4 @@
+using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Responses;
@@ -8,7 +9,7 @@ public class DeleteExpenseHandlerTests : AbstractHandlerTests
 {
     public DeleteExpenseHandlerTests()
     {
-        CreateCategory(new("Games"));
+        Handle(new CreateCategoryRequest("Games"));
     }
 
     [Fact]

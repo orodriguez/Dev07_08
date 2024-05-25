@@ -1,4 +1,5 @@
 using Okane.Application.Categories;
+using Okane.Application.Categories.Create;
 using Okane.Application.Responses;
 
 namespace Okane.Tests.Categories.ById;
@@ -8,7 +9,7 @@ public class GetCategoryByIdHandlerTests : AbstractHandlerTests
     [Fact]
     public void CategoryExists()
     {
-        var createResponse = Assert.IsType<CategoryResponse>(CreateCategory(new("Taxes")));
+        var createResponse = Assert.IsType<CategoryResponse>(Handle(new CreateCategoryRequest("Taxes")));
 
         var categoryResponse = Assert.IsType<CategoryResponse>(GetCategoryById(createResponse.Id));
         
