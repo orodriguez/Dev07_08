@@ -14,4 +14,9 @@ public class InMemoryBudgetRepository : IBudgetRepository
 
     public Domain.Budget? GetByCategoryId(int categoryId) =>
         _budget.FirstOrDefault(b => b.CategoryId == categoryId);
+
+    public IEnumerable<Domain.Budget> All()
+    {
+        throw new NotImplementedException();
+    }
 }
