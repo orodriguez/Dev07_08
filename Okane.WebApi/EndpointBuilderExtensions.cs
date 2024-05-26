@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
 using Okane.Application;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
+using Okane.Application.Balance.Retrieve;
 using Okane.Application.Budget;
 using Okane.Application.Budget.Create;
 using Okane.Application.Categories;
@@ -27,6 +29,7 @@ public static class EndpointBuilderExtensions
         app.MapCategories();
         app.MapExpenses();
         app.MapBudgets();
+        app.MapBalance();
     }
 
     private static void MapAuth(this IEndpointRouteBuilder app)
@@ -103,6 +106,15 @@ public static class EndpointBuilderExtensions
             .Produces<BudgetResponse>()
             .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
             .Produces<ValidationErrorsResponse>(StatusCodes.Status400BadRequest)
+            .WithOpenApi();
+    }
+    private static void MapBalance(this IEndpointRouteBuilder app)
+    {
+        var balance = app.MapGroup("/balance").RequireAuthorization();
+        balance.MapGet("/{fromDate}/{toDate}", (
+                [FromServices] RetrieveBalanceHandler handler,
+                [FromRoute] DateTime fromDate,
+                [FromRoute] DateTime toDate) => handler.Handle(fromDate, toDate))
             .WithOpenApi();
     }
 }
