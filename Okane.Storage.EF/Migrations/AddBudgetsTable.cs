@@ -6,7 +6,7 @@ namespace Okane.Storage.EF.Migrations
 {
     public partial class AddBudgetsTable : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
+        protected override void Up (MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Budgets",
