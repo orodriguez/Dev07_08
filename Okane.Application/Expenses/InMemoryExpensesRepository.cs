@@ -30,4 +30,9 @@ public class InMemoryExpensesRepository : IExpensesRepository
 
     public IEnumerable<Expense> ByUserId(int userId) => 
         _expenses.Where(expense => expense.UserId == userId);
+
+    public IEnumerable<Expense> BetweenDates(DateTime fromDate, DateTime toDate)
+    {
+        throw new NotImplementedException();
+    }
 }
