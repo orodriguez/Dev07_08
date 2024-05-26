@@ -1,6 +1,8 @@
 using Okane.Application;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
+using Okane.Application.Budget;
+using Okane.Application.Budget.Create;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
@@ -24,6 +26,7 @@ public static class EndpointBuilderExtensions
         app.MapAuth();
         app.MapCategories();
         app.MapExpenses();
+        app.MapBudgets();
     }
 
     private static void MapAuth(this IEndpointRouteBuilder app)
@@ -85,10 +88,21 @@ public static class EndpointBuilderExtensions
                 handler.Handle())
             .WithOpenApi();
 
-        expenses.MapGet(IdPath, (GetExpenseByIdHandler handler, int id) => 
+        expenses.MapGet(IdPath, (GetExpenseByIdHandler handler, int id) =>
                 handler.Handle(id).ToResult())
             .Produces<ExpenseResponse>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
+            .WithOpenApi();
+    }
+
+    private static void MapBudgets(this IEndpointRouteBuilder app)
+    {
+        var budgets = app.MapGroup("/budgets").RequireAuthorization();
+        budgets.MapPost("/", (CreateBudgetHandler handler, CreateBudgetRequest request) =>
+                handler.Handle(request).ToResult())
+            .Produces<BudgetResponse>()
+            .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
+            .Produces<ValidationErrorsResponse>(StatusCodes.Status400BadRequest)
             .WithOpenApi();
     }
 }
