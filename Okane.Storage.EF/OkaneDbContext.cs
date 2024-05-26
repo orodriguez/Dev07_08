@@ -14,6 +14,12 @@ public class OkaneDbContext : DbContext
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Budget>().ToTable("Budgets");
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 }
