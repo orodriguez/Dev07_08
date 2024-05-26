@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Okane.Application.Auth;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
+using Okane.Application.Budget;
+using Okane.Application.Budget.Create;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
@@ -25,6 +27,7 @@ public static class ServiceCollectionExtensions
         services.AddHandlers();
         services.AddTransient<ExpenseFactory>();
         services.AddTransient<IValidator<Expenses.Create.CreateExpenseRequest>, Expenses.Create.Validator>();
+        services.AddTransient<IValidator<CreateBudgetRequest>, BudgetValidator>();
         services.AddTransient<Func<DateTime>>(_ => () => DateTime.Now);
 
         return services;
@@ -33,8 +36,10 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddOkaneInMemoryStorage(this IServiceCollection services)
     {
         services.AddSingleton<IExpensesRepository, InMemoryExpensesRepository>();
-        services.AddTransient<IReadOnlyExpensesRepository>(provider => provider.GetRequiredService<IExpensesRepository>());
+        services.AddTransient<IReadOnlyExpensesRepository>(provider =>
+            provider.GetRequiredService<IExpensesRepository>());
         services.AddSingleton<ICategoriesRepository, InMemoryCategoriesRepository>();
+        services.AddSingleton<IBudgetRepository, InMemoryBudgetRepository>();
         services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
         return services;
     }
@@ -49,6 +54,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<CreateCategoryHandler>();
         services.AddTransient<GetCategoryByIdHandler>();
         services.AddTransient<DeleteCategoryHandler>();
+        services.AddTransient<CreateBudgetHandler>();
         services.AddTransient<IRequestHandler<SignUpRequest, ISignUpResponse>, SignUpHandler>();
         services.AddTransient<IRequestHandler<SignInRequest, ISignInResponse>, SignInHandler>();
     }
