@@ -20,10 +20,10 @@ public class ExpensesRepository : IExpensesRepository
 
     public IEnumerable<Expense> All() => IncludeCategories();
 
-    public Expense? ById(int id) => 
+    public Expense? ById(int id) =>
         IncludeCategories().FirstOrDefault(expense => expense.Id == id);
 
-    public bool Update(Expense expense) => 
+    public bool Update(Expense expense) =>
         _db.SaveChanges() > 0;
 
     public bool Delete(Expense expense)
@@ -32,14 +32,13 @@ public class ExpensesRepository : IExpensesRepository
         return _db.SaveChanges() > 0;
     }
 
-    public IEnumerable<Expense> ByUserId(int userId) => 
+    public IEnumerable<Expense> ByUserId(int userId) =>
         IncludeCategories().Where(expense => expense.UserId == userId);
 
-    public IEnumerable<Expense> BetweenDates(DateTime fromDate, DateTime toDate)
-    {
-        throw new NotImplementedException();
-    }
+    public IEnumerable<Expense> BetweenDates(DateTime fromDate, DateTime toDate) =>
+        _db.Expenses.Where(e => e.CreatedAt >= fromDate && e.CreatedAt <= toDate).ToList();
 
-    private IIncludableQueryable<Expense, Category> IncludeCategories() => 
+
+    private IIncludableQueryable<Expense, Category> IncludeCategories() =>
         _db.Expenses.Include(e => e.Category);
 }

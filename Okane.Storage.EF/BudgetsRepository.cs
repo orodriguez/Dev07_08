@@ -1,4 +1,5 @@
-﻿using Okane.Application.Budget;
+﻿using Microsoft.EntityFrameworkCore;
+using Okane.Application.Budget;
 using Okane.Domain;
 
 namespace Okane.Storage.EF;
@@ -18,9 +19,6 @@ public class BudgetsRepository : IBudgetRepository
     public Budget? GetByCategoryId(int categoryId) =>
         _db.Budgets.FirstOrDefault(b => b.CategoryId == categoryId);
 
-    public IEnumerable<Budget> All()
-    {
-        throw new NotImplementedException();
-    }
-    //  throw new NotImplementedException();
+    public IEnumerable<Budget> All() =>
+        _db.Budgets.Include(b => b.Category).ToList();
 }
