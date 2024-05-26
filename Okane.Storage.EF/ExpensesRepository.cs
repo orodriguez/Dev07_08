@@ -35,6 +35,11 @@ public class ExpensesRepository : IExpensesRepository
     public IEnumerable<Expense> ByUserId(int userId) => 
         IncludeCategories().Where(expense => expense.UserId == userId);
 
+    public IEnumerable<Expense> BetweenDates(DateTime fromDate, DateTime toDate)
+    {
+        throw new NotImplementedException();
+    }
+
     private IIncludableQueryable<Expense, Category> IncludeCategories() => 
         _db.Expenses.Include(e => e.Category);
 }

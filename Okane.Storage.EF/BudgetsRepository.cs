@@ -17,5 +17,10 @@ public class BudgetsRepository : IBudgetRepository
 
     public Budget? GetByCategoryId(int categoryId) =>
         _db.Budgets.FirstOrDefault(b => b.CategoryId == categoryId);
+
+    public IEnumerable<Budget> All()
+    {
+        throw new NotImplementedException();
+    }
     //  throw new NotImplementedException();
 }
