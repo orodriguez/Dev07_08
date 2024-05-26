@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Okane.Application.Responses;
 
-
 namespace Okane.Application.Budget.Create;
 
 public class CreateBudgetHandler
