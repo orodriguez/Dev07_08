@@ -1,9 +1,10 @@
+using FluentResults;
 using MediatR;
 using Okane.Application.Auth.Signup;
 
 namespace Okane.Application.Auth.SignIn;
 
-public class SignInHandler : IRequestHandler<SignInRequest, ISignInResponse>
+public class SignInHandler : IRequestHandler<Request, Result<TokenResponse>>
 {
     private readonly IUsersRepository _users;
     private readonly IPasswordHasher _passwordHasher;
@@ -19,7 +20,7 @@ public class SignInHandler : IRequestHandler<SignInRequest, ISignInResponse>
         _tokenGenerator = tokenGenerator;
     }
 
-    public Task<ISignInResponse> Handle(SignInRequest request, CancellationToken cancellationToken)
+    public Task<Result<TokenResponse>> Handle(Request request, CancellationToken cancellationToken)
     {
         var user = _users.ByEmail(request.Email);
 
@@ -30,6 +31,6 @@ public class SignInHandler : IRequestHandler<SignInRequest, ISignInResponse>
             throw new NotImplementedException();
 
         var token = _tokenGenerator.Generate(user);
-        return Task.FromResult<ISignInResponse>(new TokenResponse(token));
+        return Task.FromResult(Result.Ok(new TokenResponse(token)));
     }
 }

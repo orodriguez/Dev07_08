@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Okane.Application;
 using Okane.Application.Auth.Signup;
-using Okane.Application.Responses;
 using Okane.Tests.Mocks;
 
 namespace Okane.Tests
@@ -34,6 +33,7 @@ namespace Okane.Tests
             set => Resolve<FakeUserSession>().CurrentUserId = value;
         }
 
+        // TODO: Remove async from name
         protected Task<TResponse> HandleAsync<TResponse>(IRequest<TResponse> request) => 
             Resolve<IMediator>().Send(request);
 

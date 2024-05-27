@@ -1,6 +1,4 @@
 using MediatR;
-using Okane.Application.Auth.SignIn;
-using Okane.Application.Auth.Signup;
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
@@ -29,12 +27,12 @@ public static class EndpointBuilderExtensions
     private static void MapAuth(this IEndpointRouteBuilder app)
     {
         var auth = app.MapGroup("/auth");
-        auth.MapPost("/signup", async (IMediator mediator, SignUpRequest request) =>
+        auth.MapPost("/signup", async (IMediator mediator, Application.Auth.Signup.Request request) =>
                 (await mediator.Send(request)).ToResult())
             .WithOpenApi();
 
-        auth.MapPost("/token", async (IMediator mediator, SignInRequest request) =>
-                (await mediator.Send(request)).ToResult())
+        auth.MapPost("/token", async (IMediator mediator, Application.Auth.SignIn.Request request) =>
+                (await mediator.Send(request)).ToActionResult())
             .WithOpenApi();
     }
 

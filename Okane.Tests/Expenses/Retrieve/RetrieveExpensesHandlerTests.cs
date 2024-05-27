@@ -11,7 +11,7 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task InitializeAsync()
     {
         CurrentUserId = Assert.IsType<UserResponse>(
-            await HandleAsync(new SignUpRequest("user1@mail.com", "1234"))).Id;
+            await HandleAsync(new Request("user1@mail.com", "1234"))).Id;
         
         await HandleAsync(new CreateCategoryRequest("Food"));
         await HandleAsync(new CreateCategoryRequest("Games"));
@@ -54,7 +54,7 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
         
         
         CurrentUserId = Assert.IsType<UserResponse>(
-            await HandleAsync(new SignUpRequest("user2@mail.com", "1234"))).Id;
+            await HandleAsync(new Request("user2@mail.com", "1234"))).Id;
 
         await HandleAsync(new CreateExpenseRequest(20, "Games"));
         

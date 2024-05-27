@@ -5,7 +5,7 @@ using Okane.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => options.CustomSchemaIds(type => type.FullName));
 builder.Services.AddOkane()
     .AddOkaneEFStorage(builder.Configuration)
     .AddOkaneWebApi(builder.Configuration);

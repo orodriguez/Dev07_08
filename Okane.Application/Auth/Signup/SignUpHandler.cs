@@ -3,7 +3,7 @@ using Okane.Domain;
 
 namespace Okane.Application.Auth.Signup;
 
-public class SignUpHandler : IRequestHandler<SignUpRequest, ISignUpResponse>
+public class SignUpHandler : IRequestHandler<Request, ISignUpResponse>
 {
     private readonly IUsersRepository _users;
     private readonly IPasswordHasher _passwordHasher;
@@ -14,7 +14,7 @@ public class SignUpHandler : IRequestHandler<SignUpRequest, ISignUpResponse>
         _passwordHasher = passwordHasher;
     }
     
-    public Task<ISignUpResponse> Handle(SignUpRequest request, CancellationToken cancellationToken)
+    public Task<ISignUpResponse> Handle(Request request, CancellationToken cancellationToken)
     {
         var user = CreateUser(request);
         
@@ -23,7 +23,7 @@ public class SignUpHandler : IRequestHandler<SignUpRequest, ISignUpResponse>
         return Task.FromResult(CreateResponse(user));
     }
 
-    private User CreateUser(SignUpRequest request) =>
+    private User CreateUser(Request request) =>
         new()
         {
             Email = request.Email,
