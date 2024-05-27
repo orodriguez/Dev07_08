@@ -1,9 +1,7 @@
-using FluentResults.Extensions.FluentAssertions;
 using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 
 namespace Okane.Tests.Expenses.Delete;

@@ -1,5 +1,4 @@
 using MediatR;
-using Okane.Application;
 using Okane.Application.Auth.SignIn;
 using Okane.Application.Auth.Signup;
 using Okane.Application.Categories;
@@ -77,7 +76,7 @@ public static class EndpointBuilderExtensions
             .WithOpenApi();
 
         expenses.MapDelete(IdPath, async (IMediator mediator, int id) =>
-                (await mediator.Send(new DeleteExpenseRequest(id))).ToResult())
+                (await mediator.Send(new DeleteExpenseRequest(id))).ToActionResult())
             .Produces<ExpenseResponse>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
