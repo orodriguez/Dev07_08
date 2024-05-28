@@ -4,13 +4,13 @@ using Okane.Application.Auth.Signup;
 
 namespace Okane.Application.Auth.SignIn;
 
-public class SignInHandler : IRequestHandler<Request, Result<TokenResponse>>
+public class Handler : IRequestHandler<Request, Result<Response>>
 {
     private readonly IUsersRepository _users;
     private readonly IPasswordHasher _passwordHasher;
     private readonly ITokenGenerator _tokenGenerator;
 
-    public SignInHandler(
+    public Handler(
         IUsersRepository users, 
         IPasswordHasher passwordHasher, 
         ITokenGenerator tokenGenerator)
@@ -20,7 +20,7 @@ public class SignInHandler : IRequestHandler<Request, Result<TokenResponse>>
         _tokenGenerator = tokenGenerator;
     }
 
-    public Task<Result<TokenResponse>> Handle(Request request, CancellationToken cancellationToken)
+    public Task<Result<Response>> Handle(Request request, CancellationToken cancellationToken)
     {
         var user = _users.ByEmail(request.Email);
 
@@ -31,6 +31,6 @@ public class SignInHandler : IRequestHandler<Request, Result<TokenResponse>>
             throw new NotImplementedException();
 
         var token = _tokenGenerator.Generate(user);
-        return Task.FromResult(Result.Ok(new TokenResponse(token)));
+        return Task.FromResult(Result.Ok(new Response(token)));
     }
 }
