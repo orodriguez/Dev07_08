@@ -1,3 +1,4 @@
+using FluentResults;
 using Okane.Application.Auth;
 using Okane.Application.Auth.Signup;
 
@@ -9,10 +10,8 @@ public class SignupHandlerTests : AbstractHandlerTests
     public async Task Valid()
     {
         PasswordHasherMock.Setup(hasher => hasher.Hash("1234")).Returns("H1234");
-        
-        var response = await Handle(new Request("user@mail.com", "1234"));
 
-        var user = Assert.IsType<UserResponse>(response);
+        var user = (await App.Auth.SignUp("user@mail.com", "1234")).Value;
         
         Assert.Equal(1, user.Id);
         Assert.Equal("user@mail.com", user.Email);

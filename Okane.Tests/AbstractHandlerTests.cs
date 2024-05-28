@@ -11,9 +11,9 @@ namespace Okane.Tests
     public abstract class AbstractHandlerTests
     {
         private readonly ServiceProvider _provider;
+        protected App App { get; set; }
         protected DateTime Now { get; set; }
         protected Mock<IPasswordHasher> PasswordHasherMock => Resolve<PasswordHasherMock>();
-
         protected AbstractHandlerTests()
         {
             Now = DateTime.Parse("2024-01-01", new CultureInfo("es-US"));
@@ -25,6 +25,8 @@ namespace Okane.Tests
                 .AddOkaneTestDoubles(() => Now);
             
             _provider = services.BuildServiceProvider();
+
+            App = _provider.GetRequiredService<App>();
         }
 
         protected int CurrentUserId
@@ -32,7 +34,8 @@ namespace Okane.Tests
             get => Resolve<FakeUserSession>().CurrentUserId;
             set => Resolve<FakeUserSession>().CurrentUserId = value;
         }
-        
+
+
         // TODO: In order to avoid knowing request types while using the API,
         // introduce an API abstractions with all resources and methods
         protected Task<TResponse> Handle<TResponse>(IRequest<TResponse> request) => 

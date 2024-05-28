@@ -28,7 +28,7 @@ public static class EndpointBuilderExtensions
     {
         var auth = app.MapGroup("/auth");
         auth.MapPost("/signup", async (IMediator mediator, Application.Auth.Signup.Request request) =>
-                (await mediator.Send(request)).ResponseToResult())
+                (await mediator.Send(request)).ToActionResult())
             .WithOpenApi();
 
         auth.MapPost("/token", async (IMediator mediator, Application.Auth.SignIn.Request request) =>

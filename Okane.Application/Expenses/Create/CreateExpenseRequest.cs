@@ -3,6 +3,7 @@ using Okane.Domain;
 
 namespace Okane.Application.Expenses.Create;
 
+// TODO: Rename to Request
 public record CreateExpenseRequest(int Amount, string CategoryName, string? Description = null) 
     : IRequest<ICreateExpenseResponse>
 {

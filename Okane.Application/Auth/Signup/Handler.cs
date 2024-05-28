@@ -1,26 +1,27 @@
+using FluentResults;
 using MediatR;
 using Okane.Domain;
 
 namespace Okane.Application.Auth.Signup;
 
-public class SignUpHandler : IRequestHandler<Request, ISignUpResponse>
+public class Handler : IRequestHandler<Request, Result<Response>>
 {
     private readonly IUsersRepository _users;
     private readonly IPasswordHasher _passwordHasher;
 
-    public SignUpHandler(IUsersRepository users, IPasswordHasher passwordHasher)
+    public Handler(IUsersRepository users, IPasswordHasher passwordHasher)
     {
         _users = users;
         _passwordHasher = passwordHasher;
     }
     
-    public Task<ISignUpResponse> Handle(Request request, CancellationToken cancellationToken)
+    public Task<Result<Response>> Handle(Request request, CancellationToken cancellationToken)
     {
         var user = CreateUser(request);
         
         _users.Add(user);
         
-        return Task.FromResult(CreateResponse(user));
+        return Task.FromResult(Result.Ok(CreateResponse(user)));
     }
 
     private User CreateUser(Request request) =>
@@ -32,6 +33,7 @@ public class SignUpHandler : IRequestHandler<Request, ISignUpResponse>
 
     private string HashPassword(string password) => _passwordHasher.Hash(password);
 
-    private ISignUpResponse CreateResponse(User user) => 
-        new UserResponse(user.Id, user.Email);
+    // TODO: Setup Automapper
+    private Response CreateResponse(User user) => 
+        new(user.Id, user.Email);
 }

@@ -3,6 +3,7 @@ using Okane.Application.Auth.Signup;
 using Okane.Application.Categories.Create;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Retrieve;
+using Okane.Tests.Auth.Signup;
 
 namespace Okane.Tests.Expenses.Retrieve;
 
@@ -10,8 +11,8 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        CurrentUserId = Assert.IsType<UserResponse>(
-            await Handle(new Request("user1@mail.com", "1234"))).Id;
+        var user = (await App.Auth.SignUp("user1@mail.com", "1234")).Value;
+        CurrentUserId = user.Id;
         
         await Handle(new CreateCategoryRequest("Food"));
         await Handle(new CreateCategoryRequest("Games"));
@@ -50,11 +51,11 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task ExpensesFromAnotherUser()
     {
-        await Handle(new CreateExpenseRequest(10, "Food"));
+        await App.Expenses.Create(10, "Food");
+
+        var user = (await App.Auth.SignUp("user@mail.com", "1234")).Value;
         
-        
-        CurrentUserId = Assert.IsType<UserResponse>(
-            await Handle(new Request("user2@mail.com", "1234"))).Id;
+        CurrentUserId = user.Id;
 
         await Handle(new CreateExpenseRequest(20, "Games"));
         
