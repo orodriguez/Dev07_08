@@ -10,9 +10,9 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await HandleAsync(new CreateCategoryRequest("Food"));
-        await HandleAsync(new CreateCategoryRequest("Entertainment"));
-        await HandleAsync(new CreateCategoryRequest("Games"));
+        await Handle(new CreateCategoryRequest("Food"));
+        await Handle(new CreateCategoryRequest("Entertainment"));
+        await Handle(new CreateCategoryRequest("Games"));
     }
 
     [Fact]
@@ -20,7 +20,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     {
         Now = DateTime.Parse("2024-02-14", new CultureInfo("es-US"));
         
-        var response = Assert.IsType<ExpenseResponse>(await HandleAsync(new CreateExpenseRequest(10, "Food")));
+        var response = Assert.IsType<ExpenseResponse>(await Handle(new CreateExpenseRequest(10, "Food")));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
@@ -32,7 +32,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task AmountZeroOrLess()
     {
         var errors = Assert.IsType<ValidationErrorsResponse>(
-            await HandleAsync(new CreateExpenseRequest(-1, "Food", "Pizza")));
+            await Handle(new CreateExpenseRequest(-1, "Food", "Pizza")));
 
         var error = Assert.Single(errors);
         
@@ -44,7 +44,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task WithDescription()
     {
         var response = Assert.IsType<ExpenseResponse>(
-            await HandleAsync(new CreateExpenseRequest(10, "Food", Description: "Pizza")));
+            await Handle(new CreateExpenseRequest(10, "Food", Description: "Pizza")));
         
         Assert.Equal("Pizza", response.Description);
     }
@@ -53,7 +53,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task WithoutDescription()
     {
         var response = Assert.IsType<ExpenseResponse>(
-            await HandleAsync(new CreateExpenseRequest(10, "Food")));
+            await Handle(new CreateExpenseRequest(10, "Food")));
         
         Assert.Null(response.Description);
     }
@@ -62,7 +62,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task DescriptionTooBig()
     {
         var errors = Assert.IsType<ValidationErrorsResponse>(
-            await HandleAsync(
+            await Handle(
                 new CreateExpenseRequest(10, "Food", string.Join("", Enumerable.Repeat('x', 141)))));
 
         var error = Assert.Single(errors);
@@ -75,7 +75,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task CategoryTooBig()
     {
         var errors = Assert.IsType<ValidationErrorsResponse>(
-            await HandleAsync(
+            await Handle(
                 new CreateExpenseRequest(10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza")));
 
         var error = Assert.Single(errors);
@@ -88,7 +88,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task CategoryDoesNotExist()
     {
         var notFoundResponse = Assert.IsType<NotFoundResponse>(
-            await HandleAsync(new CreateExpenseRequest(10, "Unknown", "Pizza")));
+            await Handle(new CreateExpenseRequest(10, "Unknown", "Pizza")));
         
         Assert.Equal("Category with Name 'Unknown' was not found.", notFoundResponse.Message);
     }

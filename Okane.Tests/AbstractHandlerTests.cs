@@ -32,9 +32,10 @@ namespace Okane.Tests
             get => Resolve<FakeUserSession>().CurrentUserId;
             set => Resolve<FakeUserSession>().CurrentUserId = value;
         }
-
-        // TODO: Remove async from name
-        protected Task<TResponse> HandleAsync<TResponse>(IRequest<TResponse> request) => 
+        
+        // TODO: In order to avoid knowing request types while using the API,
+        // introduce an API abstractions with all resources and methods
+        protected Task<TResponse> Handle<TResponse>(IRequest<TResponse> request) => 
             Resolve<IMediator>().Send(request);
 
         private T Resolve<T>() where T : notnull =>

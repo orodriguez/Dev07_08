@@ -11,9 +11,9 @@ public class DeleteCategoryHandlerTests : AbstractHandlerTests
     public async Task Exists()
     {
         var createResponse = Assert.IsType<CategoryResponse>(
-            await HandleAsync(new CreateCategoryRequest("Subscriptions")));
+            await Handle(new CreateCategoryRequest("Subscriptions")));
 
-        var deleteResponse = Assert.IsType<CategoryResponse>(await HandleAsync(new DeleteCategoryRequest(createResponse.Id)));
+        var deleteResponse = Assert.IsType<CategoryResponse>(await Handle(new DeleteCategoryRequest(createResponse.Id)));
         
         Assert.Equal(createResponse.Id, deleteResponse.Id);
         Assert.Equal("Subscriptions", deleteResponse.Name);
@@ -21,5 +21,5 @@ public class DeleteCategoryHandlerTests : AbstractHandlerTests
     
     [Fact]
     public async Task NotFound() => 
-        Assert.IsType<NotFoundResponse>(await HandleAsync(new DeleteCategoryRequest(-234)));
+        Assert.IsType<NotFoundResponse>(await Handle(new DeleteCategoryRequest(-234)));
 }

@@ -10,17 +10,17 @@ public class UpdateExpensesHandler : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await HandleAsync(new CreateCategoryRequest("Food"));
-        await HandleAsync(new CreateCategoryRequest("Entertainment"));
+        await Handle(new CreateCategoryRequest("Food"));
+        await Handle(new CreateCategoryRequest("Entertainment"));
     }
 
     [Fact]
     public async Task Valid()
     {
         var createdExpense = Assert.IsType<ExpenseResponse>(
-            await HandleAsync(new CreateExpenseRequest(10, "Food", "Pizza")));
+            await Handle(new CreateExpenseRequest(10, "Food", "Pizza")));
 
-        var updatedExpense = Assert.IsType<ExpenseResponse>(await HandleAsync(new UpdateExpenseRequest(
+        var updatedExpense = Assert.IsType<ExpenseResponse>(await Handle(new UpdateExpenseRequest(
             createdExpense.Id, 
             50, 
             "Entertainment", 
@@ -35,7 +35,7 @@ public class UpdateExpensesHandler : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task NotFound()
     {
-        var response = await HandleAsync(new UpdateExpenseRequest(-1, 50, "Entertainment"));
+        var response = await Handle(new UpdateExpenseRequest(-1, 50, "Entertainment"));
         
         Assert.IsType<NotFoundResponse>(response);
     }

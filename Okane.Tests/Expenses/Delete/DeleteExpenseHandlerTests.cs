@@ -10,23 +10,23 @@ public class DeleteExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await HandleAsync(new CreateCategoryRequest("Games"));
+        await Handle(new CreateCategoryRequest("Games"));
     }
 
     [Fact]
     public async Task Exists()
     {
         var createResponse = Assert.IsType<ExpenseResponse>(
-            await HandleAsync(new CreateExpenseRequest(20, "Games")));
+            await Handle(new CreateExpenseRequest(20, "Games")));
 
-        var expense = (await HandleAsync(new DeleteExpenseRequest(createResponse.Id))).Value;
+        var expense = (await Handle(new DeleteExpenseRequest(createResponse.Id))).Value;
         Assert.Equal("Games", expense.CategoryName);
     }
 
     [Fact]
     public async Task NotFound()
     {
-        var result = await HandleAsync(new DeleteExpenseRequest(-50));
+        var result = await Handle(new DeleteExpenseRequest(-50));
         Assert.Single(result.Reasons.OfType<RecordNotFoundError>());
     }
 
