@@ -1,9 +1,10 @@
+using FluentResults;
 using MediatR;
 
 namespace Okane.Application.Expenses.Create;
 
 public class CreateExpenseHandler 
-    : IRequestHandler<CreateExpenseRequest, ICreateExpenseResponse>
+    : IRequestHandler<Request, Result<Response>>
 {
     private readonly ExpenseFactory _expenseFactory;
     private readonly IExpensesRepository _expensesRepository;
@@ -16,17 +17,17 @@ public class CreateExpenseHandler
         _expensesRepository = expensesRepository;
     }
     
-    public Task<ICreateExpenseResponse> Handle(CreateExpenseRequest request, CancellationToken cancellationToken)
+    public Task<Result<Response>> Handle(Request request, CancellationToken cancellationToken)
     {
         var result = _expenseFactory.Create(request);
 
-        if (result is ICreateExpenseResponse response)
-            return Task.FromResult<ICreateExpenseResponse>(response);
+        if (result.IsFailed)
+            return Task.FromResult(Result.Fail<Response>(result.Errors));
         
-        var expense = ((ExpenseFactoryResponse)result).Value;
+        var expense = result.Value;
         
         _expensesRepository.Add(expense);
         
-        return Task.FromResult<ICreateExpenseResponse>(expense.ToExpenseResponse());
+        return Task.FromResult(Result.Ok(expense.ToExpenseResponse()));
     }
 }

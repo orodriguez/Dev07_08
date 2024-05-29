@@ -3,6 +3,8 @@ using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Responses;
+using Okane.Application.Results;
+using Request = Okane.Application.Expenses.Create.Request;
 
 namespace Okane.Tests.Expenses.Create;
 
@@ -10,9 +12,9 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await Handle(new Request("Food"));
-        await Handle(new Request("Entertainment"));
-        await Handle(new Request("Games"));
+        await Handle(new Application.Categories.Create.Request("Food"));
+        await Handle(new Application.Categories.Create.Request("Entertainment"));
+        await Handle(new Application.Categories.Create.Request("Games"));
     }
 
     [Fact]
@@ -20,7 +22,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     {
         Now = DateTime.Parse("2024-02-14", new CultureInfo("es-US"));
         
-        var response = Assert.IsType<ExpenseResponse>(await Handle(new CreateExpenseRequest(10, "Food")));
+        var response = Assert.IsType<Response>(await Handle(new Request(10, "Food")));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
@@ -31,20 +33,19 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task AmountZeroOrLess()
     {
-        var errors = Assert.IsType<ValidationErrorsResponse>(
-            await Handle(new CreateExpenseRequest(-1, "Food", "Pizza")));
+        var result = await App.Expenses.Create(-1, "Food", "Pizza");
 
-        var error = Assert.Single(errors);
+        var error = Assert.Single(result.Errors.OfType<PropertyValidationError>());
         
-        Assert.Equal("Amount", error.Property);
+        Assert.Equal("Amount", error.PropertyName);
         Assert.Equal("Amount must be a positive value", error.Message);
     }
 
     [Fact]
     public async Task WithDescription()
     {
-        var response = Assert.IsType<ExpenseResponse>(
-            await Handle(new CreateExpenseRequest(10, "Food", Description: "Pizza")));
+        var response = Assert.IsType<Response>(
+            await Handle(new Request(10, "Food", Description: "Pizza")));
         
         Assert.Equal("Pizza", response.Description);
     }
@@ -52,8 +53,8 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task WithoutDescription()
     {
-        var response = Assert.IsType<ExpenseResponse>(
-            await Handle(new CreateExpenseRequest(10, "Food")));
+        var response = Assert.IsType<Response>(
+            await Handle(new Request(10, "Food")));
         
         Assert.Null(response.Description);
     }
@@ -63,12 +64,12 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     {
         var errors = Assert.IsType<ValidationErrorsResponse>(
             await Handle(
-                new CreateExpenseRequest(10, "Food", string.Join("", Enumerable.Repeat('x', 141)))));
+                new Request(10, "Food", string.Join("", Enumerable.Repeat('x', 141)))));
 
         var error = Assert.Single(errors);
         
-        Assert.Equal(nameof(CreateExpenseRequest.Description), error.Property);
-        Assert.Equal($"{nameof(CreateExpenseRequest.Description)} is too big", error.Message);
+        Assert.Equal(nameof(Request.Description), error.Property);
+        Assert.Equal($"{nameof(Request.Description)} is too big", error.Message);
     }
 
     [Fact]
@@ -76,19 +77,19 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     {
         var errors = Assert.IsType<ValidationErrorsResponse>(
             await Handle(
-                new CreateExpenseRequest(10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza")));
+                new Request(10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza")));
 
         var error = Assert.Single(errors);
         
-        Assert.Equal(nameof(CreateExpenseRequest.CategoryName), error.Property);
-        Assert.Equal($"{nameof(CreateExpenseRequest.CategoryName)} is too big", error.Message);
+        Assert.Equal(nameof(Request.CategoryName), error.Property);
+        Assert.Equal($"{nameof(Request.CategoryName)} is too big", error.Message);
     }
 
     [Fact]
     public async Task CategoryDoesNotExist()
     {
         var notFoundResponse = Assert.IsType<NotFoundResponse>(
-            await Handle(new CreateExpenseRequest(10, "Unknown", "Pizza")));
+            await Handle(new Request(10, "Unknown", "Pizza")));
         
         Assert.Equal("Category with Name 'Unknown' was not found.", notFoundResponse.Message);
     }

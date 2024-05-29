@@ -6,19 +6,19 @@ using Okane.Domain;
 
 namespace Okane.Application.Expenses.Delete;
 
-public class DeleteExpenseHandler : IRequestHandler<DeleteExpenseRequest, Result<ExpenseResponse>>
+public class DeleteExpenseHandler : IRequestHandler<DeleteExpenseRequest, Result<Response>>
 {
     private readonly IExpensesRepository _expenses;
 
     public DeleteExpenseHandler(IExpensesRepository expenses) => 
         _expenses = expenses;
 
-    public Task<Result<ExpenseResponse>> Handle(DeleteExpenseRequest request, CancellationToken cancellationToken)
+    public Task<Result<Response>> Handle(DeleteExpenseRequest request, CancellationToken cancellationToken)
     {
         var expenseToDelete = _expenses.ById(request.Id);
 
         if (expenseToDelete == null)
-            return Task.FromResult(Result.Fail<ExpenseResponse>(new RecordNotFoundError()));
+            return Task.FromResult(ErrorResult.RecordNotFound<Response>());
 
         _expenses.Delete(expenseToDelete);
 

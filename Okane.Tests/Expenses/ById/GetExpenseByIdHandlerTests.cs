@@ -4,6 +4,7 @@ using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
+using Request = Okane.Application.Expenses.Create.Request;
 
 namespace Okane.Tests.Expenses.ById;
 
@@ -11,17 +12,17 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await Handle(new Request("Food"));
-        await Handle(new Request("Entertainment"));
-        await Handle(new Request("Games"));
+        await Handle(new Application.Categories.Create.Request("Food"));
+        await Handle(new Application.Categories.Create.Request("Entertainment"));
+        await Handle(new Application.Categories.Create.Request("Games"));
     }
 
     [Fact]
     public async Task Exists()
     {
-        var expense = Assert.IsType<ExpenseResponse>(await Handle(new CreateExpenseRequest(20, "Games")));
+        var expense = Assert.IsType<Response>(await Handle(new Request(20, "Games")));
 
-        var retrievedExpense = Assert.IsType<ExpenseResponse>(await Handle(new GetExpenseByIdRequest(expense.Id)));
+        var retrievedExpense = Assert.IsType<Response>(await Handle(new GetExpenseByIdRequest(expense.Id)));
         
         Assert.Equal(expense.Id, retrievedExpense.Id);
         Assert.Equal(expense.Amount, retrievedExpense.Amount);
@@ -39,17 +40,17 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task AfterUpdate()
     {
-        var createdExpense = Assert.IsType<ExpenseResponse>(
-            await Handle(new CreateExpenseRequest(10, "Food", "Pizza")));
+        var createdExpense = Assert.IsType<Response>(
+            await Handle(new Request(10, "Food", "Pizza")));
 
-        Assert.IsType<ExpenseResponse>(
+        Assert.IsType<Response>(
             await Handle(new UpdateExpenseRequest(
                 createdExpense.Id,
                 50, 
                 "Entertainment", 
                 Description: "Movies")));
         
-        var expense = Assert.IsType<ExpenseResponse>(await Handle(new GetExpenseByIdRequest(createdExpense.Id)));
+        var expense = Assert.IsType<Response>(await Handle(new GetExpenseByIdRequest(createdExpense.Id)));
         
         Assert.Equal(50, expense.Amount);
         Assert.Equal("Entertainment", expense.CategoryName);

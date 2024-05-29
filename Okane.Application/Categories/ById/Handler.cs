@@ -16,7 +16,7 @@ public class Handler : IRequestHandler<Request, Result<Response>>
         var category = _categories.ById(request.Id);
 
         if (category == null)
-            return Task.FromResult(Result.Fail<Response>(new RecordNotFoundError()));
+            return Task.FromResult(ErrorResult.RecordNotFound<Response>());
         
         return Task.FromResult(Result.Ok(Response.From(category)));
     }

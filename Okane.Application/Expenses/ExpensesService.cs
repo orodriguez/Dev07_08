@@ -1,5 +1,5 @@
+using FluentResults;
 using MediatR;
-using Okane.Application.Expenses.Create;
 
 namespace Okane.Application.Expenses;
 
@@ -9,6 +9,6 @@ public class ExpensesService
 
     public ExpensesService(IMediator mediator) => _mediator = mediator;
 
-    public Task<ICreateExpenseResponse> Create(int amount, string category) => 
-        _mediator.Send(new Create.CreateExpenseRequest(amount, category));
+    public Task<Result<Response>> Create(int amount, string category, string description) => 
+        _mediator.Send(new Create.Request(amount, category, description));
 }

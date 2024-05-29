@@ -29,7 +29,7 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task OneExpenses()
     {
-        await Handle(new CreateExpenseRequest(10, "Food"));
+        await Handle(new Application.Expenses.Create.Request(10, "Food"));
 
         var expenses = Assert.IsType<RetrieveExpensesResponse>(await Handle(new RetrieveExpensesRequest()));
         var expense = Assert.Single(expenses);
@@ -41,8 +41,8 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task ManyExpenses()
     {
-        await Handle(new CreateExpenseRequest(10, "Food"));
-        await Handle(new CreateExpenseRequest(20, "Games"));
+        await Handle(new Application.Expenses.Create.Request(10, "Food"));
+        await Handle(new Application.Expenses.Create.Request(20, "Games"));
         
         var response = Assert.IsType<RetrieveExpensesResponse>(await Handle(new RetrieveExpensesRequest()));
         
@@ -58,7 +58,7 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
         
         CurrentUserId = user.Id;
 
-        await Handle(new CreateExpenseRequest(20, "Games"));
+        await Handle(new Application.Expenses.Create.Request(20, "Games"));
         
         var response = Assert.IsType<RetrieveExpensesResponse>(await Handle(new RetrieveExpensesRequest()));
         

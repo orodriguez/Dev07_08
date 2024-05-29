@@ -3,13 +3,13 @@ using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.Retrieve;
 
-public class RetrieveExpensesResponse : IEnumerable<ExpenseResponse>, IResponse
+public class RetrieveExpensesResponse : IEnumerable<Response>, IResponse
 {
-    private readonly IEnumerable<ExpenseResponse> _expenses;
+    private readonly IEnumerable<Response> _expenses;
 
-    public RetrieveExpensesResponse(IEnumerable<ExpenseResponse> expenses) => _expenses = expenses;
+    public RetrieveExpensesResponse(IEnumerable<Response> expenses) => _expenses = expenses;
 
-    public IEnumerator<ExpenseResponse> GetEnumerator() => _expenses.GetEnumerator();
+    public IEnumerator<Response> GetEnumerator() => _expenses.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

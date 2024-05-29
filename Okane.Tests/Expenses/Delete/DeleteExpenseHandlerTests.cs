@@ -3,6 +3,7 @@ using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
 using Okane.Application.Results;
+using Request = Okane.Application.Expenses.Create.Request;
 
 namespace Okane.Tests.Expenses.Delete;
 
@@ -10,14 +11,14 @@ public class DeleteExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await Handle(new Request("Games"));
+        await Handle(new Application.Categories.Create.Request("Games"));
     }
 
     [Fact]
     public async Task Exists()
     {
-        var createResponse = Assert.IsType<ExpenseResponse>(
-            await Handle(new CreateExpenseRequest(20, "Games")));
+        var createResponse = Assert.IsType<Response>(
+            await Handle(new Request(20, "Games")));
 
         var expense = (await Handle(new DeleteExpenseRequest(createResponse.Id))).Value;
         Assert.Equal("Games", expense.CategoryName);

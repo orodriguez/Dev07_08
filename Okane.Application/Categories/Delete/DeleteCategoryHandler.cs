@@ -17,7 +17,7 @@ public class DeleteCategoryHandler
         var category = _categories.ById(request.Id);
 
         if (category == null)
-            return Task.FromResult(Result.Fail<Response>(new RecordNotFoundError()));
+            return Task.FromResult(ErrorResult.RecordNotFound<Response>());
         
         _categories.Delete(category);
         return Task.FromResult(Result.Ok(Response.From(category)));

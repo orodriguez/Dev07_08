@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Okane.Application.Expenses.Create;
 
-public class Validator : AbstractValidator<CreateExpenseRequest>
+public class Validator : AbstractValidator<Request>
 {
     public Validator()
     {
@@ -12,10 +12,10 @@ public class Validator : AbstractValidator<CreateExpenseRequest>
 
         RuleFor(request => request.Description)
             .MaximumLength(140)
-            .WithMessage($"{nameof(CreateExpenseRequest.Description)} is too big");
+            .WithMessage($"{nameof(Request.Description)} is too big");
         
         RuleFor(request => request.CategoryName)
             .MaximumLength(50)
-            .WithMessage($"{nameof(CreateExpenseRequest.CategoryName)} is too big");
+            .WithMessage($"{nameof(Request.CategoryName)} is too big");
     }
 }

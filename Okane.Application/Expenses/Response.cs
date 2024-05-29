@@ -1,16 +1,14 @@
 using Okane.Application.Expenses.ById;
-using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses;
 
-public record ExpenseResponse(int Id, 
+public record Response(int Id, 
     int Amount, 
     string CategoryName, 
     string? Description, DateTime CreatedAt) 
-    : ISuccessResponse, 
-        ICreateExpenseResponse,
+    : ISuccessResponse,
         IGetExpenseByIdResponse,
-        IUpdateExpenseResponse, IDeleteExpenseResponse;
+        IUpdateExpenseResponse, IDeleteExpenseResponse, IResponse;

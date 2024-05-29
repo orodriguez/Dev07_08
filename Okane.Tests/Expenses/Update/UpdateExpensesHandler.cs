@@ -3,6 +3,7 @@ using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
+using Request = Okane.Application.Expenses.Create.Request;
 
 namespace Okane.Tests.Expenses.Update;
 
@@ -10,17 +11,17 @@ public class UpdateExpensesHandler : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await Handle(new Request("Food"));
-        await Handle(new Request("Entertainment"));
+        await Handle(new Application.Categories.Create.Request("Food"));
+        await Handle(new Application.Categories.Create.Request("Entertainment"));
     }
 
     [Fact]
     public async Task Valid()
     {
-        var createdExpense = Assert.IsType<ExpenseResponse>(
-            await Handle(new CreateExpenseRequest(10, "Food", "Pizza")));
+        var createdExpense = Assert.IsType<Response>(
+            await Handle(new Request(10, "Food", "Pizza")));
 
-        var updatedExpense = Assert.IsType<ExpenseResponse>(await Handle(new UpdateExpenseRequest(
+        var updatedExpense = Assert.IsType<Response>(await Handle(new UpdateExpenseRequest(
             createdExpense.Id, 
             50, 
             "Entertainment", 
