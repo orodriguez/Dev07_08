@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddHandlers();
         services.AddTransient<AuthService>();
         services.AddTransient<ExpensesService>();
+        services.AddTransient<CategoriesService>();
         services.AddTransient<ExpenseFactory>();
         services.AddTransient<IValidator<CreateExpenseRequest>, Validator>();
         services.AddTransient<Func<DateTime>>(_ => () => DateTime.Now);

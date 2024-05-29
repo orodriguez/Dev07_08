@@ -10,6 +10,7 @@ using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
+using Request = Okane.Application.Categories.Delete.Request;
 
 namespace Okane.WebApi;
 
@@ -41,19 +42,19 @@ public static class EndpointBuilderExtensions
         var categories = app.MapGroup("/categories").RequireAuthorization();
         categories.MapPost("/", async (IMediator mediator, CreateCategoryRequest request) =>
                 (await mediator.Send(request)).ResponseToResult())
-            .Produces<CategoryResponse>()
-            .Produces<ConflictResponse>(StatusCodes.Status409Conflict)
+            .Produces<Response>()
+            .Produces<ConflictError>(StatusCodes.Status409Conflict)
             .WithOpenApi();
 
         categories.MapGet(IdPath, async (IMediator mediator, int id) =>
-                (await mediator.Send(new GetCategoryByIdRequest(id))).ResponseToResult())
-            .Produces<CategoryResponse>()
+                (await mediator.Send(new Application.Categories.ById.Request(id))).ToActionResult())
+            .Produces<Response>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
         categories.MapDelete(IdPath, async (IMediator mediator, int id) =>
-                (await mediator.Send(new DeleteCategoryRequest(id))).ResponseToResult())
-            .Produces<CategoryResponse>()
+                (await mediator.Send(new Request(id))).ResponseToResult())
+            .Produces<Response>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
     }

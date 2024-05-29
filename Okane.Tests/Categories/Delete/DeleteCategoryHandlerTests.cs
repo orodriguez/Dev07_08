@@ -1,7 +1,6 @@
-using Okane.Application.Categories;
-using Okane.Application.Categories.Create;
 using Okane.Application.Categories.Delete;
 using Okane.Application.Responses;
+using Okane.Application.Results;
 
 namespace Okane.Tests.Categories.Delete;
 
@@ -10,16 +9,18 @@ public class DeleteCategoryHandlerTests : AbstractHandlerTests
     [Fact]
     public async Task Exists()
     {
-        var createResponse = Assert.IsType<CategoryResponse>(
-            await Handle(new CreateCategoryRequest("Subscriptions")));
+        var createdCategory = (await App.Categories.Create("Subscriptions")).Value;
 
-        var deleteResponse = Assert.IsType<CategoryResponse>(await Handle(new DeleteCategoryRequest(createResponse.Id)));
+        var deletedCategory = (await App.Categories.Delete(createdCategory.Id)).Value;
         
-        Assert.Equal(createResponse.Id, deleteResponse.Id);
-        Assert.Equal("Subscriptions", deleteResponse.Name);
+        Assert.Equal(createdCategory.Id, deletedCategory.Id);
+        Assert.Equal("Subscriptions", deletedCategory.Name);
     }
     
     [Fact]
-    public async Task NotFound() => 
-        Assert.IsType<NotFoundResponse>(await Handle(new DeleteCategoryRequest(-234)));
+    public async Task NotFound()
+    {
+        var result = await App.Categories.Delete(-1);
+        Assert.Single(result.Errors.OfType<RecordNotFoundError>());
+    }
 }

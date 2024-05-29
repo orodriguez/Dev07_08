@@ -10,7 +10,7 @@ public static class ResponseExtensions
         response switch {
             NotFoundResponse notFound => Results.NotFound(notFound.Message),
             ValidationErrorsResponse errors => Results.BadRequest(errors),
-            ConflictResponse conflict => Results.Conflict(conflict.Message),
+            ConflictError conflict => Results.Conflict(conflict.Message),
             _ => Results.Ok(response)
         };
     

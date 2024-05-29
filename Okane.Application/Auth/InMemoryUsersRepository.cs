@@ -2,6 +2,7 @@ using Okane.Domain;
 
 namespace Okane.Application.Auth;
 
+// TODO: Move this to separated project
 public class InMemoryUsersRepository : IUsersRepository
 {
     private int _nextId = 1;

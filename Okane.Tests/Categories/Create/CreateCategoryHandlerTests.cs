@@ -9,8 +9,11 @@ public class CreateCategoryHandlerTests : AbstractHandlerTests
     [Fact]
     public async Task NameAlreadyExists()
     {
-        Assert.IsType<CategoryResponse>(await Handle(new CreateCategoryRequest("Taxes")));
-        var response = Assert.IsType<ConflictResponse>(await Handle(new CreateCategoryRequest("Taxes")));
-        Assert.Equal("Category with Name 'Taxes' already exists.", response.Message);
+        await App.Categories.Create("Taxes");
+
+        var result = await App.Categories.Create("Taxes");
+
+        var error = Assert.Single(result.Errors.OfType<ConflictError>());
+        Assert.Equal("Category with Name 'Taxes' already exists.", error.Message);
     }
 }

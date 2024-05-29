@@ -2,14 +2,13 @@ using FluentResults;
 using MediatR;
 using Okane.Application.Results;
 
-namespace Okane.Application.Categories.Delete;
+namespace Okane.Application.Categories.ById;
 
-public class DeleteCategoryHandler 
-    : IRequestHandler<Request, Result<Response>>
+public class Handler : IRequestHandler<Request, Result<Response>>
 {
     private readonly ICategoriesRepository _categories;
 
-    public DeleteCategoryHandler(ICategoriesRepository categories) => 
+    public Handler(ICategoriesRepository categories) => 
         _categories = categories;
 
     public Task<Result<Response>> Handle(Request request, CancellationToken cancellationToken)
@@ -19,7 +18,6 @@ public class DeleteCategoryHandler
         if (category == null)
             return Task.FromResult(Result.Fail<Response>(new RecordNotFoundError()));
         
-        _categories.Delete(category);
         return Task.FromResult(Result.Ok(Response.From(category)));
     }
 }

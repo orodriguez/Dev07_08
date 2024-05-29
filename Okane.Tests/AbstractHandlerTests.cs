@@ -34,10 +34,8 @@ namespace Okane.Tests
             get => Resolve<FakeUserSession>().CurrentUserId;
             set => Resolve<FakeUserSession>().CurrentUserId = value;
         }
-
-
-        // TODO: In order to avoid knowing request types while using the API,
-        // introduce an API abstractions with all resources and methods
+        
+        [Obsolete]
         protected Task<TResponse> Handle<TResponse>(IRequest<TResponse> request) => 
             Resolve<IMediator>().Send(request);
 
