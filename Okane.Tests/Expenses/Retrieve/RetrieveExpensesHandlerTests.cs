@@ -4,6 +4,7 @@ using Okane.Application.Categories.Create;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Tests.Auth.Signup;
+using Request = Okane.Application.Categories.Create.Request;
 
 namespace Okane.Tests.Expenses.Retrieve;
 
@@ -14,8 +15,8 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
         var user = (await App.Auth.SignUp("user1@mail.com", "1234")).Value;
         CurrentUserId = user.Id;
         
-        await Handle(new CreateCategoryRequest("Food"));
-        await Handle(new CreateCategoryRequest("Games"));
+        await Handle(new Request("Food"));
+        await Handle(new Request("Games"));
     }
 
     [Fact]

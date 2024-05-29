@@ -40,8 +40,8 @@ public static class EndpointBuilderExtensions
     private static void MapCategories(this IEndpointRouteBuilder app)
     {
         var categories = app.MapGroup("/categories").RequireAuthorization();
-        categories.MapPost("/", async (IMediator mediator, CreateCategoryRequest request) =>
-                (await mediator.Send(request)).ResponseToResult())
+        categories.MapPost("/", async (IMediator mediator, Application.Categories.Create.Request request) =>
+                (await mediator.Send(request)).ToActionResult())
             .Produces<Response>()
             .Produces<ConflictError>(StatusCodes.Status409Conflict)
             .WithOpenApi();
@@ -53,7 +53,7 @@ public static class EndpointBuilderExtensions
             .WithOpenApi();
 
         categories.MapDelete(IdPath, async (IMediator mediator, int id) =>
-                (await mediator.Send(new Request(id))).ResponseToResult())
+                (await mediator.Send(new Request(id))).ToActionResult())
             .Produces<Response>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();

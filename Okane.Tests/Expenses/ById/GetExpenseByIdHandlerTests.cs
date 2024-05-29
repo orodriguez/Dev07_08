@@ -11,9 +11,9 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await Handle(new CreateCategoryRequest("Food"));
-        await Handle(new CreateCategoryRequest("Entertainment"));
-        await Handle(new CreateCategoryRequest("Games"));
+        await Handle(new Request("Food"));
+        await Handle(new Request("Entertainment"));
+        await Handle(new Request("Games"));
     }
 
     [Fact]

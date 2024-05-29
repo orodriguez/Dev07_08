@@ -5,14 +5,14 @@ using Okane.Application.Responses;
 namespace Okane.Application.Categories.Create;
 
 public class CreateCategoryHandler 
-    : IRequestHandler<CreateCategoryRequest, Result<Response>>
+    : IRequestHandler<Request, Result<Response>>
 {
     private readonly ICategoriesRepository _categories;
 
     public CreateCategoryHandler(ICategoriesRepository categories) => 
         _categories = categories;
 
-    public Task<Result<Response>> Handle(CreateCategoryRequest request, CancellationToken cancellationToken)
+    public Task<Result<Response>> Handle(Request request, CancellationToken cancellationToken)
     {
         var nameExists = _categories.NameExists(request.Name);
 

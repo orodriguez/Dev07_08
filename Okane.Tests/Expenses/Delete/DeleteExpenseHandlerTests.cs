@@ -10,7 +10,7 @@ public class DeleteExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
 {
     public async Task InitializeAsync()
     {
-        await Handle(new CreateCategoryRequest("Games"));
+        await Handle(new Request("Games"));
     }
 
     [Fact]

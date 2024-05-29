@@ -10,7 +10,7 @@ public class CategoriesService
     public CategoriesService(IMediator mediator) => _mediator = mediator;
 
     public Task<Result<Response>> Create(string name) => 
-        _mediator.Send(new Create.CreateCategoryRequest(name));
+        _mediator.Send(new Create.Request(name));
 
     public Task<Result<Response>> ById(int id) => 
         _mediator.Send(new ById.Request(id));
