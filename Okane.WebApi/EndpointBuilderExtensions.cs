@@ -10,6 +10,7 @@ using Okane.Application.Expenses.Delete;
 using Okane.Application.Expenses.Retrieve;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
+using Okane.Application.Results;
 using Request = Okane.Application.Categories.Delete.Request;
 using Response = Okane.Application.Expenses.Response;
 
@@ -66,11 +67,11 @@ public static class EndpointBuilderExtensions
         expenses.MapPost("/", async (IMediator mediator, Application.Expenses.Create.Request request) =>
                 (await mediator.Send(request)).ToActionResult())
             .Produces<Response>()
-            .Produces<ValidationErrorsResponse>(StatusCodes.Status400BadRequest)
+            .Produces<PropertyValidationErrors>(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
-        expenses.MapPut(IdPath, async (IMediator mediator, int id, UpdateExpenseRequest request) =>
-                (await mediator.Send(request with { Id = id })).ResponseToResult())
+        expenses.MapPut(IdPath, async (IMediator mediator, int id, Application.Expenses.Update.Request request) =>
+                (await mediator.Send(request with { Id = id })).ToActionResult())
             .Produces<Response>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
@@ -86,7 +87,7 @@ public static class EndpointBuilderExtensions
             .WithOpenApi();
 
         expenses.MapGet(IdPath, async (IMediator mediator, int id) => 
-                (await mediator.Send(new GetExpenseByIdRequest(id))).ResponseToResult())
+                (await mediator.Send(new Application.Expenses.ById.Request(id))).ToActionResult())
             .Produces<Response>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();

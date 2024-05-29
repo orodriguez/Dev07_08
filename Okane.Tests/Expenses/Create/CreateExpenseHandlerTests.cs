@@ -33,7 +33,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task AmountZeroOrLess()
     {
-        var result = await App.Expenses.Create(-1, "Food", "Pizza");
+        var result = await App.Expenses.TryCreate(-1, "Food", "Pizza");
 
         var error = Assert.Single(result.Errors.OfType<PropertyValidationError>());
         
@@ -62,36 +62,33 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task DescriptionTooBig()
     {
-        var errors = Assert.IsType<ValidationErrorsResponse>(
-            await Handle(
-                new Request(10, "Food", string.Join("", Enumerable.Repeat('x', 141)))));
-
-        var error = Assert.Single(errors);
+        var result = await App.Expenses.TryCreate(
+            10, "Food", string.Join("", Enumerable.Repeat('x', 141)));
         
-        Assert.Equal(nameof(Request.Description), error.Property);
+        var error = Assert.Single(result.Errors.OfType<PropertyValidationError>());
+        Assert.Equal(nameof(Request.Description), error.PropertyName);
         Assert.Equal($"{nameof(Request.Description)} is too big", error.Message);
     }
 
     [Fact]
     public async Task CategoryTooBig()
     {
-        var errors = Assert.IsType<ValidationErrorsResponse>(
-            await Handle(
-                new Request(10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza")));
-
-        var error = Assert.Single(errors);
+        var result = await App.Expenses.TryCreate(
+            10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza");
         
-        Assert.Equal(nameof(Request.CategoryName), error.Property);
+        var error = Assert.Single(result.Errors.OfType<PropertyValidationError>());
+        Assert.Equal(nameof(Request.CategoryName), error.PropertyName);
         Assert.Equal($"{nameof(Request.CategoryName)} is too big", error.Message);
     }
 
     [Fact]
     public async Task CategoryDoesNotExist()
     {
-        var notFoundResponse = Assert.IsType<NotFoundResponse>(
-            await Handle(new Request(10, "Unknown", "Pizza")));
+        var result = await App.Expenses.TryCreate(
+            10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza");
         
-        Assert.Equal("Category with Name 'Unknown' was not found.", notFoundResponse.Message);
+        var error = Assert.Single(result.Errors.OfType<RecordNotFoundError>());
+        Assert.Equal("Category with Name 'Unknown' was not found.", error.Message);
     }
 
     public Task DisposeAsync() => 

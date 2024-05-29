@@ -1,11 +1,13 @@
+using FluentResults;
 using MediatR;
 using Okane.Application.Categories;
 using Okane.Application.Responses;
+using Okane.Application.Results;
 
 namespace Okane.Application.Expenses.Update;
 
 public class UpdateExpenseHandler 
-    : IRequestHandler<UpdateExpenseRequest, IUpdateExpenseResponse>
+    : IRequestHandler<Request, Result<Response>>
 {
     private readonly IExpensesRepository _expensesRepository;
     private readonly ICategoriesRepository _categoriesRepository;
@@ -18,7 +20,7 @@ public class UpdateExpenseHandler
         _categoriesRepository = categoriesRepository;
     }
 
-    public Task<IUpdateExpenseResponse> Handle(UpdateExpenseRequest request, CancellationToken cancellationToken)
+    public Task<Result<Response>> Handle(Request request, CancellationToken cancellationToken)
     {
         var category = _categoriesRepository.ByName(request.CategoryName);
 
@@ -28,12 +30,12 @@ public class UpdateExpenseHandler
         var existingExpense = _expensesRepository.ById(request.Id);
 
         if (existingExpense == null)
-            return Task.FromResult<IUpdateExpenseResponse>(new NotFoundResponse());
+            return Task.FromResult(ErrorResult.RecordNotFound<Response>());
 
         existingExpense.Update(request, category);
 
         _expensesRepository.Update(existingExpense);
         
-        return Task.FromResult<IUpdateExpenseResponse>(existingExpense.ToExpenseResponse());
+        return Task.FromResult(Result.Ok(existingExpense.ToExpenseResponse()));
     }
 }

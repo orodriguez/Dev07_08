@@ -19,6 +19,8 @@ public static class ServiceCollectionExtensions
         if (jwtSettings == null)
             throw new InvalidConfigurationException("Unable to read Jwt settings from config");
 
+        // TODO: Research and implement refresh token and token rotation
+        // TODO: Research a Identity
         services.AddAuthorization();
         services.AddAuthentication(Configure).AddJwtBearer(options => options.TokenValidationParameters =
             new TokenValidationParameters

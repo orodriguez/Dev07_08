@@ -21,7 +21,7 @@ public class UpdateExpensesHandler : AbstractHandlerTests, IAsyncLifetime
         var createdExpense = Assert.IsType<Response>(
             await Handle(new Request(10, "Food", "Pizza")));
 
-        var updatedExpense = Assert.IsType<Response>(await Handle(new UpdateExpenseRequest(
+        var updatedExpense = Assert.IsType<Response>(await Handle(new Application.Expenses.Update.Request(
             createdExpense.Id, 
             50, 
             "Entertainment", 
@@ -36,7 +36,7 @@ public class UpdateExpensesHandler : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task NotFound()
     {
-        var response = await Handle(new UpdateExpenseRequest(-1, 50, "Entertainment"));
+        var response = await Handle(new Application.Expenses.Update.Request(-1, 50, "Entertainment"));
         
         Assert.IsType<NotFoundResponse>(response);
     }

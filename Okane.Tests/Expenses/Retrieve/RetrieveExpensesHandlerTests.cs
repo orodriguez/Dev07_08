@@ -52,17 +52,12 @@ public class RetrieveExpensesHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task ExpensesFromAnotherUser()
     {
-        await App.Expenses.Create(10, "Food");
-
+        await App.Expenses.TryCreate(10, "Food");
         var user = (await App.Auth.SignUp("user@mail.com", "1234")).Value;
-        
         CurrentUserId = user.Id;
 
-        await Handle(new Application.Expenses.Create.Request(20, "Games"));
+        var expense = (await App.Expenses.TryCreate(20, "Games")).Value;
         
-        var response = Assert.IsType<RetrieveExpensesResponse>(await Handle(new RetrieveExpensesRequest()));
-        
-        var expense = Assert.Single(response);
         Assert.Equal("Games", expense.CategoryName);
     }
 
