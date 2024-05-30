@@ -21,8 +21,8 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task Valid()
     {
         Now = DateTime.Parse("2024-02-14", new CultureInfo("es-US"));
-        
-        var response = Assert.IsType<Response>(await Handle(new Request(10, "Food")));
+
+        var response = await App.Expenses.Create(new(10, "Food"));
         
         Assert.Equal(1, response.Id);
         Assert.Equal(10, response.Amount);
@@ -44,8 +44,8 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task WithDescription()
     {
-        var response = Assert.IsType<Response>(
-            await Handle(new Request(10, "Food", Description: "Pizza")));
+        var response = await App.Expenses.Create(
+            new(10, "Food", Description: "Pizza"));
         
         Assert.Equal("Pizza", response.Description);
     }
@@ -53,8 +53,8 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task WithoutDescription()
     {
-        var response = Assert.IsType<Response>(
-            await Handle(new Request(10, "Food")));
+        var response = await App.Expenses.Create(
+            new(10, "Food"));
         
         Assert.Null(response.Description);
     }
@@ -85,7 +85,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     public async Task CategoryDoesNotExist()
     {
         var result = await App.Expenses.TryCreate(
-            10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza");
+            10, "Unknown", "Pizza");
         
         var error = Assert.Single(result.Errors.OfType<RecordNotFoundError>());
         Assert.Equal("Category with Name 'Unknown' was not found.", error.Message);

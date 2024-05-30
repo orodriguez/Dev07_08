@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Okane.Application.Expenses.Delete;
 
-public record DeleteExpenseRequest(int Id) : IRequest<Result<Response>>;
+public record Request(int Id) : IRequest<Result<Response>>;

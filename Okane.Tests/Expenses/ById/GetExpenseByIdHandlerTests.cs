@@ -4,6 +4,7 @@ using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
 using Okane.Application.Responses;
+using Okane.Application.Results;
 using Request = Okane.Application.Expenses.Create.Request;
 
 namespace Okane.Tests.Expenses.ById;
@@ -33,16 +34,17 @@ public class GetExpenseByIdHandlerTests : AbstractHandlerTests, IAsyncLifetime
     [Fact]
     public async Task NotFound()
     {
-        const int unknownId = 42;
-        Assert.IsType<NotFoundResponse>(await Handle(new Application.Expenses.ById.Request(unknownId)));
+        var result = await App.Expenses.TryGetById(-1);
+
+        Assert.Single(result.Errors.OfType<RecordNotFoundError>());
     }
 
     [Fact]
     public async Task AfterUpdate()
     {
-        var createdExpense = (await App.Expenses.TryCreate(10, "Food", "Pizza")).Value;
+        var createdExpense = await App.Expenses.TryCreate(10, "Food", "Pizza").AssertSuccess();
 
-        await App.Expenses.Update(new(
+        await App.Expenses.TryUpdate(new(
             Id: createdExpense.Id, 
             Amount: 50, 
             CategoryName: "Entertainment", 

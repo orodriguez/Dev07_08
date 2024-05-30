@@ -18,7 +18,10 @@ public class ExpensesService
     public Task<Result<Response>> TryCreate(Create.Request request) => 
         _mediator.Send(request);
 
-    public Task<Result<Response>> Update(Update.Request request) => 
+    public async Task<Response> Update(Update.Request request) => 
+        (await TryUpdate(request)).Value;
+    
+    public Task<Result<Response>> TryUpdate(Update.Request request) => 
         _mediator.Send(request);
 
     public async Task<Response> GetById(int id) => 
@@ -26,4 +29,10 @@ public class ExpensesService
 
     public Task<Result<Response>> TryGetById(int id) => 
         _mediator.Send(new ById.Request(id));
+
+    public async Task<Response> Delete(int id) => 
+        (await TryDelete(id)).Value;
+
+    private Task<Result<Response>> TryDelete(int id) => 
+        _mediator.Send(new Delete.Request(id));
 }

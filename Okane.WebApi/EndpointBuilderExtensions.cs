@@ -77,7 +77,7 @@ public static class EndpointBuilderExtensions
             .WithOpenApi();
 
         expenses.MapDelete(IdPath, async (IMediator mediator, int id) =>
-                (await mediator.Send(new DeleteExpenseRequest(id))).ToActionResult())
+                (await mediator.Send(new Application.Expenses.Delete.Request(id))).ToActionResult())
             .Produces<Response>()
             .Produces<NotFoundResponse>(StatusCodes.Status404NotFound)
             .WithOpenApi();
