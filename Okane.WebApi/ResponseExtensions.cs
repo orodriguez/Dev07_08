@@ -1,4 +1,5 @@
 using FluentResults;
+using Okane.Application.Responses;
 using Okane.Application.Results;
 
 namespace Okane.WebApi;
@@ -14,6 +15,8 @@ public static class ResponseExtensions
         return reason switch
         {
             RecordNotFoundError notFound => Results.NotFound(notFound.Message),
+            ConflictError conflict => Results.Conflict(conflict.Message),
+            ValidationErrors errors => Results.BadRequest(errors),
             _ => Results.Ok(reason.Message)
         };
     }

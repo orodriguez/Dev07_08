@@ -3,13 +3,13 @@ using MediatR;
 
 namespace Okane.Application.Expenses.Create;
 
-public class CreateExpenseHandler 
+public class Handler 
     : IRequestHandler<Request, Result<Response>>
 {
     private readonly ExpenseFactory _expenseFactory;
     private readonly IExpensesRepository _expensesRepository;
 
-    public CreateExpenseHandler(
+    public Handler(
         ExpenseFactory expenseFactory, 
         IExpensesRepository expensesRepository)
     {

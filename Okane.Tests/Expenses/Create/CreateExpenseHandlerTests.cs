@@ -35,10 +35,10 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
     {
         var result = await App.Expenses.TryCreate(-1, "Food", "Pizza");
 
-        var error = Assert.Single(result.Errors.OfType<PropertyValidationError>());
-        
-        Assert.Equal("Amount", error.PropertyName);
-        Assert.Equal("Amount must be a positive value", error.Message);
+        var errors = Assert.Single(result.Errors.OfType<ValidationErrors>());
+        var propertyError = Assert.Single(errors.PropertyErrors);
+        Assert.Contains("Amount", propertyError.PropertyName);
+        Assert.Equal("Amount must be a positive value", propertyError.Message);
     }
 
     [Fact]
@@ -65,9 +65,10 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
         var result = await App.Expenses.TryCreate(
             10, "Food", string.Join("", Enumerable.Repeat('x', 141)));
         
-        var error = Assert.Single(result.Errors.OfType<PropertyValidationError>());
-        Assert.Equal(nameof(Request.Description), error.PropertyName);
-        Assert.Equal($"{nameof(Request.Description)} is too big", error.Message);
+        var errors = Assert.Single(result.Errors.OfType<ValidationErrors>());
+        var propertyError = Assert.Single(errors.PropertyErrors);
+        Assert.Equal(nameof(Request.Description), propertyError.PropertyName);
+        Assert.Equal($"{nameof(Request.Description)} is too big", propertyError.Message);
     }
 
     [Fact]
@@ -76,9 +77,10 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
         var result = await App.Expenses.TryCreate(
             10, string.Join("", Enumerable.Repeat('x', 51)), "Pizza");
         
-        var error = Assert.Single(result.Errors.OfType<PropertyValidationError>());
-        Assert.Equal(nameof(Request.CategoryName), error.PropertyName);
-        Assert.Equal($"{nameof(Request.CategoryName)} is too big", error.Message);
+        var errors = Assert.Single(result.Errors.OfType<ValidationErrors>());
+        var propertyError = Assert.Single(errors.PropertyErrors);
+        Assert.Equal(nameof(Request.CategoryName), propertyError.PropertyName);
+        Assert.Equal($"{nameof(Request.CategoryName)} is too big", propertyError.Message);
     }
 
     [Fact]
