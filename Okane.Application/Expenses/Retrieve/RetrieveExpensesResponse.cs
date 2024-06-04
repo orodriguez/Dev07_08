@@ -1,9 +1,8 @@
 using System.Collections;
-using Okane.Application.Responses;
 
 namespace Okane.Application.Expenses.Retrieve;
 
-public class RetrieveExpensesResponse : IEnumerable<Response>, IResponse
+public class RetrieveExpensesResponse : IEnumerable<Response>
 {
     private readonly IEnumerable<Response> _expenses;
 

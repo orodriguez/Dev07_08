@@ -1,6 +1,5 @@
 using FluentResults;
 using MediatR;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 using Okane.Domain;
 

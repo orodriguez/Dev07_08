@@ -2,7 +2,6 @@ using System.Globalization;
 using Okane.Application.Categories.Create;
 using Okane.Application.Expenses;
 using Okane.Application.Expenses.Create;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 using Request = Okane.Application.Expenses.Create.Request;
 

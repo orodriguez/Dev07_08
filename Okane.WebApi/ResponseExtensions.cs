@@ -1,5 +1,4 @@
 using FluentResults;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 
 namespace Okane.WebApi;

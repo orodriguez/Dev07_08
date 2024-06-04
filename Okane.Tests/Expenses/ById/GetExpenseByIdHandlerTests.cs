@@ -3,7 +3,6 @@ using Okane.Application.Expenses;
 using Okane.Application.Expenses.ById;
 using Okane.Application.Expenses.Create;
 using Okane.Application.Expenses.Update;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 using Request = Okane.Application.Expenses.Create.Request;
 

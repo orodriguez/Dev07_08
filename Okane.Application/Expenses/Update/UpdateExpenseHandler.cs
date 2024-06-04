@@ -1,7 +1,6 @@
 using FluentResults;
 using MediatR;
 using Okane.Application.Categories;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 
 namespace Okane.Application.Expenses.Update;

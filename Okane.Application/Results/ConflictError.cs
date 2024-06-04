@@ -1,7 +1,6 @@
 using FluentResults;
-using Okane.Application.Categories.Create;
 
-namespace Okane.Application.Responses;
+namespace Okane.Application.Results;
 
 public class ConflictError : Error
 {

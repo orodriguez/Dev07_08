@@ -3,7 +3,6 @@ using FluentValidation;
 using Okane.Application.Auth;
 using Okane.Application.Categories;
 using Okane.Application.Expenses.Create;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 using Okane.Domain;
 

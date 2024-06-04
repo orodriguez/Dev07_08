@@ -1,5 +1,4 @@
 using Okane.Application.Categories.Delete;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 
 namespace Okane.Tests.Categories.Delete;

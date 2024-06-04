@@ -1,7 +1,6 @@
 using Okane.Application.Categories;
 using Okane.Application.Categories.ById;
 using Okane.Application.Categories.Create;
-using Okane.Application.Responses;
 using Okane.Application.Results;
 
 namespace Okane.Tests.Categories.ById;
