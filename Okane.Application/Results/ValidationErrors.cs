@@ -8,4 +8,6 @@ public class ValidationErrors : Error
 
     public ValidationErrors(IEnumerable<PropertyValidationError> propertyErrors) =>
         PropertyErrors = propertyErrors;
+
+    public IEnumerator<PropertyValidationError> GetEnumerator() => PropertyErrors.GetEnumerator();
 }

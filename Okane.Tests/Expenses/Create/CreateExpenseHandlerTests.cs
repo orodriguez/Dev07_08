@@ -38,7 +38,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
         var errors = Assert.Single(result.Errors.OfType<ValidationErrors>());
         var propertyError = Assert.Single(errors.PropertyErrors);
         Assert.Contains("Amount", propertyError.PropertyName);
-        Assert.Equal("Amount must be a positive value", propertyError.Message);
+        Assert.Equal("Amount must be a positive value", propertyError.ErrorMessage);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
         var errors = Assert.Single(result.Errors.OfType<ValidationErrors>());
         var propertyError = Assert.Single(errors.PropertyErrors);
         Assert.Equal(nameof(Request.Description), propertyError.PropertyName);
-        Assert.Equal($"{nameof(Request.Description)} is too big", propertyError.Message);
+        Assert.Equal($"{nameof(Request.Description)} is too big", propertyError.ErrorMessage);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class CreateExpenseHandlerTests : AbstractHandlerTests, IAsyncLifetime
         var errors = Assert.Single(result.Errors.OfType<ValidationErrors>());
         var propertyError = Assert.Single(errors.PropertyErrors);
         Assert.Equal(nameof(Request.CategoryName), propertyError.PropertyName);
-        Assert.Equal($"{nameof(Request.CategoryName)} is too big", propertyError.Message);
+        Assert.Equal($"{nameof(Request.CategoryName)} is too big", propertyError.ErrorMessage);
     }
 
     [Fact]

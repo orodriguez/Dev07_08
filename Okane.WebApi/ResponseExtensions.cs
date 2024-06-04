@@ -16,7 +16,7 @@ public static class ResponseExtensions
         {
             RecordNotFoundError notFound => Results.NotFound(notFound.Message),
             ConflictError conflict => Results.Conflict(conflict.Message),
-            ValidationErrors errors => Results.BadRequest(errors),
+            ValidationErrors errors => Results.BadRequest(errors.PropertyErrors),
             _ => Results.Ok(reason.Message)
         };
     }
